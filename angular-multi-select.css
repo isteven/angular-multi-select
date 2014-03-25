@@ -1,0 +1,105 @@
+/* app css stylesheet */
+
+.multiSelect {     
+}
+
+.multiSelect.inlineBlock {
+    display: inline-block;
+}
+
+.multiSelect .button {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border-radius: 0px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.multiSelect .mainColor {
+    background-color: #5CB85C;
+    border-color: #4CAE4C;    
+    color: #fff;
+}
+
+.multiSelect .button > div {
+    float: left;        
+}
+
+.multiSelect .checkboxLayer {
+    background-color: #fff;
+    position: absolute;
+    z-index: 999;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box; 
+    padding: 15px;
+}
+
+.multiSelect .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 15px !important;    
+    vertical-align: middle;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-bottom: 0 dotted;   
+}
+
+.multiSelect label {
+    margin-right: 0px;
+    margin-bottom: 3px;
+    padding: 5px 8px 5px 8px;    
+}
+
+.multiSelect .checkboxSelected {
+    background-color: #428bca;
+    border-color: #357ebd;    
+    color: #fff;
+    padding: 4px 7px 4px 7px;
+    border: 1px solid transparent;
+    border-radius: 1px;
+}
+
+.multiSelect .vertical {
+    float: none;
+}
+
+.multiSelect .horizontal {
+    float: left;
+}
+
+.multiSelect input {
+    margin-right: 4px;    
+}
+
+.multiSelect .show {
+    display: inline-block;
+}
+
+.multiSelect .hide {
+    display: none;
+}
+
+.multiSelect .line {   
+    margin-bottom: 15px;
+}
+
+
