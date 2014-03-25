@@ -36,23 +36,23 @@
  *              { firstName: "Luke", lastName: "Skywalker"  , ....., selected: true },
  *              { firstName: "John", lastName: "Wayne"      , ....., selected: true }
  *          ]    
- *      item-label (String) (REQUIRED) 
+ *      item-label (string) (REQUIRED) 
  *          The object property that you want to display on the button & checkboxes. Separate multiple values by space. 
  *          Example: item-label="firstName lastName"          
- *      item-ticker (String) (REQUIRED):
- *          Column name with a boolean value that represent the state of a checkbox. For example, in the list-items sample above, 
+ *      item-ticker (string) (REQUIRED):
+ *          Column name with a boolean value that represents the state of a checkbox. For example, in the list-items sample above, 
  *          the item-ticker is "selected". So if selected === true, checkbox will be ticked. If selected === false, checkbox will not be ticked.
  *          If not specified, the default will be "selected"
- *      orientation (String - "vertical" | "horizontal")
+ *      orientation (string - "vertical" | "horizontal")
  *          Orientation of the list of checkboxes. 
  *          If not specified, the default will be "vertical".
- *      max-labels (String)
+ *      max-labels (string)
  *          Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
  *          Example: "2" -> Using the list-items above, then button will display the first two selected: "Jane Angel, Luke Skywalker, ..."
- *      max-height (String)
+ *      max-height (string)
  *          Maximum height of the list of checkboxes in pixels. Will show scrollbar on overflow.
  *          Example: "100". 
- *      is-disabled (String - "true" | "false") 
+ *      is-disabled (expression) 
  *          Disable or enable the checkboxes. 
  *          If not specified, the default will be "false". 
  *
