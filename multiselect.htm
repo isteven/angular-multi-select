@@ -1,15 +1,19 @@
 <!doctype html>
 <html lang="en" ng-app="myApp" id="ng-app">
 <head>
-    <title>Angular JS Multi-Select</title>
-    <link rel="stylesheet" href="angular-multi-select.css">                
-    <script src="angular/angular.js"></script>
+    <title>Angular JS Multi-Select</title>    
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <!-- multi select directive -->
     <script src="angular-multi-select.js"></script>            
+    <!-- css -->
+    <link rel="stylesheet" href="angular-multi-select.css">                
 </head>
     
 <body ng-controller="main">
 
     Minimal: 
+    <br />
     <div 
         multi-select 
         input-model="minData" 
@@ -20,6 +24,9 @@
     <br /><br />
 
     Full: 
+    <br />
+    <button type="button" ng-click="fullDisabled = !fullDisabled" >Enable / Disable</button>    
+    <br />
     <div 
         multi-select 
         input-model="fullData" 
@@ -27,11 +34,14 @@
         item-ticker="checked" 
         output-model="resultData" 
         orientation="vertical"
-        max-height="200"
+        max-height="800"
         max-labels="3"
         is-disabled="fullDisabled"
         >
     </div>
+
+    <br /><br />
+    <button type="button" ng-click="switchSource()" >Dynamically switch data source</button>    
 
 </body>   
 
@@ -42,24 +52,32 @@ var myApp = angular.module('myApp', [ 'multi-select' ]);
 
 // Controller
 myApp.controller( 'main' , [ '$scope' , function ($scope) {
+
+    $scope.switchSource = function() {
+        var temp = angular.copy( $scope.minData );
+        $scope.minData = angular.copy( $scope.fullData );
+        $scope.fullData = angular.copy( temp );
+        alert( 'You have switched the data source. If you don\'t see the pre-selected items, maybe you need to change the "item-ticker" from \'selected\' <=> \'checked\' in your directive tag :) ');
+    }
     
 /////////////
 //  Minimal
 /////////////
-    $scope.minDisabled = false;
+
     $scope.minData = [
-        { id: 1, firstName: "John",     lastName: "Doe",        age: 28, selected: false },
-        { id: 2, firstName: "Mary",     lastName: "Jane",       age: 25, selected: false },
-        { id: 3, firstName: "Luke",     lastName: "Skywalker",  age: 35, selected: true },
-        { id: 4, firstName: "John",     lastName: "Wayne",      age: 75, selected: false },
-        { id: 5, firstName: "Bruce",    lastName: "Lee",        age: 40, selected: false },
-        { id: 6, firstName: "Clark",    lastName: "Kent",       age: 38, selected: true },
+        { id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
+        { id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
+        { id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
+        { id: 4, firstName: "David",    lastName: "Banner",     selected: false },
+        { id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
+        { id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },
     ];
+
     // Watch minData changed
     $scope.$watch( "minData" , function( newVal ) {
         angular.forEach( newVal , function( value, key ) {                    
             if ( value.selected === true ) {
-                console.log( value );
+                console.log( '.selected === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
     }, true );            
@@ -67,29 +85,35 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
 /////////////
 //  Full
 /////////////
+    
+    // You can try to disable/enable the checkboxes here
     $scope.fullDisabled = false;
     $scope.resultData = [];
+    
+    // Data. For the sake of testing, this time around we try to use 'checked' to hold checkbox state.
     $scope.fullData = [
-        { id: 1, firstName: "John",     lastName: "Doe",        age: 28, checked: true },
-        { id: 2, firstName: "Mary",     lastName: "Jane",       age: 25, checked: false },
-        { id: 3, firstName: "Luke",     lastName: "Skywalker",  age: 35, checked: false },
-        { id: 4, firstName: "John",     lastName: "Wayne",      age: 75, checked: false },
-        { id: 5, firstName: "Bruce",    lastName: "Lee",        age: 40, checked: true },
-        { id: 6, firstName: "Clark",    lastName: "Kent",       age: 38, checked: false },
+        { id: 1, firstName: "Tom",      lastName: "Cruise",     checked: true },
+        { id: 2, firstName: "Brad",     lastName: "Pitt",       checked: false },
+        { id: 3, firstName: "Angelina", lastName: "Jolie",      checked: false },
+        { id: 4, firstName: "Scarlett", lastName: "Johansson",  checked: false },
+        { id: 5, firstName: "Gerard",   lastName: "Buttler",    checked: true },
+        { id: 6, firstName: "Leonardo", lastName: "DiCaprio",   checked: false },
     ];
+
     // Watch fullData changed
     $scope.$watch( "fullData" , function( newVal ) {
         angular.forEach( newVal , function( value, key ) {                    
-            if ( value.selected === true ) {
-                console.log( value );
+            if ( value.checked === true ) {
+                console.log( '.checked === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
-    }, true );          
+    }, true );         
+
     // Watch resultData changed
     $scope.$watch( "resultData" , function( newVal ) {
         angular.forEach( newVal , function( value, key ) {                    
-            if ( value.selected === true ) {
-                console.log( value );
+            if ( value.checked === true ) {
+                console.log( '.checked === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
     }, true );        

@@ -62,10 +62,10 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 '</button>' +                
                 '<div class="multiSelect checkboxLayer hide" style="{{layerStyle}}">' +
                     '<div class="multiSelect line">' +
-                        'Select: &nbsp;&nbsp;' + 
-                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" >All</button> ' +
-                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" >None</button> ' + 
-                            '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" >Reset</button>' +
+                        '<span ng-if="!isDisabled">Select: &nbsp;&nbsp;</span>' + 
+                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled">All</button> ' +
+                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled">None</button> ' + 
+                            '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" ng-if="!isDisabled">Reset</button>' +
                     '</div>' +
                     '<div class="multiSelect line">' + 
                         'Filter: <input class="multiSelect" type="text" ng-model="labelFilter" />' +
@@ -159,7 +159,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     case 'ALL':
                         angular.forEach( $scope.inputModel, function( value, key ) {
                             value[ $scope.itemSelector ] = true;
-                        });                
+                        });                                        
                         break;
                     case 'NONE':
                         angular.forEach( $scope.inputModel, function( value, key ) {
