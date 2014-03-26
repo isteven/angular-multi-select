@@ -44,14 +44,14 @@ Below are the available attributes to configure the multi-select directive:
 - #### input-model (REQUIRED)
 $scope variable. Array of objects. 
 <br />Example:
-      $scope.inputList = [    
-        <br />{ id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
-        <br />{ id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
-        <br />{ id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
-        <br />{ id: 4, firstName: "David",    lastName: "Banner",     selected: false },
-        <br />{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
-        <br />{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },      
-    ];    
+<br />$scope.inputList = [    
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 4, firstName: "David",    lastName: "Banner",     selected: false },
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },      
+<br />];    
 
 - #### item-label (REQUIRED)
 input-model property that you want to display on the button & checkboxes. Separate multiple values by space. 
