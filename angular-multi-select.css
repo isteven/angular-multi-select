@@ -1,6 +1,4 @@
-/* app css stylesheet */
-
-.multiSelect {     
+.multiSelect {         
 }
 
 .multiSelect.inlineBlock {
@@ -8,7 +6,7 @@
 }
 
 .multiSelect .button {
-    display: inline-block;
+    display: block;
     margin-bottom: 0;
     font-weight: normal;
     text-align: center;
@@ -29,6 +27,28 @@
     background-color: #5CB85C;
     border-color: #4CAE4C;    
     color: #fff;    
+}
+
+.multiSelect .helperButton {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    padding: 2px 2px;
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 0px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: #666;    
 }
 
 .multiSelect .button > div {
@@ -64,6 +84,10 @@
     margin-right: 0px;
     margin-bottom: 3px;
     padding: 5px 8px 5px 8px;    
+}
+
+.multiSelect.multiSelectItem {
+    padding: 5px 0 5px 0;    
 }
 
 .multiSelect .checkboxSelected {

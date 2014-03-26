@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" ng-app="myApp" id="ng-app">
+<head>
+    <title>Angular JS Multi-Select</title>
+    <link rel="stylesheet" href="angular-multi-select.css">                
+    <script src="angular/angular.js"></script>
+    <script src="angular-multi-select.js"></script>            
+</head>
+    
+<body ng-controller="main">
+
+    Minimal: 
+    <div 
+        multi-select 
+        input-model="minData" 
+        item-label="firstName"
+        >
+    </div>
+    
+    <br /><br />
+
+    Full: 
+    <div 
+        multi-select 
+        input-model="fullData" 
+        item-label="firstName lastName" 
+        item-ticker="checked" 
+        output-model="resultData" 
+        orientation="vertical"
+        max-height="200"
+        max-labels="3"
+        is-disabled="fullDisabled"
+        >
+    </div>
+
+</body>   
+
+<script>            
+
+// Load the multi-select module
+var myApp = angular.module('myApp', [ 'multi-select' ]);
+
+// Controller
+myApp.controller( 'main' , [ '$scope' , function ($scope) {
+    
+/////////////
+//  Minimal
+/////////////
+    $scope.minDisabled = false;
+    $scope.minData = [
+        { id: 1, firstName: "John",     lastName: "Doe",        age: 28, selected: false },
+        { id: 2, firstName: "Mary",     lastName: "Jane",       age: 25, selected: false },
+        { id: 3, firstName: "Luke",     lastName: "Skywalker",  age: 35, selected: true },
+        { id: 4, firstName: "John",     lastName: "Wayne",      age: 75, selected: false },
+        { id: 5, firstName: "Bruce",    lastName: "Lee",        age: 40, selected: false },
+        { id: 6, firstName: "Clark",    lastName: "Kent",       age: 38, selected: true },
+    ];
+    // Watch minData changed
+    $scope.$watch( "minData" , function( newVal ) {
+        angular.forEach( newVal , function( value, key ) {                    
+            if ( value.selected === true ) {
+                console.log( value );
+            }
+        });
+    }, true );            
+
+/////////////
+//  Full
+/////////////
+    $scope.fullDisabled = false;
+    $scope.resultData = [];
+    $scope.fullData = [
+        { id: 1, firstName: "John",     lastName: "Doe",        age: 28, checked: true },
+        { id: 2, firstName: "Mary",     lastName: "Jane",       age: 25, checked: false },
+        { id: 3, firstName: "Luke",     lastName: "Skywalker",  age: 35, checked: false },
+        { id: 4, firstName: "John",     lastName: "Wayne",      age: 75, checked: false },
+        { id: 5, firstName: "Bruce",    lastName: "Lee",        age: 40, checked: true },
+        { id: 6, firstName: "Clark",    lastName: "Kent",       age: 38, checked: false },
+    ];
+    // Watch fullData changed
+    $scope.$watch( "fullData" , function( newVal ) {
+        angular.forEach( newVal , function( value, key ) {                    
+            if ( value.selected === true ) {
+                console.log( value );
+            }
+        });
+    }, true );          
+    // Watch resultData changed
+    $scope.$watch( "resultData" , function( newVal ) {
+        angular.forEach( newVal , function( value, key ) {                    
+            if ( value.selected === true ) {
+                console.log( value );
+            }
+        });
+    }, true );        
+
+}]);    
+
+</script>    
+</html>
