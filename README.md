@@ -45,20 +45,22 @@ Below are the available attributes to configure the multi-select directive:
 $scope variable. Array of objects. 
 <br />Example:
       $scope.inputList = [    
-        { firstName: "John", lastName: "Doe"        , ....., selected: false },
-        { firstName: "Mary", lastName: "Jane"       , ....., selected: true },
-        { firstName: "Luke", lastName: "Skywalker"  , ....., selected: true },
-        { firstName: "John", lastName: "Wayne"      , ....., selected: true }
-      ];    
+        <br />{ id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
+        <br />{ id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
+        <br />{ id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
+        <br />{ id: 4, firstName: "David",    lastName: "Banner",     selected: false },
+        <br />{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
+        <br />{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },      
+    ];    
 
 - #### item-label (REQUIRED)
-The object property that you want to display on the button & checkboxes. Separate multiple values by space. 
+input-model property that you want to display on the button & checkboxes. Separate multiple values by space. 
 <br />Example: 
 item-label="firstName lastName"          
 
 
 - #### item-ticker (IMPORTANT):
-Column name with a boolean value that represent the state of a checkbox. 
+input-model property with a boolean value that represent the state of a checkbox. 
 <br />For example: 
  - item-ticker is "selected"   
    - if selected === true, checkbox will be ticked. 
