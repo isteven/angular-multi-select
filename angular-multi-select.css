@@ -26,12 +26,9 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
-}
-
-.multiSelect .mainColor {
     background-color: #5CB85C;
     border-color: #4CAE4C;    
-    color: #fff;
+    color: #fff;    
 }
 
 .multiSelect .button > div {
@@ -101,5 +98,3 @@
 .multiSelect .line {   
     margin-bottom: 15px;
 }
-
-
