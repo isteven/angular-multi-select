@@ -1,6 +1,6 @@
 Angular Multi Select
 ====================
-Angular Multi Select is a directive which will create a dropdown button with multiple checkboxes.
+Angular Multi Select is a directive which creates a dropdown button with multiple checkboxes.
 
 Features
 --
