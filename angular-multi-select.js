@@ -1,22 +1,47 @@
 /* 
  * Ignatius Steven 
- * Tue, 14 Jan 2014 - 5:18:02 PM
+ * Created: Tue, 14 Jan 2014 - 5:18:02 PM
+ * Last update: Wed, 26 Mar 2014 - 11:12:29 AM
  * 
  * Angular JS Multi Select
- * Creates a dropdown-like button with checkboxes. Accepts an array of object & modifies it based on the checkboxes status.
+ * Creates a dropdown-like button with checkboxes. 
+ * Accepts an array of objects & modifies the checkbox status.
+ *
+ * --------------------------------------------------------------------------------
+ * MIT License
+ *
+ * Copyright (C) 2014 Ignatius Steven (ignatius.steven@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
+ * this software and associated documentation files (the "Software"), to deal in 
+ * the Software without restriction, including without limitation the rights to 
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of 
+ * the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions: The above copyright notice and this 
+ * permission notice shall be included in all copies or substantial portions of 
+ * the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ * SOFTWARE.
+ * --------------------------------------------------------------------------------
  *
  * Usage:
  *
  *      <div
  *          multi-select 
- *          input-model="input_list"  *          
+ *          input-model="input_list"          
  *          item-label="firstName lastName" 
  *          item-ticker="selected"  
  *          output-model="output_list"
  *          orientation="vertical" 
  *          max-labels="4"
  *          max-height="500"
- *          is-disabled="false" >
+ *          is-disabled="multi-select-state" >
  *      </div>
  *   
  *   or
@@ -65,7 +90,7 @@
  *          Maximum height of the list of checkboxes in pixels. Will show scrollbar on overflow.
  *          Example: "100". 
  *
- *      is-disabled (String - "true" | "false") 
+ *      is-disabled (Expression (similar with ng-disabled, see ) 
  *          Disable or enable the checkboxes. 
  *          If not specified, the default will be "false". 
  *
@@ -127,11 +152,13 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             $scope.layerStyle       = '';
             $scope.varMaxLabels     = 0;    
 
+            // Checkbox is ticked
             $scope.syncItems = function( item ) {                                  
                 item[ $scope.itemSelector ] = !item[ $scope.itemSelector ];                                
                 $scope.refreshSelectedItems();                   
             }     
 
+            // Refresh the button to display the selected items and push into output model if specified
             $scope.refreshSelectedItems = function() {
                 $scope.selectedItems = [];
                 angular.forEach( $scope.inputModel, function( value, key ) {
@@ -160,6 +187,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 }                         
             }
 
+            // UI operations to show/hide checkboxes
             $scope.toggleCheckboxes = function( e ) {
 
                 $scope.labelFilter = '';
@@ -189,6 +217,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 }                
             }
 
+            // Select All / None / Reset
             $scope.select = function( type ) {
                 switch( type.toUpperCase() ) {
                     case 'ALL':
@@ -209,6 +238,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 $scope.refreshSelectedItems();
             }
 
+            // What's written on the button
             $scope.writeLabel= function( item ) {
                 var label = '';
                 angular.forEach( item, function( value1, key1 ) {
@@ -222,6 +252,29 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 return label;
             }
 
+            /////////////////////
+            // Logic starts here
+            /////////////////////
+            $scope.itemSelector = ( typeof $scope.itemTicker === 'string' ? $scope.itemTicker : 'selected' );
+            $scope.refreshSelectedItems();                                                          
+
+            // Watch for changes in input model (allow dynamic input)
+            $scope.$watch( 'inputModel' , function( newVal ) { 
+                $scope.refreshSelectedItems();                                                                                              
+                $scope.backUp = angular.copy( $scope.inputModel );                
+            });
+
+            // Watch for changes in directive state (disabled or enabled)
+            $scope.$watch( 'isDisabled' , function( newVal ) {         
+                $scope.isDisabled = newVal;                               
+            });
+
+            // Checkbox height
+            if ( typeof $scope.maxHeight !== 'undefined' ) { 
+                $scope.layerStyle = 'max-height:' + $scope.maxHeight + 'px; overflow: auto; min-width: auto';
+            }  
+
+            // Monitor for clicks outside the button element to hide the checkboxes
             angular.element( document ).bind( 'click' , function( e ) {                                
                 var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
                 if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
@@ -231,25 +284,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     $scope.$apply();                    
                     e.stopPropagation();
                 }                                
-            });
-
-            // Start                                 
-            $scope.itemSelector = ( typeof $scope.itemTicker === 'string' ? $scope.itemTicker : 'selected' );
-            $scope.refreshSelectedItems();                                                          
-
-            // Watch for changes in input model
-            $scope.$watch( 'inputModel' , function( newVal ) { 
-                $scope.refreshSelectedItems();                                                                                              
-                $scope.backUp = angular.copy( $scope.inputModel );                
-            });
-
-            $scope.$watch( 'isDisabled' , function( newVal ) {         
-                $scope.isDisabled = newVal;                               
-            });
-
-            if ( typeof $scope.maxHeight !== 'undefined' ) { 
-                $scope.layerStyle = 'max-height:' + $scope.maxHeight + 'px; overflow: auto; min-width: auto';
-            }            
+            });            
         }   
     }
 }]);
