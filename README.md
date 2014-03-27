@@ -21,7 +21,7 @@ Usage
         multi-select 
         input-model="input_list"          
         item-label="firstName lastName" 
-        item-ticker="selected"  
+        tick-property="selected"  
         output-model="output_list"
         orientation="vertical" 
         max-labels="4"
@@ -50,7 +50,7 @@ $scope variable. Array of objects.
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 4, firstName: "David",    lastName: "Banner",     selected: false },
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
-<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },      
+<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true }      
 <br />];    
 
 - #### item-label (REQUIRED)
@@ -59,7 +59,7 @@ input-model property that you want to display on the button & checkboxes. Separa
 item-label="firstName lastName"          
 
 
-- #### item-ticker (IMPORTANT):
+- #### tick-property (REQUIRED):
 input-model property with a boolean value that represent the state of a checkbox. 
 <br />For example: 
  - item-ticker is "selected"   
@@ -69,8 +69,6 @@ input-model property with a boolean value that represent the state of a checkbox
    - if isOn === true, checkbox will be ticked. 
 <br />If isOn === false, checkbox will not be ticked.
 
- 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If not specified, the default will be "selected"
 
 - #### output-model:
 A $scope variable. If specified, will list all the selected checkboxes model.
@@ -95,6 +93,16 @@ Expression to be evaluated. Will disable or enable the checkboxes.
 Example
 --
 Download all the files into a same folder and open multiselect.htm
+
+Requirements
+--
+AngularJS v1.2.15 is used in the script
+
+Browser Support
+--
+Tested on:
+- IE8
+- Firefox 27
 
 Licence
 --

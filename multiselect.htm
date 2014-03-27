@@ -6,8 +6,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
     <!-- multi select directive -->
     <script src="angular-multi-select.js"></script>            
+    <script src="debug.js"></script>                
     <!-- css -->
     <link rel="stylesheet" href="angular-multi-select.css">                
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">    
 </head>
     
 <body ng-controller="main">
@@ -18,6 +20,7 @@
         multi-select 
         input-model="minData" 
         item-label="firstName"
+        tick-property="selected" 
         >
     </div>
     
@@ -25,23 +28,38 @@
 
     Full: 
     <br />
-    <button type="button" ng-click="fullDisabled = !fullDisabled" >Enable / Disable</button>    
-    <br />
     <div 
         multi-select 
         input-model="fullData" 
+        output-model="resultData"
         item-label="firstName lastName" 
-        item-ticker="checked" 
-        output-model="resultData" 
+        tick-property="checked" 
         orientation="vertical"
-        max-height="800"
-        max-labels="3"
-        is-disabled="fullDisabled"
+        max-labels="3"        
         >
     </div>
 
     <br /><br />
-    <button type="button" ng-click="switchSource()" >Dynamically switch data source</button>    
+
+    Dynamic input model and checkbox state
+    <br />
+    <div 
+        multi-select 
+        input-model="dynamicData" 
+        item-label="car"
+        tick-property="ticked" 
+        is-disabled="dinDisabled"
+        >
+    </div>
+    
+    <br /><br />
+    <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
+    Is disabled: {{dinDisabled}}
+
+    <br /><br />
+    <button type="button" ng-click="switchSource( 'data1' )" >Load data 1</button>    
+    <button type="button" ng-click="switchSource( 'data2' )" >Load data 2</button>    
+    <button type="button" ng-click="switchSource( 'data3' )" >Load data 3</button>    
 
 </body>   
 
@@ -52,71 +70,97 @@ var myApp = angular.module('myApp', [ 'multi-select' ]);
 
 // Controller
 myApp.controller( 'main' , [ '$scope' , function ($scope) {
-
-    $scope.switchSource = function() {
-        var temp = angular.copy( $scope.minData );
-        $scope.minData = angular.copy( $scope.fullData );
-        $scope.fullData = angular.copy( temp );
-        alert( 'You have switched the data source. If you don\'t see the pre-selected items, maybe you need to change the "item-ticker" from \'selected\' <=> \'checked\' in your directive tag :) ');
-    }
     
 /////////////
 //  Minimal
 /////////////
 
     $scope.minData = [
-        { id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
-        { id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
-        { id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
-        { id: 4, firstName: "David",    lastName: "Banner",     selected: false },
-        { id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
-        { id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },
+        { id: 1, firstName: "Peter",    lastName: "Parker",     selected: false, hoho:'hoho' },
+        { id: 2, firstName: "Mary",     lastName: "Jane",       selected: false, hoho:'hoho' },
+        { id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true, hoho:'hoho' },
+        { id: 4, firstName: "David",    lastName: "Banner",     selected: false, hoho:'hoho' },
+        { id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false, hoho:'hoho' },
+        { id: 6, firstName: "Clark",    lastName: "Kent",       selected: true, hoho:'hoho' },
     ];
 
-    // Watch minData changed
-    $scope.$watch( "minData" , function( newVal ) {
+    // Open your console and watch minData changes
+    $scope.$watch( "minData" , function( newVal ) {        
         angular.forEach( newVal , function( value, key ) {                    
             if ( value.selected === true ) {
-                console.log( '.selected === true: ' + value.firstName + ' ' + value.lastName );
+                console.log( 'minData .selected === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
-    }, true );            
+    }, true );                
 
 /////////////
 //  Full
 /////////////
     
-    // You can try to disable/enable the checkboxes here
-    $scope.fullDisabled = false;
     $scope.resultData = [];
     
     // Data. For the sake of testing, this time around we try to use 'checked' to hold checkbox state.
     $scope.fullData = [
-        { id: 1, firstName: "Tom",      lastName: "Cruise",     checked: true },
-        { id: 2, firstName: "Brad",     lastName: "Pitt",       checked: false },
-        { id: 3, firstName: "Angelina", lastName: "Jolie",      checked: false },
-        { id: 4, firstName: "Scarlett", lastName: "Johansson",  checked: false },
-        { id: 5, firstName: "Gerard",   lastName: "Buttler",    checked: true },
-        { id: 6, firstName: "Leonardo", lastName: "DiCaprio",   checked: false },
+        { id: 1, firstName: "Tom",      lastName: "Cruise",     checked: true, yeye:'yeye' },
+        { id: 2, firstName: "Brad",     lastName: "Pitt",       checked: false, yeye:'yeye' },
+        { id: 3, firstName: "Angelina", lastName: "Jolie",      checked: false, yeye:'yeye' },
+        { id: 4, firstName: "Scarlett", lastName: "Johansson",  checked: false, yeye:'yeye' },
+        { id: 5, firstName: "Gerard",   lastName: "Buttler",    checked: true, yeye:'yeye'  },
+        { id: 6, firstName: "Leonardo", lastName: "DiCaprio",   checked: false, yeye:'yeye' },
     ];
 
-    // Watch fullData changed
+    // Open your console and watch fullData changes
     $scope.$watch( "fullData" , function( newVal ) {
         angular.forEach( newVal , function( value, key ) {                    
             if ( value.checked === true ) {
-                console.log( '.checked === true: ' + value.firstName + ' ' + value.lastName );
+               console.log( 'fullData .checked === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
     }, true );         
 
-    // Watch resultData changed
+    // Open your console and watch resultData changes
     $scope.$watch( "resultData" , function( newVal ) {
         angular.forEach( newVal , function( value, key ) {                    
             if ( value.checked === true ) {
-                console.log( '.checked === true: ' + value.firstName + ' ' + value.lastName );
+               console.log( 'resultData .checked === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
-    }, true );        
+    }, true );    
+
+/////////////
+//  Dynamic
+/////////////    
+
+
+    $scope.dynamicData = [];
+    $scope.dinDisabled = false;
+
+    $scope.switchSource = function( data ) {
+        $scope.dynamicData = $scope[ data ];
+    }
+    
+    // Japan cars
+    $scope.data1 = [
+        { car: 'Toyota' , ticked: true },
+        { car: 'Mazda'  , ticked: false },
+        { car: 'Nissan' , ticked: true },
+        { car: 'Honda'  , ticked: false }
+    ];
+
+    // German cars
+    $scope.data2 = [
+        { car: 'Audi'       , ticked: false },
+        { car: 'BMW'        , ticked: false },
+        { car: 'Mercedes'   , ticked: true },
+    ];
+
+    // Italian cars
+    $scope.data3 = [
+        { car: 'Porsche'    , ticked: false },
+        { car: 'Ferrari'    , ticked: false },
+        { car: 'Fiat'       , ticked: true },        
+        { car: 'Lamborgini' , ticked: true },                
+    ];
 
 }]);    
 

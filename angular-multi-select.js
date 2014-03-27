@@ -41,14 +41,14 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
 
         scope: 
         {
-            inputModel  : '=',
-            outputModel : '=',
-            itemLabel   : '@',
-            itemTicker  : '@',
-            orientation : '@',
-            maxLabels   : '@',
-            maxHeight   : '@',
-            isDisabled  : '='
+            inputModel      : '=',
+            outputModel     : '=',
+            itemLabel       : '@',
+            tickProperty    : '@',
+            orientation     : '@',
+            maxLabels       : '@',
+            maxHeight       : '@',
+            isDisabled      : '='
         },
 
         template: 
@@ -72,8 +72,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                             '<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
                     '</div>' +
                     '<div ng-repeat="item in inputModel | filter:labelFilter" ng-class="orientation" class="multiSelect multiSelectItem">' +
-                        '<label class="multiSelect" ng-class="{checkboxSelected:item[ itemSelector ]}">' +
-                            '<input class="multiSelect" type="checkbox" ng-disabled="isDisabled" ng-checked="item[ itemSelector ]" ng-click="syncItems( item )" />' +
+                        '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
+                            '<input class="multiSelect" type="checkbox" ng-disabled="isDisabled" ng-checked="item[ tickProperty ]" ng-click="syncItems( item )" />' +
                                 '{{writeLabel( item )}}' +
                         '</label>&nbsp;&nbsp;' +
                     '</div>' +
@@ -88,20 +88,24 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             $scope.varMaxLabels     = 0;    
 
             // Checkbox is ticked
-            $scope.syncItems = function( item ) {                                  
-                item[ $scope.itemSelector ] = !item[ $scope.itemSelector ];                                
+            $scope.syncItems = function( item ) {                                                                
+                index = $scope.inputModel.indexOf( item );                
+                $scope.inputModel[ index ][ $scope.tickProperty ] = !$scope.inputModel[ index ][ $scope.tickProperty ];
                 $scope.refreshSelectedItems();                   
             }     
 
             // Refresh the button to display the selected items and push into output model if specified
             $scope.refreshSelectedItems = function() {
+
                 $scope.selectedItems = [];
                 angular.forEach( $scope.inputModel, function( value, key ) {
-                    if ( value[ $scope.itemSelector ] === true || value[ $scope.itemSelector ] === 'true' ) {
-                        $scope.selectedItems.push( value );                        
+                    if ( typeof value !== 'undefined' ) {                        
+                        if ( value[ $scope.tickProperty ] === true || value[ $scope.tickProperty ] === 'true' ) {
+                            $scope.selectedItems.push( value );                        
+                        }
                     }
                 });
-                
+                               
                 // Push into output model
                 if ( typeof attrs.outputModel !== 'undefined' ) {            
                     $scope.outputModel = angular.copy( $scope.selectedItems );                    
@@ -119,7 +123,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 }
                 else {
                     $scope.varMaxLabels = $scope.maxLabels;
-                }                         
+                }          
             }
 
             // UI operations to show/hide checkboxes
@@ -158,12 +162,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 switch( type.toUpperCase() ) {
                     case 'ALL':
                         angular.forEach( $scope.inputModel, function( value, key ) {
-                            value[ $scope.itemSelector ] = true;
+                            if ( typeof value !== 'undefined' ) {                        
+                                value[ $scope.tickProperty ] = true;
+                            }
                         });                                        
                         break;
                     case 'NONE':
                         angular.forEach( $scope.inputModel, function( value, key ) {
-                            value[ $scope.itemSelector ] = false;
+                            if ( typeof value !== 'undefined' ) {                        
+                                value[ $scope.tickProperty ] = false;
+                            }
                         });                
                         break;      
                     case 'RESET':
@@ -175,29 +183,76 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             }
 
             // What's written on the button
-            $scope.writeLabel= function( item ) {
+            $scope.writeLabel = function( item ) {
                 var label = '';
                 var temp = $scope.itemLabel.split( ' ' );                    
                 angular.forEach( temp, function( value2, key2 ) {
-                    angular.forEach( item, function( value1, key1 ) {                    
-                        if ( key1 == value2 ) {
-                            label += ' ' + value1;        
-                        }
-                    });                    
+                    if ( typeof value2 !== 'undefined' ) {                        
+                        angular.forEach( item, function( value1, key1 ) {                    
+                            if ( key1 == value2 ) {
+                                label += ' ' + value1;        
+                            }
+                        });                    
+                    }
                 });
                 return label;
+            }
+
+            validateProperties = function( arrProperties, arrObject ) {
+                var notThere = false;            
+                var missingProperty = '';
+                angular.forEach( arrProperties, function( value1, key1 ) {
+                    if ( typeof value1 !== 'undefined' ) {                        
+                        var keepGoing = true;
+                        angular.forEach( arrObject, function( value2, key2 ) {
+                            if ( typeof value2 !== 'undefined' && keepGoing ) {                        
+                                if (!( value1 in value2 )) {
+                                    notThere = true;
+                                    keepGoing = false;
+                                    missingLabel = value1;
+                                }
+                            }
+                        });                    
+                    }
+                });    
+                if ( notThere === true ) {
+                    alert( 'multi-select ERROR:\n\nProperty "' + missingLabel + '" is not available in the input model.' );
+                }
+                
             }
 
             /////////////////////
             // Logic starts here
             /////////////////////
-            $scope.itemSelector = ( typeof $scope.itemTicker === 'string' ? $scope.itemTicker : 'selected' );
+            
+            
+            // Validations..
+            validate = function() {
+                if ( typeof $scope.inputModel === 'undefined' ) {
+                    alert( 'multi-select ERROR - input model is not defined!' );
+                }
+
+                if ( typeof $scope.itemLabel === 'undefined' ) {
+                    alert( 'multi-select ERROR - item label is not defined!' );                
+                }            
+
+                if ( typeof $scope.tickProperty === 'undefined' ) {
+                    alert( 'multi-select ERROR - tick property is not defined!' );                
+                }
+            
+                validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
+                validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
+            }
+
+            validate();
+
             $scope.refreshSelectedItems();                                                          
 
             // Watch for changes in input model (allow dynamic input)
-            $scope.$watch( 'inputModel' , function( newVal ) { 
-                $scope.refreshSelectedItems();                                                                                              
-                $scope.backUp = angular.copy( $scope.inputModel );                
+            $scope.$watch( 'inputModel' , function( oldVal, newVal ) {                 
+                validate();
+                $scope.backUp = angular.copy( $scope.inputModel );                                                    
+                $scope.refreshSelectedItems();                                                 
             });
 
             // Watch for changes in directive state (disabled or enabled)
@@ -220,7 +275,19 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     $scope.$apply();                    
                     e.stopPropagation();
                 }                                
-            });            
+            });           
+            
+            if ( !Array.prototype.indexOf ) {
+                Array.prototype.indexOf = function(what, i) {                    
+                    i = i || 0;
+                    var L = this.length;
+                    while (i < L) {
+                        if(this[i] === what) return i;
+                        ++i;
+                    }
+                    return -1;
+                };
+            }
         }   
     }
 }]);

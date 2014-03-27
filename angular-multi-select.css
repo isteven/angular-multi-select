@@ -122,3 +122,7 @@
 .multiSelect .line {   
     margin-bottom: 15px;
 }
+
+.multiSelect .helperButton + .helperButton  {
+    margin-left: 5px;
+}
