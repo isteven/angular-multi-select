@@ -1,4 +1,8 @@
-.multiSelect {         
+body {
+    font-family: "Verdana";
+    font-size: 14px;
+}
+.multiSelect {             
 }
 
 .multiSelect.inlineBlock {
@@ -7,14 +11,14 @@
 
 .multiSelect .button {
     display: block;
-    margin-bottom: 0;
+    position: relative;
+    margin:0 auto;       
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    background-image: none;
+    background-image: none;    
     border: 1px solid transparent;
-    white-space: nowrap;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.428571429;
@@ -26,7 +30,7 @@
     user-select: none;
     background-color: #5CB85C;
     border-color: #4CAE4C;    
-    color: #fff;    
+    color: #fff;        
 }
 
 .multiSelect .helperButton {
@@ -38,7 +42,6 @@
     cursor: pointer;
     background-image: none;
     border: 1px solid #ccc;
-    white-space: nowrap;
     padding: 2px 2px;
     font-size: 14px;
     line-height: 1;

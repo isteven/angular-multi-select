@@ -1,11 +1,10 @@
 /* 
- * Ignatius Steven 
  * Created: Tue, 14 Jan 2014 - 5:18:02 PM
- * Last update: Wed, 26 Mar 2014 - 11:12:29 AM
  * 
  * Angular JS Multi Select
  * Creates a dropdown-like button with checkboxes. 
  *
+ * Released under MIT License
  * --------------------------------------------------------------------------------
  * MIT License
  *
@@ -47,19 +46,15 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             tickProperty    : '@',
             orientation     : '@',
             maxLabels       : '@',
-            maxHeight       : '@',
             isDisabled      : '='
         },
 
         template: 
             '<span class="multiSelect inlineBlock">' +
-                '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();">' +                                         
-                    '<div ng-if="selectedItems.length <= 0">None selected</div>' +                    
-                    '<div ng-if="selectedItems.length > 0" ng-repeat="item in selectedItems | limitTo: varMaxLabels">' + 
-                        '<span ng-if="$index > 0">, </span>{{writeLabel( item )}}' + 
-                    '</div>' +
-                    '<div ng-if="more">, ... [ Selected: {{selectedItems.length}} ]</div><span class="caret"></span>' +                                        
-                '</button>' +                
+                '<div class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();">' +                                         
+                    '{{buttonLabel}}' + 
+                    ' &nbsp;&#9662;' +
+                '</div>' +                
                 '<div class="multiSelect checkboxLayer hide" style="{{layerStyle}}">' +
                     '<div class="multiSelect line">' +
                         '<span ng-if="!isDisabled">Select: &nbsp;&nbsp;</span>' + 
@@ -85,7 +80,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             $scope.selectedItems    = [];    
             $scope.backUp           = [];
             $scope.layerStyle       = '';
-            $scope.varMaxLabels     = 0;    
+            $scope.buttonLabel      = '';            
 
             // Checkbox is ticked
             $scope.syncItems = function( item ) {                                                                
@@ -97,39 +92,71 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             // Refresh the button to display the selected items and push into output model if specified
             $scope.refreshSelectedItems = function() {
 
-                $scope.selectedItems = [];
+                $scope.buttonLabel      = '';
+                $scope.selectedItems    = [];
+                ctr                     = 0;
+                
                 angular.forEach( $scope.inputModel, function( value, key ) {
                     if ( typeof value !== 'undefined' ) {                        
                         if ( value[ $scope.tickProperty ] === true || value[ $scope.tickProperty ] === 'true' ) {
-                            $scope.selectedItems.push( value );                        
+                            $scope.selectedItems.push( value );        
                         }
                     }
                 });
-                               
+                              
                 // Push into output model
                 if ( typeof attrs.outputModel !== 'undefined' ) {            
                     $scope.outputModel = angular.copy( $scope.selectedItems );                    
                 }                                
 
+                var tempMaxLabels = $scope.selectedItems.length;
+                if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' && $scope.maxLabels !== "0" ) {
+                    tempMaxLabels = $scope.maxLabels;
+                }
+
                 // If max amount of labels displayed..
-                if ( $scope.selectedItems.length > $scope.maxLabels ) {
+                if ( $scope.selectedItems.length > tempMaxLabels ) {
                     $scope.more = true;
                 }
                 else {
                     $scope.more = false;
                 }
-                if ( typeof $scope.maxLabels === 'undefined' ) {                
-                    $scope.varMaxLabels = $scope.selectedItems.length;
+                
+                // Write label...
+                angular.forEach( $scope.selectedItems, function( value, key ) {
+                    if ( typeof value !== 'undefined' ) {                        
+                        if ( ctr < tempMaxLabels ) {                            
+                            $scope.buttonLabel += ( $scope.buttonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value );
+                        }
+                        ctr++;
+                    }
+                });                
+
+                if ( $scope.more === true ) {
+                    $scope.buttonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
                 }
-                else {
-                    $scope.varMaxLabels = $scope.maxLabels;
-                }          
+            }
+
+            // A simple function to parse the item label settings
+            $scope.writeLabel = function( item ) {
+                var label = '';
+                var temp = $scope.itemLabel.split( ' ' );                    
+                angular.forEach( temp, function( value2, key2 ) {
+                    if ( typeof value2 !== 'undefined' ) {                        
+                        angular.forEach( item, function( value1, key1 ) {                    
+                            if ( key1 == value2 ) {
+                                label += ' ' + value1;        
+                            }
+                        });                    
+                    }
+                });
+                return label;
             }
 
             // UI operations to show/hide checkboxes
             $scope.toggleCheckboxes = function( e ) {
 
-                $scope.labelFilter = '';
+                $scope.labelFilter = '';                
               
                 // We search them based on the class names
                 var multiSelectIndex    = -1;                                
@@ -137,24 +164,26 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 var multiSelectButtons  = document.querySelectorAll( '.multiSelectButton' );   
 
                 for( i=0; i < multiSelectButtons.length; i++ ) {
-                    if ( e.target == multiSelectButtons[ i ] ) {
+                    if ( e.target === multiSelectButtons[ i ] ) {                        
                         multiSelectIndex = i;
                         break;
                     }
-                }                
+                }                                
 
-                for( i=0; i < checkboxes.length; i++ ) {
-                    if ( i != multiSelectIndex ) {
-                        checkboxes[i].className = 'multiSelect checkboxLayer hide';
+                if ( multiSelectIndex > -1 ) {
+                    for( i=0; i < checkboxes.length; i++ ) {
+                        if ( i != multiSelectIndex ) {
+                            checkboxes[i].className = 'multiSelect checkboxLayer hide';
+                        }
+                    }                    
+
+                    if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer hide' ) {                    
+                        checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer show';
                     }
+                    else if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer show' ) {                                    
+                        checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
+                    }                
                 }
-
-                if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer hide' ) {                    
-                    checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer show';
-                }
-                else if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer show' ) {                                    
-                    checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
-                }                
             }
 
             // Select All / None / Reset
@@ -180,24 +209,28 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     default:                        
                 }
                 $scope.refreshSelectedItems();
+            }            
+
+
+            // Generic validation for required attributes
+            validate = function() {
+                if ( typeof $scope.inputModel === 'undefined' ) {
+                    alert( 'multi-select ERROR - input model is not defined!' );
+                }
+
+                if ( typeof $scope.itemLabel === 'undefined' ) {
+                    alert( 'multi-select ERROR - item label is not defined!' );                
+                }            
+
+                if ( typeof $scope.tickProperty === 'undefined' ) {
+                    alert( 'multi-select ERROR - tick property is not defined!' );                
+                }
+            
+                validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
+                validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
             }
 
-            // What's written on the button
-            $scope.writeLabel = function( item ) {
-                var label = '';
-                var temp = $scope.itemLabel.split( ' ' );                    
-                angular.forEach( temp, function( value2, key2 ) {
-                    if ( typeof value2 !== 'undefined' ) {                        
-                        angular.forEach( item, function( value1, key1 ) {                    
-                            if ( key1 == value2 ) {
-                                label += ' ' + value1;        
-                            }
-                        });                    
-                    }
-                });
-                return label;
-            }
-
+            // Validate whether the properties specified in the directive attributes are present in the input model
             validateProperties = function( arrProperties, arrObject ) {
                 var notThere = false;            
                 var missingProperty = '';
@@ -224,26 +257,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             /////////////////////
             // Logic starts here
             /////////////////////
-            
-            
-            // Validations..
-            validate = function() {
-                if ( typeof $scope.inputModel === 'undefined' ) {
-                    alert( 'multi-select ERROR - input model is not defined!' );
-                }
-
-                if ( typeof $scope.itemLabel === 'undefined' ) {
-                    alert( 'multi-select ERROR - item label is not defined!' );                
-                }            
-
-                if ( typeof $scope.tickProperty === 'undefined' ) {
-                    alert( 'multi-select ERROR - tick property is not defined!' );                
-                }
-            
-                validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
-                validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
-            }
-
+                    
             validate();
 
             $scope.refreshSelectedItems();                                                          
@@ -260,11 +274,6 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 $scope.isDisabled = newVal;                               
             });
 
-            // Checkbox height
-            if ( typeof $scope.maxHeight !== 'undefined' ) { 
-                $scope.layerStyle = 'max-height:' + $scope.maxHeight + 'px; overflow: auto; min-width: auto';
-            }  
-
             // Monitor for clicks outside the button element to hide the checkboxes
             angular.element( document ).bind( 'click' , function( e ) {                                
                 var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
@@ -277,6 +286,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                 }                                
             });           
             
+            // For IE8, perhaps. Not sure if this is really executed.
             if ( !Array.prototype.indexOf ) {
                 Array.prototype.indexOf = function(what, i) {                    
                     i = i || 0;

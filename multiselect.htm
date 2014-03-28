@@ -15,7 +15,7 @@
 
     Minimal: 
     <br />
-    <div 
+    <div
         multi-select 
         input-model="minData" 
         item-label="firstName"
@@ -33,32 +33,31 @@
         output-model="resultData"
         item-label="firstName lastName" 
         tick-property="checked" 
-        orientation="vertical"
+        orientation="horizontal"
         max-labels="3"        
         >
     </div>
 
     <br /><br />
 
-    Dynamic input model and checkbox state
+    Use element instead of attribute, update input model on the fly, and toggle checkbox state
     <br />
-    <div 
-        multi-select 
+    <multi-select 
         input-model="dynamicData" 
         item-label="car"
         tick-property="ticked" 
         is-disabled="dinDisabled"
         >
-    </div>
+    </multi-select>
     
-    <br /><br />
-    <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
-    Is disabled: {{dinDisabled}}
-
     <br /><br />
     <button type="button" ng-click="switchSource( 'data1' )" >Load data 1</button>    
     <button type="button" ng-click="switchSource( 'data2' )" >Load data 2</button>    
     <button type="button" ng-click="switchSource( 'data3' )" >Load data 3</button>    
+
+    <br /><br />
+    <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
+    Is disabled: {{dinDisabled}}    
 
 </body>   
 

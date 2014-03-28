@@ -13,7 +13,6 @@ Features
     - Set orientation of checkboxes
     - Enable / disable checkboxes
     - Set maximum number of items to be displayed on the button label
-    - Maximum height of checkbox layer in pixels (will show scrollbar on overflow)
   - Utilizes AngularJS filter
   - Responsive to some extent
   
@@ -27,7 +26,6 @@ Usage
         output-model="output_list"
         orientation="vertical" 
         max-labels="4"
-        max-height="500"
         is-disabled="multi_select_state" >
     </div>
     
@@ -35,7 +33,7 @@ Usage
 
     <multi-select 
         ...
-        ...
+        ... >
     </multi-select> 
 
 Attributes / Options
@@ -59,7 +57,7 @@ input-model property that you want to display on the button & checkboxes. Separa
 <br />Example: 
 item-label="firstName lastName"          
 
-##### tick-property (REQUIRED):
+##### tick-property (REQUIRED)
 input-model property with a boolean value that represent the state of a checkbox. 
 <br />For example: 
  - item-ticker is "selected"   
@@ -69,7 +67,7 @@ input-model property with a boolean value that represent the state of a checkbox
    - if isOn === true, checkbox will be ticked. 
    - If isOn === false, checkbox will not be ticked.
 
-##### output-model:
+##### output-model
 A $scope variable. If specified, will list all the selected checkboxes model.
 
 ##### orientation ( "vertical" | "horizontal" )
@@ -78,11 +76,7 @@ Orientation of the list of checkboxes. If not specified, the default will be "ve
 ##### max-labels
 Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
 <br />Example: "1"
-<br />- Using the input-model above, then button will display: "Bruce Wayne, ... [ Selected: 2 ]"
-
-##### max-height
-Maximum height of the list of checkboxes in pixels. Will show scrollbar on overflow.
-<br />Example: "100". 
+<br />- Using the input-model above, then button will display: "Bruce Wayne, ... [ Total: 2 ]"
 
 ##### is-disabled 
 Expression to be evaluated. Will disable or enable the checkboxes. 
@@ -93,7 +87,10 @@ Example
 --
 Download all the files into a same folder and open multiselect.htm.
 <br />Or, if you prefer JSfiddle: http://jsfiddle.net/s47RE/
-<br />_I don't know why but JSfiddle requires you to click on the caret icon (the small triangle button) to toggle the dropdown. However, the multiselect.htm sample works OK in all browsers I tested._
+
+Note
+--
+I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.
 
 Requirements
 --
