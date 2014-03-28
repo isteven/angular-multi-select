@@ -2,7 +2,7 @@ Angular Multi Select
 ====================
 Angular Multi Select is a directive which creates a dropdown button with multiple checkboxes.
 
-[Screenshot!](multiselect.jpg)
+(screenshot.jpg)
 
 Features
 --
@@ -93,13 +93,14 @@ Expression to be evaluated. Will disable or enable the checkboxes.
 Example
 --
 Download all the files into a same folder and open multiselect.htm
-Or, here's a fiddle: http://jsfiddle.net/s47RE/
+<br />Or if you prefer JSfiddle: http://jsfiddle.net/s47RE/
+<br />* I don't know why but JSfiddle requires you to click on the caret button. However, the multiselect.htm sample works OK in all browsers I tested.
 
 Requirements
 --
-AngularJS v1.2.15 is used in the script
+AngularJS v1.2.15 is used in the script.
 
-Browser Support
+Browser Compatibility
 --
 Tested on:
 - IE8
