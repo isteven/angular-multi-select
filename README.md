@@ -41,7 +41,7 @@ Attributes / Options
 --
 Below are the available attributes to configure the multi-select directive:
 
-- #### input-model (REQUIRED)
+#### input-model (REQUIRED)
 $scope variable. Array of objects. 
 <br />Example:
 <br />$scope.inputList = [    
@@ -53,13 +53,13 @@ $scope variable. Array of objects.
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true }      
 <br />];    
 
-- #### item-label (REQUIRED)
+ #### item-label (REQUIRED)
 input-model property that you want to display on the button & checkboxes. Separate multiple values by space. 
 <br />Example: 
 item-label="firstName lastName"          
 
 
-- #### tick-property (REQUIRED):
+ #### tick-property (REQUIRED):
 input-model property with a boolean value that represent the state of a checkbox. 
 <br />For example: 
  - item-ticker is "selected"   
@@ -70,7 +70,7 @@ input-model property with a boolean value that represent the state of a checkbox
 <br />If isOn === false, checkbox will not be ticked.
 
 
-- #### output-model:
+ #### output-model:
 A $scope variable. If specified, will list all the selected checkboxes model.
 
 - #### orientation ( "vertical" | "horizontal" )
