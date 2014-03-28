@@ -5,8 +5,7 @@
     <!-- Angular JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
     <!-- multi select directive -->
-    <script src="angular-multi-select.js"></script>            
-    <script src="debug.js"></script>                
+    <script src="angular-multi-select.js"></script>                 
     <!-- css -->
     <link rel="stylesheet" href="angular-multi-select.css">                
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">    
@@ -71,9 +70,10 @@ var myApp = angular.module('myApp', [ 'multi-select' ]);
 // Controller
 myApp.controller( 'main' , [ '$scope' , function ($scope) {
     
-/////////////
-//  Minimal
-/////////////
+
+    /////////////
+    //  Minimal
+    /////////////
 
     $scope.minData = [
         { id: 1, firstName: "Peter",    lastName: "Parker",     selected: false, hoho:'hoho' },
@@ -93,9 +93,10 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         });
     }, true );                
 
-/////////////
-//  Full
-/////////////
+
+    /////////////
+    //  Full
+    /////////////
     
     $scope.resultData = [];
     
@@ -127,10 +128,10 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         });
     }, true );    
 
-/////////////
-//  Dynamic
-/////////////    
 
+    /////////////
+    //  Dynamic
+    /////////////    
 
     $scope.dynamicData = [];
     $scope.dinDisabled = false;
