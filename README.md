@@ -91,9 +91,9 @@ Expression to be evaluated. Will disable or enable the checkboxes.
 
 Example
 --
-Download all the files into a same folder and open multiselect.htm
-<br />Or if you prefer JSfiddle: http://jsfiddle.net/s47RE/
-<br />* I don't know why but JSfiddle requires you to click on the caret button. However, the multiselect.htm sample works OK in all browsers I tested.*
+Download all the files into a same folder and open multiselect.htm.
+<br />Or, if you prefer JSfiddle: http://jsfiddle.net/s47RE/
+<br />_I don't know why but JSfiddle requires you to click on the caret icon (the small triangle button) to toggle the dropdown. However, the multiselect.htm sample works OK in all browsers I tested._
 
 Requirements
 --
@@ -102,17 +102,11 @@ AngularJS v1.2.15 is used in the script.
 Browser Compatibility
 --
 Tested on:
-- IE8
+- Opera 12.16 (Yes, I love Opera browser! Download yours here: http://www.opera.com/)
+- IE8 (IE8 is the default browser in the company I work for)
 - Firefox 27
+- Google Chrome 33
 
 Licence
 --
 Released under the MIT license. 
-
-
-
- 
-  
-
-
-
