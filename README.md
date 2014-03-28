@@ -6,15 +6,15 @@ Angular Multi Select is an AngularJS directive which creates a dropdown button w
 
 Features
 --
-  - Reset checkbox selections to original state
+  - Reset selections to original state
   - Dynamically update the input model
   - Configurable, such as:
-    - Set model property to bind to the checkbox status
+    - Set which model property to bind to the checkbox status
     - Set orientation of checkboxes
     - Enable / disable checkboxes
     - Set maximum number of items to be displayed on the button label
     - Maximum height of checkbox layer in pixels (will show scrollbar on overflow)
-  - Utilizes angularjs filter
+  - Utilizes AngularJS filter
   - Responsive to some extent
   
 Usage
