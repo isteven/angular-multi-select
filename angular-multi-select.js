@@ -103,37 +103,42 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                         }
                     }
                 });
-                              
+                                           
                 // Push into output model
                 if ( typeof attrs.outputModel !== 'undefined' ) {            
                     $scope.outputModel = angular.copy( $scope.selectedItems );                    
                 }                                
 
-                var tempMaxLabels = $scope.selectedItems.length;
-                if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' && $scope.maxLabels !== "0" ) {
-                    tempMaxLabels = $scope.maxLabels;
-                }
-
-                // If max amount of labels displayed..
-                if ( $scope.selectedItems.length > tempMaxLabels ) {
-                    $scope.more = true;
-                }
-                else {
-                    $scope.more = false;
-                }
-                
                 // Write label...
-                angular.forEach( $scope.selectedItems, function( value, key ) {
-                    if ( typeof value !== 'undefined' ) {                        
-                        if ( ctr < tempMaxLabels ) {                            
-                            $scope.buttonLabel += ( $scope.buttonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value );
-                        }
-                        ctr++;
+                if ( $scope.selectedItems.length === 0 ) {
+                    $scope.buttonLabel = 'None selected';
+                }
+                else {                
+                    var tempMaxLabels = $scope.selectedItems.length;
+                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' && $scope.maxLabels !== "0" ) {
+                        tempMaxLabels = $scope.maxLabels;
                     }
-                });                
 
-                if ( $scope.more === true ) {
-                    $scope.buttonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
+                    // If max amount of labels displayed..
+                    if ( $scope.selectedItems.length > tempMaxLabels ) {
+                        $scope.more = true;
+                    }
+                    else {
+                        $scope.more = false;
+                    }                
+                
+                    angular.forEach( $scope.selectedItems, function( value, key ) {
+                        if ( typeof value !== 'undefined' ) {                        
+                            if ( ctr < tempMaxLabels ) {                            
+                                $scope.buttonLabel += ( $scope.buttonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value );
+                            }
+                            ctr++;
+                        }
+                    });                
+
+                    if ( $scope.more === true ) {
+                        $scope.buttonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
+                    }
                 }
             }
 
