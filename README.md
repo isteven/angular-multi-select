@@ -86,7 +86,7 @@ Expression to be evaluated. Will disable or enable the checkboxes.
 Example
 --
 Download all the files into a same folder and open multiselect.htm.
-<br />Or, if you prefer JSfiddle: http://jsfiddle.net/s47RE/
+<br />Or, if you prefer JSfiddle: http://jsfiddle.net/HwSJH/19/
 
 Note
 --
