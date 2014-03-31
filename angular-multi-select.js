@@ -1,21 +1,21 @@
 /* 
- * Created: Tue, 14 Jan 2014 - 5:18:02 PM
- * 
  * Angular JS Multi Select
  * Creates a dropdown-like button with checkboxes. 
  *
+ * Created: Tue, 14 Jan 2014 - 5:18:02 PM
+ *
  * Released under MIT License
  * --------------------------------------------------------------------------------
- * MIT License
+ * The MIT License (MIT)
  *
- * Copyright (C) 2014 Ignatius Steven
+ * Copyright (c) 2014 Ignatius Steven (https://github.com/isteven)
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of 
- * this software and associated documentation files (the "Software"), to deal in 
- * the Software without restriction, including without limitation the rights to 
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of 
- * the Software, and to permit persons to whom the Software is furnished to do so, 
- * subject to the following conditions: 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy 
+ * of this software and associated documentation files (the "Software"), to deal 
+ * in the Software without restriction, including without limitation the rights 
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+ * copies of the Software, and to permit persons to whom the Software is 
+ * furnished to do so, subject to the following conditions: 
  *
  * The above copyright notice and this permission notice shall be included in all 
  * copies or substantial portions of the Software.
