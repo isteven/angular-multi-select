@@ -31,7 +31,11 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h2>
+        <p><img src="https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg" alt="Screenshot"></p>
+
+<p>Demo: <a href="http://jsfiddle.net/HwSJH/19/">http://jsfiddle.net/HwSJH/19/</a> or download all the files into a same folder and open multiselect.htm.</p>
+
+<h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
@@ -44,14 +48,11 @@
 <li>Set orientation of checkboxes</li>
 <li>Enable / disable checkboxes</li>
 <li>Set maximum number of items to be displayed on the button label</li>
-<li>Maximum height of checkbox layer in pixels (will show scrollbar on overflow)</li>
 </ul>
 </li>
 <li>Utilizes AngularJS filter</li>
 <li>Responsive to some extent</li>
-</ul><p><img src="https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg" alt="Screenshot"></p>
-
-<h2>
+</ul><h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <pre><code>&lt;div
@@ -62,7 +63,6 @@
     output-model="output_list"
     orientation="vertical" 
     max-labels="4"
-    max-height="500"
     is-disabled="multi_select_state" &gt;
 &lt;/div&gt;
 
@@ -70,7 +70,7 @@
 
 &lt;multi-select 
     ...
-    ...
+    ... &gt;
 &lt;/multi-select&gt; 
 </code></pre>
 
@@ -101,7 +101,7 @@
 item-label="firstName lastName"          </p>
 
 <h5>
-<a name="tick-property-required" class="anchor" href="#tick-property-required"><span class="octicon octicon-link"></span></a>tick-property (REQUIRED):</h5>
+<a name="tick-property-required" class="anchor" href="#tick-property-required"><span class="octicon octicon-link"></span></a>tick-property (REQUIRED)</h5>
 
 <p>input-model property with a boolean value that represent the state of a checkbox. 
 <br>For example: </p>
@@ -118,7 +118,7 @@ item-label="firstName lastName"          </p>
 </ul>
 </li>
 </ul><h5>
-<a name="output-model" class="anchor" href="#output-model"><span class="octicon octicon-link"></span></a>output-model:</h5>
+<a name="output-model" class="anchor" href="#output-model"><span class="octicon octicon-link"></span></a>output-model</h5>
 
 <p>A $scope variable. If specified, will list all the selected checkboxes model.</p>
 
@@ -132,13 +132,7 @@ item-label="firstName lastName"          </p>
 
 <p>Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
 <br>Example: "1"
-<br>- Using the input-model above, then button will display: "Bruce Wayne, ... [ Selected: 2 ]"</p>
-
-<h5>
-<a name="max-height" class="anchor" href="#max-height"><span class="octicon octicon-link"></span></a>max-height</h5>
-
-<p>Maximum height of the list of checkboxes in pixels. Will show scrollbar on overflow.
-<br>Example: "100". </p>
+<br>- Using the input-model above, then button will display: "Bruce Wayne, ... [ Total: 2 ]"</p>
 
 <h5>
 <a name="is-disabled" class="anchor" href="#is-disabled"><span class="octicon octicon-link"></span></a>is-disabled</h5>
@@ -148,10 +142,9 @@ item-label="firstName lastName"          </p>
 <br>(Similar with ng-disabled, see <a href="http://docs.angularjs.org/api/ng/directive/ngDisabled">http://docs.angularjs.org/api/ng/directive/ngDisabled</a>)</p>
 
 <h2>
-<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
+<a name="note" class="anchor" href="#note"><span class="octicon octicon-link"></span></a>Note</h2>
 
-<p>Download all the files into a same folder and open multiselect.htm.
-<br>Or, if you prefer JSfiddle: <a href="http://jsfiddle.net/HwSJH/19/">http://jsfiddle.net/HwSJH/19/</a></p>
+<p>I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.</p>
 
 <h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
