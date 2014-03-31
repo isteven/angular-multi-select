@@ -4,7 +4,8 @@
  *
  * Created: Tue, 14 Jan 2014 - 5:18:02 PM
  *
- * Released under MIT License
+ * Released under the MIT License
+ *
  * --------------------------------------------------------------------------------
  * The MIT License (MIT)
  *
