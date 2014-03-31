@@ -2,7 +2,12 @@ Angular Multi Select
 ====================
 Angular Multi Select is an AngularJS directive which creates a dropdown button with multiple checkboxes. It memorizes the original state so you can reset your selections. It also allows you to update the input model dynamically.
 
-![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg)
+Screenshot:
+<br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg)
+
+Demo:
+<br />Download all the files into a same folder and open multiselect.htm.
+<br />JSfiddle: http://jsfiddle.net/HwSJH/19/
 
 Features
 --
@@ -82,11 +87,6 @@ Maximum number of items that will be displayed in the dropdown button. If not sp
 Expression to be evaluated. Will disable or enable the checkboxes. 
 <br />If not specified, the default will be "false". 
 <br />(Similar with ng-disabled, see http://docs.angularjs.org/api/ng/directive/ngDisabled)
-
-Example
---
-Download all the files into a same folder and open multiselect.htm.
-<br />Or, if you prefer JSfiddle: http://jsfiddle.net/HwSJH/19/
 
 Note
 --
