@@ -40,7 +40,8 @@
 
 <ul>
 <li>Reset selections to original state</li>
-<li>Dynamically update the input model</li>
+<li>Directly updates the input model</li>
+<li>Load new input model on the fly</li>
 <li>Configurable, such as:
 
 <ul>
@@ -93,7 +94,10 @@
 <br>    { id: 6, firstName: "Clark",    lastName: "Kent",       selected: true }<br>
 ];    </p>
 
-<h5>
+<ul>
+<li>
+<strong>IMPORTANT</strong>: This directive updates the $scope variable (input-model) directly, therefore you cannot use the same $scope variable for multiple multi-select directives. You need to copy the input variable to a new one and use it on the second multi-select, and so on.</li>
+</ul><h5>
 <a name="item-label-required" class="anchor" href="#item-label-required"><span class="octicon octicon-link"></span></a>item-label (REQUIRED)</h5>
 
 <p>input-model property that you want to display on the button &amp; checkboxes. Separate multiple values by space. 
@@ -149,7 +153,7 @@ item-label="firstName lastName"          </p>
 <h2>
 <a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
-<p>AngularJS v1.2.15 is used in the script.</p>
+<p>Created using AngularJS v1.2.15. Other versions may work as well. </p>
 
 <h2>
 <a name="browser-compatibility" class="anchor" href="#browser-compatibility"><span class="octicon octicon-link"></span></a>Browser Compatibility</h2>
