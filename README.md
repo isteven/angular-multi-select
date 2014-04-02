@@ -1,6 +1,6 @@
 Angular Multi Select
 ====================
-Angular Multi Select is an AngularJS directive which creates a dropdown button with multiple checkboxes. It memorizes the original state so you can reset your selections. It also allows you to update the input model dynamically.
+Angular Multi Select is an AngularJS directive which creates a dropdown button with multiple checkboxes. 
 
 <br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg)
 
@@ -9,7 +9,8 @@ Demo: http://jsfiddle.net/HwSJH/19/ or download all the files into a same folder
 Features
 --
   - Reset selections to original state
-  - Dynamically update the input model
+  - Directly updates the input model
+  - Load new input model on the fly
   - Configurable, such as:
     - Set which model property to bind to the checkbox status
     - Set orientation of checkboxes
@@ -53,6 +54,7 @@ $scope variable. Array of objects.
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true }      
 ];    
+<br />**IMPORTANT**: Since the directive updates the $scope variable (input-model) directly, you cannot use the same $scope variable for multiple multi-select directives. You need to copy the $scope variable into a different name and use it on the second multi-select.
 
 ##### item-label (REQUIRED)
 input-model property that you want to display on the button & checkboxes. Separate multiple values by space. 
