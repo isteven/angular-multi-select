@@ -54,7 +54,7 @@ $scope variable. Array of objects.
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
 <br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true }      
 ];    
-<br />**IMPORTANT**: Since the directive updates the $scope variable (input-model) directly, you cannot use the same $scope variable for multiple multi-select directives. You need to copy the $scope variable into a different name and use it on the second multi-select.
+<br />- &nbsp;&nbsp;&nbsp;&nbsp;**IMPORTANT**: Since the directive updates the $scope variable (input-model) directly, you cannot use the same $scope variable for multiple multi-select directives. You need to copy the $scope variable into a different name and use it on the second multi-select.
 
 ##### item-label (REQUIRED)
 input-model property that you want to display on the button & checkboxes. Separate multiple values by space. 
