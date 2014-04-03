@@ -47,7 +47,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             tickProperty    : '@',
             orientation     : '@',
             maxLabels       : '@',
-            isDisabled      : '='
+            isDisabled      : '=',
+            directiveId     : '@'
         },
 
         template: 
@@ -194,6 +195,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
 
             // Select All / None / Reset
             $scope.select = function( type ) {
+                var temp = [];
                 switch( type.toUpperCase() ) {
                     case 'ALL':
                         angular.forEach( $scope.inputModel, function( value, key ) {
@@ -220,20 +222,17 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
 
             // Generic validation for required attributes
             validate = function() {
-                if ( typeof $scope.inputModel === 'undefined' ) {
-                    alert( 'multi-select ERROR - input model is not defined!' );
+                if ( !( 'inputModel' in attrs )) {
+                    console.log( 'Multi-select error: input model is not defined! (ID: ' + $scope.directiveId + ')' );
                 }
 
-                if ( typeof $scope.itemLabel === 'undefined' ) {
-                    alert( 'multi-select ERROR - item label is not defined!' );                
+                if ( !( 'itemLabel' in attrs )) {
+                    console.log( 'Multi-select error: item label is not defined! (ID: ' + $scope.directiveId + ')' );                
                 }            
 
-                if ( typeof $scope.tickProperty === 'undefined' ) {
-                    alert( 'multi-select ERROR - tick property is not defined!' );                
-                }
-            
-                validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
-                validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
+                if ( !( 'tickProperty' in attrs )) {
+                    console.log( 'Multi-select error: tick property is not defined! (ID: ' + $scope.directiveId + ')' );                
+                }            
             }
 
             // Validate whether the properties specified in the directive attributes are present in the input model
@@ -255,22 +254,24 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     }
                 });    
                 if ( notThere === true ) {
-                    alert( 'multi-select ERROR:\n\nProperty "' + missingLabel + '" is not available in the input model.' );
+                    console.log( 'Multi-select error: property "' + missingLabel + '" is not available in the input model. (Name: ' + $scope.directiveId + ')' );
                 }
                 
             }
 
-            /////////////////////
+            ///////////////////////
             // Logic starts here
-            /////////////////////
-                    
-            validate();
+            ///////////////////////               
 
-            $scope.refreshSelectedItems();                                                          
+            validate();
+            $scope.refreshSelectedItems();                  
 
             // Watch for changes in input model (allow dynamic input)
             $scope.$watch( 'inputModel' , function( oldVal, newVal ) {                 
-                validate();
+                if ( $scope.inputModel !== 'undefined' ) {
+                    validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
+                    validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
+                }
                 $scope.backUp = angular.copy( $scope.inputModel );                                                    
                 $scope.refreshSelectedItems();                                                 
             });
@@ -287,7 +288,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     for( i=0; i < checkboxes.length; i++ ) {                                        
                         checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
                     }
-                    $scope.$apply();                    
+                    // $scope.$apply();                    
                     e.stopPropagation();
                 }                                
             });           

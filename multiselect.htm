@@ -13,6 +13,10 @@
     
 <body ng-controller="main">
 
+    * Open your browser console to see the $scope variables updated
+    <br />
+    <br />
+
     Minimal: 
     <br />
     <div
@@ -34,13 +38,14 @@
         item-label="firstName lastName" 
         tick-property="checked" 
         orientation="horizontal"
-        max-labels="3"        
+        max-labels="3"     
+        directive-id="multiSelectFull"
         >
     </div>
 
     <br /><br />
 
-    Use element instead of attribute, update input model on the fly, and toggle checkbox state
+    Use element instead of attribute, load input model on the fly, and toggle checkbox state
     <br />
     <multi-select 
         input-model="dynamicData" 
@@ -77,19 +82,20 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
     $scope.minData = [
         { id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
         { id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
-        { id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true, },
+        { id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
         { id: 4, firstName: "David",    lastName: "Banner",     selected: false },
         { id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
         { id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },
     ];
 
     // Open your console and watch minData changes
-    $scope.$watch( "minData" , function( newVal ) {        
+    $scope.$watch( "minData" , function( newVal ) {                 
         angular.forEach( newVal , function( value, key ) {                    
             if ( value.selected === true ) {
                 console.log( 'minData .selected === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
+        console.log( '--------' );
     }, true );                
 
 
@@ -116,15 +122,19 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
                console.log( 'fullData .checked === true: ' + value.firstName + ' ' + value.lastName );
             }
         });
+        console.log( '--------' );         
     }, true );         
 
     // Open your console and watch resultData changes
-    $scope.$watch( "resultData" , function( newVal ) {
-        angular.forEach( newVal , function( value, key ) {                    
-            if ( value.checked === true ) {
-               console.log( 'resultData .checked === true: ' + value.firstName + ' ' + value.lastName );
-            }
-        });
+    $scope.$watch( "resultData" , function( newVal, oldVal ) {        
+        if ( $scope.resultData.length > 0 && !angular.equals( oldVal, newVal ) ) {
+            angular.forEach( newVal , function( value, key ) {                    
+                if ( value.checked === true ) {
+                   console.log( 'resultData .checked === true: ' + value.firstName + ' ' + value.lastName );
+                }
+            });
+            console.log( '--------' );
+        }
     }, true );    
 
 
@@ -162,6 +172,17 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         { car: 'Lamborgini' , ticked: true },                
     ];
 
+    // Open your console and watch dynamicData changes
+    $scope.$watch( "dynamicData" , function( newVal, oldVal ) {        
+        if ( !angular.equals( oldVal, newVal ) ) {
+            angular.forEach( newVal , function( value, key ) {                    
+                if ( value.ticked === true ) {
+                   console.log( 'dynamicData .ticked === true: ' + value.car );
+                }
+            });
+            console.log( '--------' ); 
+        }
+    }, true );                 
 }]);    
 
 </script>    

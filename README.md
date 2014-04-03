@@ -29,7 +29,9 @@ Usage
         output-model="output_list"
         orientation="vertical" 
         max-labels="4"
-        is-disabled="multi_select_state" >
+        is-disabled="multi_select_state" 
+        directive-id="ms1"
+        >
     </div>
     
         // or this one, but not really tested, so be careful with browser compatibility.
@@ -87,13 +89,16 @@ Expression to be evaluated. Will disable or enable the checkboxes.
 <br />If not specified, the default will be "false". 
 <br />(Similar with ng-disabled, see http://docs.angularjs.org/api/ng/directive/ngDisabled)
 
+##### directive-id
+Name or id for your directive. There are some validations and error message in the directive, and this id will help to check which directive displays error message in case you use more than one directive in one page.
+
 Note
 --
 I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.
 
 Requirements
 --
-AngularJS v1.2.15 is used in the script.
+Created using AngularJS v1.2.15. Other versions may or may not work.
 
 Browser Compatibility
 --
