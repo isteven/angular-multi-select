@@ -66,10 +66,10 @@ item-label="firstName lastName"
 ##### tick-property (REQUIRED)
 input-model property with a boolean value that represent the state of a checkbox. 
 <br />For example: 
- - item-ticker is "selected"   
+ - tick-property is "selected"   
     - if selected === true, checkbox will be ticked. 
     - If selected === false, checkbox will not be ticked.
- - item-ticker is "isOn"       
+ - tick-property is "isOn"       
    - if isOn === true, checkbox will be ticked. 
    - If isOn === false, checkbox will not be ticked.
 
@@ -90,7 +90,7 @@ Expression to be evaluated. Will disable or enable the checkboxes.
 <br />(Similar with ng-disabled, see http://docs.angularjs.org/api/ng/directive/ngDisabled)
 
 ##### directive-id
-Name or id for your directive. There are some validations and error message in the directive, and this id will help to check which directive displays error message in case you use more than one directive in one page.
+Name or id for your directive. There are some validations and error messages in the directive, and this id will help to check which directive displays error message (in case you use more than one directive in one page).
 
 Note
 --
