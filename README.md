@@ -4,7 +4,7 @@ Angular Multi Select is an AngularJS directive which creates a dropdown button w
 
 <br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg)
 
-Demo: http://jsfiddle.net/HwSJH/19/ or download all the files into a same folder and open multiselect.htm.
+Demo: http://jsfiddle.net/Rg2pY/ or download all the files into a same folder and open multiselect.htm.
 
 Features
 --
