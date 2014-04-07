@@ -13,25 +13,27 @@
     body {
         font-family: 'Arial';
         font-size: 14px;
-        background-color: #999;
+        background-color: #fff;
         padding: 0;
         margin: 20px;
     }
     #container {
         margin: 0px auto;
         width: 50%;
-        background-color: #ccc;
-        padding: 20px; 
+        background-color: #f8f8f8;
+        padding: 0px 20px 20px 20px; 
+        border: 1px solid #ddd;
     }
     </style>    
 </head>
     
 <body ng-controller="main">
     <div id="container">
+        <h1>Angular JS Multi-Select</h1>
         * Open your browser console to see the $scope variables getting updated
-
         <br />
-        <h3 style="width:100%;border-bottom:1px solid #888">Minimal</h3> 
+        <br />
+        <h3 style="width:100%;border-bottom:1px solid #ccc">Minimal</h3> 
         <div
             multi-select 
             input-model="minData" 
@@ -41,11 +43,8 @@
             >
         </div>  
         <br />
-        <br />
-        <br />
-        <br />
 
-        <h3 style="width:100%;border-bottom:1px solid #888">Full</h3>
+        <h3 style="width:100%;border-bottom:1px solid #ccc">Full</h3>
         <div 
             multi-select 
             input-model="fullData" 
@@ -59,11 +58,8 @@
             >
         </div>
         <br />
-        <br />
-        <br />
-        <br />
 
-        <h3 style="width:100%;border-bottom:1px solid #888">Use element instead of attribute, dynamic input and state</h3>
+        <h3 style="width:100%;border-bottom:1px solid #ccc">Use element instead of attribute, dynamic input and state</h3>
         <multi-select 
             input-model="dynamicData" 
             button-label="car"
@@ -81,12 +77,9 @@
         <br /><br />
         <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
         Is disabled: {{dinDisabled}}    
-            <br />
-        <br />
-        <br />
         <br />
 
-        <h3 style="width:100%;border-bottom:1px solid #888">Use HTML tags</h3>
+        <h3 style="width:100%;border-bottom:1px solid #ccc">Use HTML tags</h3>
         You can use whatever HTML tags accepted by AngularJS's $sce.trustAsHtml() method. 
         <br /><br />
         <multi-select 
@@ -235,7 +228,7 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         if ( !angular.equals( oldVal, newVal ) ) {
             angular.forEach( newVal , function( value, key ) {                    
                 if ( value.ticked === true ) {
-                   console.log( 'dynamicData .ticked === true: ' + value.car );
+                   console.log( 'webBrowsers .ticked === true: ' + value.name );
                 }
             });
             console.log( '--------' ); 

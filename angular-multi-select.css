@@ -11,18 +11,18 @@
     margin:0 auto;       
     text-align: center;
     cursor: pointer;
-    background-image: none;    
     border: 1px solid #999;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.4;
-    border-radius: 2px;
+    border-radius: 3px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
-    color: #666;         
+    color: #333;      
+    background-color: #fff;
 }
 
 .multiSelect .helperButton {
@@ -136,5 +136,10 @@ label.multiSelect span:hover{
 .multiSelect.disabled {
     color: #999;
     cursor: not-allowed;
+}
+
+.multiSelect.disabled:hover {
+    cursor: not-allowed;
+    color: #999;
 }
 
