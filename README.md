@@ -1,6 +1,6 @@
-Angular Multi Select
+Angular Multi Select ** Updating in progress. Do not download **
 ====================
-Angular Multi Select is an AngularJS directive which creates a dropdown button with multiple checkboxes. 
+Angular Multi Select is an AngularJS directive which creates a dropdown button with multiple selections. 
 
 <br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg)
 
@@ -8,6 +8,7 @@ Demo: http://jsfiddle.net/Rg2pY/ or download all the files into a same folder an
 
 Features
 --
+  - Use CSS & HTML tags 
   - Reset selections to original state
   - Directly updates the input model
   - Load new input model on the fly
@@ -24,6 +25,7 @@ Usage
     <div
         multi-select 
         input-model="input_list"          
+        button-label="firstName"         
         item-label="firstName lastName" 
         tick-property="selected"  
         output-model="output_list"
@@ -58,8 +60,13 @@ $scope variable. Array of objects.
 ];    
 - **IMPORTANT**: This directive updates the $scope variable (input-model) directly, therefore you cannot use the same $scope variable for multiple multi-select directives. You need to copy the input variable to a new one and use it on the second multi-select, and so on.
 
+##### button-label (REQUIRED)
+input-model property that you want to display on the button. Separate multiple values by space. 
+<br />Example: 
+item-label="firstName"          
+
 ##### item-label (REQUIRED)
-input-model property that you want to display on the button & checkboxes. Separate multiple values by space. 
+input-model property that you want to display on the checkboxes. Separate multiple values by space. 
 <br />Example: 
 item-label="firstName lastName"          
 

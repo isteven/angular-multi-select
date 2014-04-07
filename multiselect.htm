@@ -9,61 +9,94 @@
     <!-- css -->
     <link rel="stylesheet" href="angular-multi-select.css">                
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">    
+    <style>
+    body {
+        font-family: 'Arial';
+        font-size: 14px;
+        background-color: #999;
+        padding: 0;
+        margin: 20px;
+    }
+    #container {
+        margin: 0px auto;
+        width: 50%;
+        background-color: #ccc;
+        padding: 20px; 
+    }
+    </style>    
 </head>
     
 <body ng-controller="main">
+    <div id="container">
+        * Open your browser console to see the $scope variables getting updated
 
-    * Open your browser console to see the $scope variables getting updated
-    <br />
-    <br />
+        <br />
+        <h3 style="width:100%;border-bottom:1px solid #888">Minimal</h3> 
+        <div
+            multi-select 
+            input-model="minData" 
+            button-label="firstName"        
+            item-label="firstName"        
+            tick-property="selected" 
+            >
+        </div>  
+        <br />
+        <br />
+        <br />
+        <br />
 
-    Minimal: 
-    <br />
-    <div
-        multi-select 
-        input-model="minData" 
-        item-label="firstName"
-        tick-property="selected" 
-        >
+        <h3 style="width:100%;border-bottom:1px solid #888">Full</h3>
+        <div 
+            multi-select 
+            input-model="fullData" 
+            output-model="resultData"
+            button-label="firstName lastName"         
+            item-label="firstName lastName" 
+            tick-property="checked" 
+            orientation="horizontal"
+            max-labels="3"     
+            directive-id="multiSelectFull"
+            >
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <h3 style="width:100%;border-bottom:1px solid #888">Use element instead of attribute, dynamic input and state</h3>
+        <multi-select 
+            input-model="dynamicData" 
+            button-label="car"
+            item-label="car"
+            tick-property="ticked" 
+            is-disabled="dinDisabled"
+            >
+        </multi-select>
+        
+        <br /><br />
+        <button type="button" ng-click="switchSource( 'data1' )" >Load data 1</button>    
+        <button type="button" ng-click="switchSource( 'data2' )" >Load data 2</button>    
+        <button type="button" ng-click="switchSource( 'data3' )" >Load data 3</button>    
+
+        <br /><br />
+        <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
+        Is disabled: {{dinDisabled}}    
+            <br />
+        <br />
+        <br />
+        <br />
+
+        <h3 style="width:100%;border-bottom:1px solid #888">Use HTML tags</h3>
+        You can use whatever HTML tags accepted by AngularJS's $sce.trustAsHtml() method. 
+        <br /><br />
+        <multi-select 
+            input-model="webBrowsers" 
+            button-label="icon"
+            item-label="icon name"
+            tick-property="ticked" 
+            >
+        </multi-select>
     </div>
-    
-    <br /><br />
-
-    Full: 
-    <br />
-    <div 
-        multi-select 
-        input-model="fullData" 
-        output-model="resultData"
-        item-label="firstName lastName" 
-        tick-property="checked" 
-        orientation="horizontal"
-        max-labels="3"     
-        directive-id="multiSelectFull"
-        >
-    </div>
-
-    <br /><br />
-
-    Use element instead of attribute, load input model on the fly, and toggle checkbox state
-    <br />
-    <multi-select 
-        input-model="dynamicData" 
-        item-label="car"
-        tick-property="ticked" 
-        is-disabled="dinDisabled"
-        >
-    </multi-select>
-    
-    <br /><br />
-    <button type="button" ng-click="switchSource( 'data1' )" >Load data 1</button>    
-    <button type="button" ng-click="switchSource( 'data2' )" >Load data 2</button>    
-    <button type="button" ng-click="switchSource( 'data3' )" >Load data 3</button>    
-
-    <br /><br />
-    <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
-    Is disabled: {{dinDisabled}}    
-
 </body>   
 
 <script>            
@@ -149,19 +182,19 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         $scope.dynamicData = $scope[ data ];
     }
     
-    // Japan cars
+    // Japanese cars
     $scope.data1 = [
-        { car: 'Toyota' , ticked: true },
-        { car: 'Mazda'  , ticked: false },
-        { car: 'Nissan' , ticked: true },
-        { car: 'Honda'  , ticked: false }
+        { car: 'Toyota',    ticked: true },
+        { car: 'Mazda',     ticked: false },
+        { car: 'Nissan',    ticked: true },
+        { car: 'Honda',     ticked: false }
     ];
 
     // German cars
     $scope.data2 = [
-        { car: 'Audi'       , ticked: false },
-        { car: 'BMW'        , ticked: false },
-        { car: 'Mercedes'   , ticked: true },
+        { car: 'Audi',      ticked: false },
+        { car: 'BMW',       ticked: false },
+        { car: 'Mercedes',  ticked: true },
     ];
 
     // Italian cars
@@ -183,6 +216,33 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
             console.log( '--------' ); 
         }
     }, true );                 
+
+    /////////////
+    // HTML tag
+    /////////////
+    
+    // Web browsers
+    $scope.webBrowsers = [
+        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         name: 'Opera',              ticked: true    },
+        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             name: 'Internet Explorer',  ticked: false   },
+        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         name: 'Firefox',            ticked: true    },
+        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             name: 'Safari',             ticked: false   },
+        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  name: 'Chrome',             ticked: true    }    
+    ];
+
+    // Open your console and watch dynamicData changes
+    $scope.$watch( "webBrowsers" , function( newVal, oldVal ) {        
+        if ( !angular.equals( oldVal, newVal ) ) {
+            angular.forEach( newVal , function( value, key ) {                    
+                if ( value.ticked === true ) {
+                   console.log( 'dynamicData .ticked === true: ' + value.car );
+                }
+            });
+            console.log( '--------' ); 
+        }
+    }, true );                 
+    
+
 }]);    
 
 </script>    

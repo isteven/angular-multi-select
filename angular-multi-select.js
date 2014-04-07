@@ -31,7 +31,7 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout', '$compile' , function ( $timeout, $compile ) {
+angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', function ( $sce ) {
     return {
         restrict: 
             'AE',
@@ -43,6 +43,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
         {
             inputModel      : '=',
             outputModel     : '=',
+            buttonLabel     : '@',
             itemLabel       : '@',
             tickProperty    : '@',
             orientation     : '@',
@@ -53,10 +54,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
 
         template: 
             '<span class="multiSelect inlineBlock">' +
-                '<div class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();">' +                                         
-                    '{{buttonLabel}}' + 
-                    ' &nbsp;&#9662;' +
-                '</div>' +                
+                '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel">' +
+                '</button>' +                
                 '<div class="multiSelect checkboxLayer hide" style="{{layerStyle}}">' +
                     '<div class="multiSelect line">' +
                         '<span ng-if="!isDisabled">Select: &nbsp;&nbsp;</span>' + 
@@ -66,13 +65,18 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     '</div>' +
                     '<div class="multiSelect line">' + 
                         'Filter: <input class="multiSelect" type="text" ng-model="labelFilter" />' +
-                            '<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
+                            '&nbsp;<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
                     '</div>' +
                     '<div ng-repeat="item in inputModel | filter:labelFilter" ng-class="orientation" class="multiSelect multiSelectItem">' +
-                        '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
-                            '<input class="multiSelect" type="checkbox" ng-disabled="isDisabled" ng-checked="item[ tickProperty ]" ng-click="syncItems( item )" />' +
-                                '{{writeLabel( item )}}' +
-                        '</label>&nbsp;&nbsp;' +
+                        '<div class="multiSelect col">' +
+                            '<span class="multiSelect" ng-if="item[ tickProperty ]">&#10004;</span>' +
+                        '</div>' +
+                        '<div class="multiSelect col">' +
+                            '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
+                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="isDisabled" ng-checked="item[ tickProperty ]" ng-click="syncItems( item )" />' +
+                                    '<span class="multiSelect" ng-class="{disabled:isDisabled}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
+                            '</label>&nbsp;&nbsp;' +
+                        '</div>' +
                     '</div>' +
                 '</div>' +
             '</span>',
@@ -82,7 +86,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             $scope.selectedItems    = [];    
             $scope.backUp           = [];
             $scope.layerStyle       = '';
-            $scope.buttonLabel      = '';            
+            $scope.varButtonLabel   = '';            
 
             // Checkbox is ticked
             $scope.syncItems = function( item ) {                                                                
@@ -94,7 +98,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             // Refresh the button to display the selected items and push into output model if specified
             $scope.refreshSelectedItems = function() {
 
-                $scope.buttonLabel      = '';
+                $scope.varButtonLabel   = '';
                 $scope.selectedItems    = [];
                 ctr                     = 0;
                 
@@ -113,7 +117,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
 
                 // Write label...
                 if ( $scope.selectedItems.length === 0 ) {
-                    $scope.buttonLabel = 'None selected';
+                    $scope.varButtonLabel = 'None selected';
                 }
                 else {                
                     var tempMaxLabels = $scope.selectedItems.length;
@@ -132,22 +136,23 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                     angular.forEach( $scope.selectedItems, function( value, key ) {
                         if ( typeof value !== 'undefined' ) {                        
                             if ( ctr < tempMaxLabels ) {                            
-                                $scope.buttonLabel += ( $scope.buttonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value );
+                                $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value, 'buttonLabel' );
                             }
                             ctr++;
                         }
                     });                
 
                     if ( $scope.more === true ) {
-                        $scope.buttonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
+                        $scope.varButtonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
                     }
                 }
+                $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '&nbsp;&nbsp;&#9662;' );
             }
 
             // A simple function to parse the item label settings
-            $scope.writeLabel = function( item ) {
+            $scope.writeLabel = function( item, type ) {
                 var label = '';
-                var temp = $scope.itemLabel.split( ' ' );                    
+                var temp = $scope[ type ].split( ' ' );                    
                 angular.forEach( temp, function( value2, key2 ) {
                     if ( typeof value2 !== 'undefined' ) {                        
                         angular.forEach( item, function( value1, key1 ) {                    
@@ -157,7 +162,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
                         });                    
                     }
                 });
-                return label;
+                return $sce.trustAsHtml( label );
             }
 
             // UI operations to show/hide checkboxes
@@ -223,15 +228,19 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$timeout'
             // Generic validation for required attributes
             validate = function() {
                 if ( !( 'inputModel' in attrs )) {
-                    console.log( 'Multi-select error: input model is not defined! (ID: ' + $scope.directiveId + ')' );
+                    console.log( 'Multi-select error: input-model is not defined! (ID: ' + $scope.directiveId + ')' );
                 }
 
-                if ( !( 'itemLabel' in attrs )) {
-                    console.log( 'Multi-select error: item label is not defined! (ID: ' + $scope.directiveId + ')' );                
+                if ( !( 'buttonLabel' in attrs )) {
+                    console.log( 'Multi-select error: button-label is not defined! (ID: ' + $scope.directiveId + ')' );                
                 }            
 
+                if ( !( 'itemLabel' in attrs )) {
+                    console.log( 'Multi-select error: item-label is not defined! (ID: ' + $scope.directiveId + ')' );                
+                }                            
+
                 if ( !( 'tickProperty' in attrs )) {
-                    console.log( 'Multi-select error: tick property is not defined! (ID: ' + $scope.directiveId + ')' );                
+                    console.log( 'Multi-select error: tick-property is not defined! (ID: ' + $scope.directiveId + ')' );                
                 }            
             }
 
