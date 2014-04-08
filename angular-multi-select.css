@@ -1,0 +1,145 @@
+.multiSelect {             
+}
+
+.multiSelect.inlineBlock {
+    display: inline-block;
+}
+
+.multiSelect .button {
+    display: block;
+    position: relative;
+    margin:0 auto;       
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #999;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    border-radius: 3px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: #333;      
+    background-color: #fff;
+}
+
+.multiSelect .helperButton {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 2px 7px;    
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 2px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: #666;    
+}
+
+.multiSelect .button > div {
+    float: left;        
+}
+
+.multiSelect .checkboxLayer {
+    background-color: #fff;
+    position: absolute;
+    z-index: 999;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box; 
+    padding: 15px;
+}
+
+.multiSelect .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 15px !important;    
+    vertical-align: middle;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-bottom: 0 dotted;   
+}
+
+.multiSelect.multiSelectItem {
+    display: block;
+    min-height: 30px;    
+    color: #666;   
+}
+
+.multiSelect .vertical {
+    float: none;
+}
+
+.multiSelect .horizontal {
+    float: left;
+}
+
+.multiSelect .col {
+    display: table-cell;
+    min-width: 14px;
+    line-height: 1.4;       
+}
+
+.multiSelect img {
+    vertical-align: middle;
+    margin-bottom:4px;
+}
+
+label.multiSelect span {
+    margin-right: 5px;    
+}
+
+label.multiSelect span:hover{
+    cursor: pointer;    
+    color: #000;
+}
+
+.multiSelect .checkbox {
+    position: absolute;
+    left: -9999px;
+    cursor: pointer;
+}
+
+.multiSelect .checkboxSelected {
+    color: #333;
+    font-weight: bold;
+}
+
+.multiSelect .show {
+    display: inline-block;
+}
+
+.multiSelect .hide {
+    display: none;
+}
+
+.multiSelect .line {   
+    margin-bottom: 15px;
+}
+
+.multiSelect .helperButton + .helperButton  {
+    margin-left: 1px;
+}
+
+.multiSelect.disabled {
+    color: #999;
+    cursor: not-allowed;
+}
+
+.multiSelect.disabled:hover {
+    cursor: not-allowed;
+    color: #999;
+}
+
