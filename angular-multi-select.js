@@ -40,12 +40,14 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             true,
 
         scope: 
-        {
+        {            
             inputModel      : '=',
             outputModel     : '=',
             buttonLabel     : '@',
+            selectionMode   : '@',
             itemLabel       : '@',
             tickProperty    : '@',
+            disableProperty : '@',
             orientation     : '@',
             maxLabels       : '@',
             isDisabled      : '=',
@@ -56,11 +58,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             '<span class="multiSelect inlineBlock">' +
                 '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel">' +
                 '</button>' +                
-                '<div class="multiSelect checkboxLayer hide" style="{{layerStyle}}">' +
+                '<div class="multiSelect checkboxLayer hide">' +
                     '<div class="multiSelect line">' +
-                        '<span ng-if="!isDisabled">Select: &nbsp;&nbsp;</span>' + 
-                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled">All</button> ' +
-                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled">None</button> ' + 
+                        '<span ng-if="!isDisabled">Select: &nbsp;</span>' + 
+                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled && selectionMode.toUpperCase() != \'SINGLE\'">All</button> ' +
+                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled && selectionMode.toUpperCase() != \'SINGLE\'">None</button> ' + 
                             '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" ng-if="!isDisabled">Reset</button>' +
                     '</div>' +
                     '<div class="multiSelect line">' + 
@@ -68,13 +70,13 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                             '&nbsp;<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
                     '</div>' +
                     '<div ng-repeat="item in inputModel | filter:labelFilter" ng-class="orientation" class="multiSelect multiSelectItem">' +
-                        '<div class="multiSelect col">' +
-                            '<span class="multiSelect" ng-if="item[ tickProperty ]">&#10004;</span>' +
+                        '<div class="multiSelect acol">' +
+                            '<div class="multiSelect" ng-show="item[ tickProperty ]">&#10004;</div>' +
                         '</div>' +
-                        '<div class="multiSelect col">' +
+                        '<div class="multiSelect acol">' +
                             '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
-                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="isDisabled" ng-checked="item[ tickProperty ]" ng-click="syncItems( item )" />' +
-                                    '<span class="multiSelect" ng-class="{disabled:isDisabled}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
+                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item )" />' +
+                                    '<span class="multiSelect" ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
                             '</label>&nbsp;&nbsp;' +
                         '</div>' +
                     '</div>' +
@@ -85,13 +87,23 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             
             $scope.selectedItems    = [];    
             $scope.backUp           = [];
-            $scope.layerStyle       = '';
             $scope.varButtonLabel   = '';            
 
             // Checkbox is ticked
             $scope.syncItems = function( item ) {                                                                
-                index = $scope.inputModel.indexOf( item );                
-                $scope.inputModel[ index ][ $scope.tickProperty ] = !$scope.inputModel[ index ][ $scope.tickProperty ];
+                index       = $scope.inputModel.indexOf( item );                
+                tempState   = $scope.inputModel[ index ][ $scope.tickProperty ];
+                $scope.inputModel[ index ][ $scope.tickProperty ] = !tempState;
+                
+                // If it's single selection mode
+                if ( $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                    for( i=0; i<$scope.inputModel.length;i++) {
+                        if ( i !== index ) {
+                            $scope.inputModel[ i ][ $scope.tickProperty ] = tempState;
+                        }
+                    }
+                }
+
                 $scope.refreshSelectedItems();                   
             }     
 
@@ -149,6 +161,24 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '&nbsp;&nbsp;&#9662;' );
             }
 
+            // Check if a checkbox is disabled or enabled. It will check the granular control (disableProperty) and global control (isDisabled)
+            // Take note that the granular control has higher priority.
+            $scope.itemIsDisabled = function( item ) {
+                
+                if ( item[ $scope.disableProperty ] === true ) {                    
+                    return true;
+                }
+                else {                    
+                    if ( $scope.isDisabled === true ) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                
+            }
+
             // A simple function to parse the item label settings
             $scope.writeLabel = function( item, type ) {
                 var label = '';
@@ -204,14 +234,14 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 switch( type.toUpperCase() ) {
                     case 'ALL':
                         angular.forEach( $scope.inputModel, function( value, key ) {
-                            if ( typeof value !== 'undefined' ) {                        
+                            if ( typeof value !== 'undefined' && value[ $scope.disableProperty ] !== true ) {                        
                                 value[ $scope.tickProperty ] = true;
                             }
                         });                                        
                         break;
                     case 'NONE':
                         angular.forEach( $scope.inputModel, function( value, key ) {
-                            if ( typeof value !== 'undefined' ) {                        
+                            if ( typeof value !== 'undefined' && value[ $scope.disableProperty ] !== true ) {                        
                                 value[ $scope.tickProperty ] = false;
                             }
                         });                

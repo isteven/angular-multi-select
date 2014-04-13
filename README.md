@@ -1,120 +1,38 @@
-Angular Multi Select ** Updating in progress. Do not download **
+Angular Multi Select
 ====================
-Angular Multi Select is an AngularJS directive which creates a dropdown button with multiple selections. 
+An AngularJS directive which creates a dropdown button with multiple or single selections. 
+Allows you to customize your labels and use HTML tags in the data. Fully configurable through element attributes and CSS.
 
-<br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.jpg)
+<br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
 
-Demo: http://jsfiddle.net/Rg2pY/ or download all the files into a same folder and open multiselect.htm.
-
-Features
+Demo & How-tos
 --
-  - Use CSS & HTML tags 
-  - Reset selections to original state
-  - Directly updates the input model
-  - Load new input model on the fly
-  - Configurable, such as:
-    - Set which model property to bind to the checkbox status
-    - Set orientation of checkboxes
-    - Enable / disable checkboxes
-    - Set maximum number of items to be displayed on the button label
-  - Utilizes AngularJS filter
-  - Responsive to some extent
-  
-Usage
---
-    <div
-        multi-select 
-        input-model="input_list"          
-        button-label="firstName"         
-        item-label="firstName lastName" 
-        tick-property="selected"  
-        output-model="output_list"
-        orientation="vertical" 
-        max-labels="4"
-        is-disabled="multi_select_state" 
-        directive-id="ms1"
-        >
-    </div>
-    
-        // or this one, but not really tested, so be careful with browser compatibility.
-
-    <multi-select 
-        ...
-        ... >
-    </multi-select> 
-
-Attributes / Options
---
-Below are the available attributes to configure the multi-select directive:
-
-##### input-model (REQUIRED)
-$scope variable. Array of objects. 
-<br />Example:
-<br />$scope.inputList = [    
-&nbsp;&nbsp;&nbsp;&nbsp;{ id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
-<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
-<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
-<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 4, firstName: "David",    lastName: "Banner",     selected: false },
-<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
-<br />&nbsp;&nbsp;&nbsp;&nbsp;{ id: 6, firstName: "Clark",    lastName: "Kent",       selected: true }      
-];    
-- **IMPORTANT**: This directive updates the $scope variable (input-model) directly, therefore you cannot use the same $scope variable for multiple multi-select directives. You need to copy the input variable to a new one and use it on the second multi-select, and so on.
-
-##### button-label (REQUIRED)
-input-model property that you want to display on the button. Separate multiple values by space. 
-<br />Example: 
-item-label="firstName"          
-
-##### item-label (REQUIRED)
-input-model property that you want to display on the checkboxes. Separate multiple values by space. 
-<br />Example: 
-item-label="firstName lastName"          
-
-##### tick-property (REQUIRED)
-input-model property with a boolean value that represent the state of a checkbox. 
-<br />For example: 
- - tick-property is "selected"   
-    - if selected === true, checkbox will be ticked. 
-    - If selected === false, checkbox will not be ticked.
- - tick-property is "isOn"       
-   - if isOn === true, checkbox will be ticked. 
-   - If isOn === false, checkbox will not be ticked.
-
-##### output-model
-A $scope variable. If specified, will list all the selected checkboxes model.
-
-##### orientation ( "vertical" | "horizontal" )
-Orientation of the list of checkboxes. If not specified, the default will be "vertical".
-
-##### max-labels
-Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
-<br />Example: "1"
-<br />- Using the input-model above, then button will display: "Bruce Wayne, ... [ Total: 2 ]"
-
-##### is-disabled 
-Expression to be evaluated. Will disable or enable the checkboxes. 
-<br />If not specified, the default will be "false". 
-<br />(Similar with ng-disabled, see http://docs.angularjs.org/api/ng/directive/ngDisabled)
-
-##### directive-id
-Name or id for your directive. There are some validations and error messages in the directive, and this id will help to check which directive displays error message (in case you use more than one directive in one page).
+Go to http://isteven.github.io/angular-multi-select
 
 Note
 --
-I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.
-
-Requirements
---
-Created using AngularJS v1.2.15. Other versions may or may not work.
-
-Browser Compatibility
---
-Tested on:
-- Opera 12.16 (Yes, I love Opera browser! Download yours here: http://www.opera.com/)
-- IE8 (IE8 is the default browser in the company I work for)
-- Firefox 27
-- Google Chrome 33
+I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
+I'm all ears for new development ideas. Just open an issue in https://github.com/isteven/angular-multi-select. 
 
 Licence
 --
 Released under the MIT license. 
+
+Copyright (c) 2014 Ignatius Steven (https://github.com/isteven)
+Permission is hereby granted, free of charge, to any person obtaining a copy 
+of this software and associated documentation files (the "Software"), to deal 
+in the Software without restriction, including without limitation the rights 
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+copies of the Software, and to permit persons to whom the Software is 
+furnished to do so, subject to the following conditions: 
+
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
