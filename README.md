@@ -17,9 +17,7 @@ I'm all ears for new development ideas. Just open an issue in https://github.com
 
 Licence
 --
-Released under the MIT license.
-
---
+Released under the MIT license:
 
 The MIT License (MIT)
 
