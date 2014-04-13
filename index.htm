@@ -12,7 +12,7 @@
         }
         #container {
             margin: 0px auto; 
-            padding: 15px 100px;
+            padding: 15px 80px;
             min-width:1350px;            
         }
         pre {
@@ -53,7 +53,7 @@
         }
         .inlinefauxcode {           
             font-family: monospace !important;
-            padding: 3px;
+            padding: 1px;
             position:relative;
             top:-2px;
             border: 1px solid #ccc;
@@ -92,7 +92,8 @@
         <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
         <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=follow&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200" height="30"></iframe>        
                 <h2>Demo</h2>
-        Look at the <span class="inlinefauxcode">$scope</span> objects to see the values getting updated as you select / deselect a checkbox.
+        Look at the <span class="inlinefauxcode">$scope</span> input-models to see the values getting updated as you select / deselect a checkbox.
+        Icon in the objects are actually HTML img tag ('<img src="full_path" class="multiSelect"... />', shortened for simplicity. More on this later.
         <h3>1) Minimum</h3>
             <div
                 multi-select 
@@ -377,6 +378,16 @@ Load the required files
 Load the multi-select directive
 
 <pre><code>var myApp = angular.module('myApp', [ 'multi-select' ]);</pre></code>
+<br />
+Prepare the input-model as a <span class="inlinefauxcode">$scope</span> variable <br />
+<pre><code>$scope.scopeArrOfObject = [
+    { id: 1, firstName: "Peter",    lastName: "Parker",     pic: "&lt;img src='[...]/peter.png  class='multiSelect'  /&gt;",   selected: false },
+    { id: 2, firstName: "Mary",     lastName: "Jane",       pic: "&lt;img src='[...]/mary.png   class='multiSelect'  /&gt;",   selected: false },
+    { id: 3, firstName: "Bruce",    lastName: "Wayne",      pic: "&lt;img src='[...]/bruce.png  class='multiSelect'  /&gt;",   selected: true  },
+    { id: 4, firstName: "David",    lastName: "Banner",     pic: "&lt;img src='[...]/david.png  class='multiSelect'  /&gt;",   selected: false },
+    { id: 5, firstName: "Natalia",  lastName: "Romanova",   pic: "&lt;img src='[...]/natalia.png class='multiSelect' /&gt;",   selected: false },
+    { id: 6, firstName: "Clark",    lastName: "Kent",       pic: "&lt;img src='[...]/clark.png  class='multiSelect'  /&gt;",   selected: true  }
+];</code></pre>
 <br />
         <div class="col">
         Use it as an attribute<br />
@@ -737,7 +748,7 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
     $scope.removeHost = function( url ) {
         if ( url ) {
              var r = /[^/\\]+(?:jpg|gif|png)/gi;
-             return '[...]/' + url.match( r )[0];
+             return '[...]/' + url.match( r )[0] + '...';
         }
     }
 
