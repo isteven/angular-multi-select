@@ -5,26 +5,29 @@
     display: inline-block;
 }
 
+/* multi select button style */
 .multiSelect .button {
     display: block;
     position: relative;
     margin:0 auto;       
     text-align: center;
     cursor: pointer;
-    border: 1px solid #999;
+    border: 1px solid #c3c3c3;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.4;
-    border-radius: 3px;
-    -webkit-user-select: none;
+    border-radius: 2px;
+    color: #333;      
+    background-color: #fff;
+   -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
-    user-select: none;
-    color: #333;      
-    background-color: #fff;
+    user-select: none; 
+    white-space:normal;
 }
 
+/* helper buttons style (select all, none, reset, clear filter); */
 .multiSelect .helperButton {
     display: inline-block;
     text-align: center;
@@ -35,11 +38,6 @@
     font-size: 14px;
     line-height: 1;
     border-radius: 2px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
     color: #666;    
 }
 
@@ -58,6 +56,7 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box; 
     padding: 15px;
+    min-width:270px;
 }
 
 .multiSelect .caret {
@@ -75,7 +74,7 @@
 .multiSelect.multiSelectItem {
     display: block;
     min-height: 30px;    
-    color: #666;   
+    color: #777;   
 }
 
 .multiSelect .vertical {
@@ -86,35 +85,35 @@
     float: left;
 }
 
-.multiSelect .col {
-    display: table-cell;
+.multiSelect .acol {
+    display: table-cell;    
+    line-height: 1.4;  
     min-width: 14px;
-    line-height: 1.4;       
 }
 
-.multiSelect img {
-    vertical-align: middle;
-    margin-bottom:4px;
-}
 
 label.multiSelect span {
-    margin-right: 5px;    
+    white-space:nowrap;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+   -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;    
 }
 
 label.multiSelect span:hover{
     cursor: pointer;    
-    color: #000;
+    color: #333;
 }
 
+/* hide the checkbox away */
 .multiSelect .checkbox {
     position: absolute;
     left: -9999px;
     cursor: pointer;
-}
-
-.multiSelect .checkboxSelected {
-    color: #333;
-    font-weight: bold;
 }
 
 .multiSelect .show {
@@ -133,13 +132,22 @@ label.multiSelect span:hover{
     margin-left: 1px;
 }
 
-.multiSelect.disabled {
-    color: #999;
+/* for checkboxes currently selected */
+.multiSelect .checkboxSelected {
+    color: #000;
+    text-shadow: 1px 0px #eee;
+}
+
+/* checkboxes currently disabled */
+.multiSelect.disabled, .multiSelect.disabled:hover {
+    color: #ccc;
     cursor: not-allowed;
 }
 
-.multiSelect.disabled:hover {
-    cursor: not-allowed;
-    color: #999;
+/* If you use images in button / checkbox label, you might want to change the image style here.. */
+.multiSelect img {
+    vertical-align: middle;
+    margin-bottom:2px;
+    height: 22px;
+    width:22px;
 }
-

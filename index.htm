@@ -1,242 +1,728 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="myApp" id="ng-app">
 <head>
-    <title>Angular JS Multi-Select</title>    
-    <!-- css -->
-    <link rel="stylesheet" href="angular-multi-select.css">                    
-    <!-- Angular JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-    <!-- multi select directive -->
-    <script src="angular-multi-select.js"></script>                 
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">    
-    <style>
-    body {
-        font-family: 'Arial';
-        font-size: 14px;
-        background-color: #fff;
-        padding: 0;
-        margin: 20px;
-    }
-    #container {
-        margin: 0px auto;
-        width: 50%;
-        background-color: #f8f8f8;
-        padding: 0px 20px 20px 20px; 
-        border: 1px solid #ddd;
-    }
-    </style>    
-</head>
+    <title>Angular JS Multi-Select</title>        
     
+    <style>
+        body {
+            font-family: 'Arial';
+            font-size: 14px;
+            background-color: #fff;            
+            line-height:1.4;            
+        }
+        #container {
+            margin: 0px auto; 
+            padding: 15px 100px;
+            min-width:1350px;            
+        }
+        pre {
+            padding: 0px;
+            margin: 0;
+            min-width:350px;
+        }
+        code {        
+            padding: 15px !important; 
+            border: 1px solid #ccc;
+        }
+
+        h1 {
+            font-size: 3em;
+            padding: 0;
+            margin: 0;
+        }
+        h2 {
+            display: inline-block;
+            margin-top:35px;
+            margin-bottom: 15px;
+            width:100%;
+            height:28px;
+            border-bottom:1px solid #ccc;
+        }
+        h3 {
+            display: inline-block;
+            width: 100%;
+            margin-top: 25px;
+        }
+        .attrs  {
+            margin-bottom:10px;
+        }
+        .col {
+            display: inline-block;
+            float: left;
+            margin-right:15px;
+        }
+        .inlinefauxcode {           
+            font-family: monospace !important;
+            padding: 3px;
+            position:relative;
+            top:-2px;
+            border: 1px solid #ccc;
+            background-color: #F8F8F8;
+        }
+        .fauxcode {
+            border: 1px solid #ccc;
+            background-color: #F8F8F8;
+            padding: 10px !important;
+        }
+        div.fauxcode, .fauxcode td {
+            font-family: monospace !important;
+            padding-right:10px;
+            vertical-align: top;
+            white-space: nowrap;
+        }
+    </style>   
+
+    <!-- css -->
+    <link rel="stylesheet" href="highlight/styles/github.css">     
+    <link rel="stylesheet" href="angular-multi-select.css">                        
+
+    <!-- JS -->
+    <script src="highlight/highlight.pack.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>        
+    <script src="angular-multi-select.js"></script>      
+</head>
 <body ng-controller="main">
     <div id="container">
-        <h1>Angular JS Multi-Select</h1>
-        * Open your browser console to see the $scope variables getting updated
-        <br />
-        <br />
-        <h3 style="width:100%;border-bottom:1px solid #ccc">Minimal</h3> 
-        <div
-            multi-select 
-            input-model="minData" 
-            button-label="firstName"        
-            item-label="firstName"        
-            tick-property="selected" 
-            >
-        </div>  
-        <br />
+        <h1>Angular Multi Select</h1>
+        An AngularJS directive which creates a dropdown button with multiple or single selections. 
+        <br />Allows you to customize your labels and use HTML tags in the data. Fully configurable through element attributes and CSS.
+        <br /><br />
+        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=fork&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=follow&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200" height="30"></iframe>        
+                <h2>Demo</h2>
+        Look at the <span class="inlinefauxcode">$scope</span> objects to see the values getting updated as you select / deselect a checkbox.
+        <h3>1) Minimum</h3>
+            <div
+                multi-select 
+                input-model="modernWebBrowsers" 
+                button-label="icon name"        
+                item-label="icon name maker"        
+                tick-property="ticked" 
+                >
+            </div>  
+            <br /><br />
 
-        <h3 style="width:100%;border-bottom:1px solid #ccc">Full</h3>
-        <div 
-            multi-select 
-            input-model="fullData" 
-            output-model="resultData"
-            button-label="firstName lastName"         
-            item-label="firstName lastName" 
-            tick-property="checked" 
-            orientation="horizontal"
-            max-labels="3"     
-            directive-id="multiSelectFull"
-            >
+        <div class="col">            
+            code<br />    
+<pre class="col"><code>&lt;div
+    multi-select
+    input-model="modernWebBrowsers"
+    button-label="icon name"
+    item-label="icon name maker"
+    tick-property="ticked"
+&gt;
+&lt;/div&gt;</code></pre>
+</div>
+        <div class="col">
+            input-model<br />
+            <div class="fauxcode hljs xml">
+            $scope.modernWebBrowsers = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in modernWebBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+            </div>
         </div>
-        <br />
-
-        <h3 style="width:100%;border-bottom:1px solid #ccc">Use element instead of attribute, dynamic input and state</h3>
-        <multi-select 
-            input-model="dynamicData" 
-            button-label="car"
-            item-label="car"
-            tick-property="ticked" 
-            is-disabled="dinDisabled"
-            >
-        </multi-select>
+        
         
         <br /><br />
-        <button type="button" ng-click="switchSource( 'data1' )" >Load data 1</button>    
-        <button type="button" ng-click="switchSource( 'data2' )" >Load data 2</button>    
-        <button type="button" ng-click="switchSource( 'data3' )" >Load data 3</button>    
 
-        <br /><br />
-        <button type="button" ng-click="dinDisabled = !dinDisabled" >Enable / Disable</button>    
-        Is disabled: {{dinDisabled}}    
+        <h3>2) Full</h3>
+            <div 
+                multi-select 
+                input-model="modernWebBrowsers2"
+                output-model="resultData"
+                button-label="icon name"         
+                item-label="icon name maker" 
+                tick-property="ticked" 
+                disable-property="checkboxDisabled"
+                orientation="vertical"
+                selection-mode="multiple"
+                max-labels="2"     
+                directive-id="multiSelectFull"
+                is-disabled="false"
+                >
+            </div>
+            <br /><br />
+        <div class="col">            
+            code <br />
+<pre class="col"><code>&lt;div 
+    multi-select 
+    input-model="modernWebBrowsers2"
+    output-model="resultData"
+    button-label="icon name"         
+    item-label="icon name maker" 
+    tick-property="ticked" 
+    disable-property="checkboxDisabled"
+    orientation="vertical"
+    selection-mode="multiple"
+    max-labels="2"     
+    directive-id="multiSelectFull"
+    is-disabled="false"
+&gt;
+&lt;/div&gt;
+</code></pre>
+        </div>
+<div class="col">
+            input-model<br />
+            <div class="fauxcode hljs xml">
+            $scope.modernWebBrowsers2 = [
+                <table>
+                <tr class="hljs-tag" ng-repeat="row in modernWebBrowsers2" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < modernWebBrowsers2.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+            </div>
+            <br /><br />
+            output-model (Will list all with "ticked" === true) <br />
+             <div class="fauxcode hljs xml">
+            $scope.resultData = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in resultData" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < resultData.length - 1">,</span></td>
+                </tr>
+            </table>            
+            ];
+        </div>
+        </div>        
+        
         <br />
 
-        <h3 style="width:100%;border-bottom:1px solid #ccc">Use HTML tags</h3>
-        You can use whatever HTML tags accepted by AngularJS's $sce.trustAsHtml() method. 
-        <br /><br />
-        <multi-select 
-            input-model="webBrowsers" 
-            button-label="icon"
-            item-label="icon name"
+        <h3>3) Update input model on the fly</h3>
+            <div 
+                multi-select 
+                input-model="dynamicData"
+                button-label="icon name"         
+                item-label="icon name maker" 
+                tick-property="ticked" 
+                >
+            </div>
+            <br /><br />
+            <button type="button" ng-click="switchSource( 'modernWebBrowsers' )" >Load modern browsers</button>    
+            <button type="button" ng-click="switchSource( 'oldWebBrowsers' )" >Load old browsers</button>      
+            <br /><br />
+        <div class="col">
+code           
+<pre><code>&lt;div 
+    multi-select 
+    input-model="dynamicData"
+    button-label="icon name"         
+    item-label="icon name maker" 
+    tick-property="ticked" 
+&gt;
+&lt;/div&gt;
+</pre></code>
+        </div>
+        
+        <div class="col">
+            input-model <br />
+            <div class="fauxcode hljs xml">
+                $scope.dynamicData = [                                
+                <table>
+                    <tr class="hljs-tag" ng-repeat="row in dynamicData" >
+                        <td>&nbsp;</td>
+                        <td>{</td>
+                        <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                        <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                        <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                        <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                        <td>}<span ng-if="$index < dynamicData.length - 1">,</span></td>
+                    </tr>
+                </table>
+                ];
+            </div>
+        </div>
+        <h3>4) Enable / disable multi-select & granular control</h3>
+        <div 
+            multi-select 
+            input-model="granWebBrowsers"
+            button-label="icon name"         
+            item-label="icon name maker" 
             tick-property="ticked" 
+            disable-property="checkboxDisabled"
+            is-disabled="granDisabled"
             >
-        </multi-select>
+        </div>
+        <br /><br />
+        <button type="button" ng-click="granDisabled = !granDisabled" >Enable / Disable</button>    
+        <span class="inlinefauxcode">$scope.granDisabled = {{granDisabled}}</span>
+        <br /><br />
+<div class="col">
+code
+<pre><code>&lt;div 
+    multi-select 
+    input-model="granWebBrowsers"
+    button-label="icon name"         
+    item-label="icon name maker" 
+    tick-property="ticked" 
+    disable-property="checkboxDisabled"
+    is-disabled="granDisabled"
+&gt;
+&lt;/div&gt;
+</pre></code>
+        </div>  
+        <div class="col">
+            <br />
+            input-model <br />
+            * take note that checkboxes with "checkboxDisabled" === true will always be disabled regardless of the <span class="inlinefauxcode">$scope.granDisabled</span> value.
+            <br /><br />
+            <div class="fauxcode hljs xml">
+                $scope.granWebBrowsers = [   
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in granWebBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span>,</td>
+                    <td><span class="hljs-attribute">checkboxDisabled</span>: <span class="hljs-value">{{row.checkboxDisabled}}</span></td>                    
+                    <td>}<span ng-if="$index < granWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>
+
+        <h3>5) Single selection mode, just like a normal drop down menu.</h3>
+        *Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br/><br />
+        <div 
+            multi-select 
+            input-model="singleWebBrowsers"
+            button-label="icon name"         
+            item-label="icon name maker" 
+            tick-property="ticked" 
+            selection-mode="single"
+            >
+        </div>
+        <br /><br />
+<div class="col">
+code         
+<pre><code>&lt;div 
+    multi-select 
+    input-model="singleWebBrowsers"
+    button-label="icon name"         
+    item-label="icon name maker" 
+    tick-property="ticked" 
+    selection-mode="single"
+&gt;
+&lt;/div&gt;
+</pre></code></div>  
+        <div class="col">
+            input-model <br />
+            <div class="fauxcode hljs xml">
+                $scope.singleWebBrowsers = [   
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in singleWebBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < singleWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>
+        </div>        
+        
+        <h2>Features</h2>
+        <ul>
+            <li>Multiple or single selection types</li>
+            <li>Use CSS &amp; HTML tags in your button & checkbox labels</li>
+            <li>Reset selections to original state</li>
+            <li>Directly updates the input model on tick</li>
+            <li>Load/switch input model on the fly</li>
+            <li>Configurable, such as:
+                <ul>
+                    <li>Set orientation of checkboxes</li>
+                    <li>Enable / disable all or one of the checkboxes</li>
+                    <li>Set maximum number of items to be displayed on the button label</li>
+                </ul>
+            </li>
+            <li>Utilizes AngularJS filter</li>
+        </ul>            
+        <h2>Usage</h2>
+Load the required files
+<pre><code>&lt;link rel="stylesheet" href="angular-multi-select.css"&gt;
+...
+&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"&gt;&lt;/script&gt;
+&lt;script src="angular-multi-select.js"&gt;&lt;/script&gt;      
+...
+</pre></code>
+<br />
+Load the multi-select directive
+
+<pre><code>var myApp = angular.module('myApp', [ 'multi-select' ]);</pre></code>
+<br />
+        <div class="col">
+        Use it as an attribute<br />
+<pre><code>&lt;div 
+    multi-select 
+    input-model="scopeArrOfObject"
+    output-model="scopeArrOfObject2"
+    button-label="property1 property2 ..."         
+    item-label="property1 property2 ..." 
+    tick-property="property3" 
+    disable-property="property4"
+    orientation="horizontal | vertical"
+    selection-mode="multiple | single"
+    max-labels="999"     
+    directive-id="..."
+    is-disabled="true | false"
+&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+<div class="col">
+... or as an element, but be careful with browser compatibility.<br />
+<pre><code>&lt;multi-select 
+    input-model="scopeArrOfObject"
+    output-model="scopeArrOfObject2"
+    button-label="property1 property2 ..."         
+    item-label="property1 property2 ..." 
+    ...
+    ...
+&gt;
+&lt;/multi-select&gt;
+</code></pre>
+</div>
+<div style="clear:both;">
+<br />
+If you want to use HTML tags in your label, you need to put class "multiSelect" on it. For example:<br />
+<pre><code>$scope.modernWebBrowsers = [
+    { 
+        icon: '&lt;img class="multiSelect" src="[...]/opera.png" /&gt;',                         
+        randomTag: '&lt;span class="multiSelect" &gt; Just a random tag &lt;/span&gt;
+        name: 'Opera',              
+        maker: '(Opera Software)',        
+        ticked: true    
+    },
+    ...
+</code></pre>  
+</div>
+        <h2>Attributes / Options</h2>
+
+        Below are the available attributes to configure the multi-select directive:
+
+        <ul>
+            <li class="attrs">
+                <strong>input-model (REQUIRED)</strong>
+                <br />$scope variable. Array of objects. 
+                <br />Example:
+                <br /><br />
+                <pre><code>$scope.inputList = [
+    { id: 1, firstName: "Peter",    lastName: "Parker",     pic: "&lt;img src='[...]/peter.png  class='multiSelect'  /&gt;",   selected: false },
+    { id: 2, firstName: "Mary",     lastName: "Jane",       pic: "&lt;img src='[...]/mary.png   class='multiSelect'  /&gt;",   selected: false },
+    { id: 3, firstName: "Bruce",    lastName: "Wayne",      pic: "&lt;img src='[...]/bruce.png  class='multiSelect'  /&gt;",   selected: true  },
+    { id: 4, firstName: "David",    lastName: "Banner",     pic: "&lt;img src='[...]/david.png  class='multiSelect'  /&gt;",   selected: false },
+    { id: 5, firstName: "Natalia",  lastName: "Romanova",   pic: "&lt;img src='[...]/natalia.png class='multiSelect' /&gt;",   selected: false },
+    { id: 6, firstName: "Clark",    lastName: "Kent",       pic: "&lt;img src='[...]/clark.png  class='multiSelect'  /&gt;",   selected: true  }
+];</code></pre><br />
+                <strong>! Important</strong>: <br >
+                <ul>
+                    <li>
+                        This directive updates the $scope variable (input-model) directly, therefore you cannot use the same $scope variable for multiple multi-select directives. 
+                        You need to copy the input variable to a new one and use it on the second multi-select, and so on.
+                    </li>
+                    <li>
+                        If you want to use HTML tags in your data, put <span class="inlinefauxcode">class="multiSelect"</span> on them, or else clicking these tags will not 
+                        select / deselect a checkbox. There might be some limitations on what HTML tags you can use.
+                        <br />                        
+                    </li>
+                </ul>
+            </li>
+        
+            <li class="attrs">
+                <strong>button-label (REQUIRED)</strong>
+                <br />input-model property that you want to display on the button. Separate multiple values by space. 
+                <br />Example: 
+                button-label="firstName" 
+            </li>
+
+            <li class="attrs">
+                <strong>item-label (REQUIRED)</strong>
+                <br />input-model property that you want to display on the checkboxes. Separate multiple values by space. 
+                <br>Example: 
+                item-label="firstName lastName"          
+            </li>        
+            <li class="attrs">
+                <strong>tick-property (REQUIRED)</strong>
+                <br />input-model property with a boolean value that represents whether a checkbox is ticked or not. 
+                <br />For example:
+                <ul>
+                    <li>
+                        tick-property is "selected"
+                        <ul>
+                            <li>selected === true, checkbox is ticked. </li>
+                            <li>selected === false, checkbox is not ticked.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        tick-property is "isOn"
+                        <ul>
+                            <li>isOn === true, checkbox is ticked. </li>
+                            <li>isOn === false, checkbox is not ticked.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="attrs">
+                <strong>disable-property</strong>
+                <br />input-model property with a boolean value that represent whether a checkbox is disabled or enabled. 
+                <br />This gives you granular control over each checkbox, and it has higher priority over the "is-disabled" attribute explained later.
+                <br />For example:
+                <ul>
+                    <li>
+                        disable-property is "thisItemIsDisabled"
+                        <ul>
+                            <li>thisItemIsDisabled === true, checkbox is disabled. </li>
+                            <li>thisItemIsDisabled === false, checkbox is enabled.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="attrs">
+                <strong>output-model</strong>
+                <br />A $scope variable. If specified, will list all the selected checkboxes.
+            </li>
+            <li class="attrs">
+                <strong>orientation ( "vertical" | "horizontal" )</strong>
+                <br />Orientation of the list of checkboxes. If not specified, the default will be "vertical".
+            </li>
+            <li class="attrs">
+                <strong>selection-mode ( "single" | "multiple" )</strong>
+                <br />Single or multiple selection. If not specified, the default will be "multiple".
+            </li>
+            
+            <li class="attrs">
+                <strong>max-labels</strong>
+                <br />Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
+                <br />Example: 
+                <br />If we use the input-model <span class="inlinefauxcode">$scope.inputList</span> above, then <span class="inlinefauxcode">max-labels="1"</span> will display: "Bruce Wayne, ... (Total: 2)" on the button.
+            </li>
+            <li class="attrs">
+                <strong>is-disabled</strong>
+                <br />Expression to be evaluated. Will disable or enable all checkboxes except stated otherwise in "disable-property" above.
+                <br />If not specified, the default will be "false". 
+                <br />(Similar with ng-disabled, see <a href="http://docs.angularjs.org/api/ng/directive/ngDisabled">http://docs.angularjs.org/api/ng/directive/ngDisabled</a>)
+            </li>
+            <li class="attrs">
+                <strong>directive-id</strong>
+                <br />Name or id for your directive. There are some validations and error messages in the directive, 
+                and this id will help to check which directive displays error message (in case you use more than one directive in one page). 
+                <br />* <em>Please note that you might see some false positive messages. Just ignore those if you see nothing wrong with your multi-select and the $scope data are updated properly.</em>
+            </li>
+        </ul>
+        <br />I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.
+
+        <h2>Note</h2>
+        I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
+        <br />I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.
+
+        <h2>Requirements</h2>
+        Created using AngularJS v1.2.15. Other versions may or may not work.
+
+        <h2>Browser Compatibility</h2>
+        Tested on:
+        <ul>
+            <li>Opera 12.16 (Yes, I love Opera browser! Download yours here: <a href="http://www.opera.com/">http://www.opera.com/</a>)</li>
+            <li>IE8 (IE8 is the default browser in the company I work for)</li>
+            <li>Firefox 27</li>
+            <li>Google Chrome 33</li>
+        </ul>
+        
+        <h2>Licence</h2>
+        Released under the MIT license.
+        <h3>&nbsp;</h3>
     </div>
-</body>   
-
-<script>            
-
-// Load the multi-select module
+</body>
+<script>
+        // Load the multi-select module
 var myApp = angular.module('myApp', [ 'multi-select' ]);
 
 // Controller
-myApp.controller( 'main' , [ '$scope' , function ($scope) {
-    
+myApp.controller( 'main' , [ '$scope' , function ($scope) {               
 
-    /////////////
-    //  Minimal
-    /////////////
-
-    $scope.minData = [
-        { id: 1, firstName: "Peter",    lastName: "Parker",     selected: false },
-        { id: 2, firstName: "Mary",     lastName: "Jane",       selected: false },
-        { id: 3, firstName: "Bruce",    lastName: "Wayne",      selected: true },
-        { id: 4, firstName: "David",    lastName: "Banner",     selected: false },
-        { id: 5, firstName: "Natalia",  lastName: "Romanova",   selected: false },
-        { id: 6, firstName: "Clark",    lastName: "Kent",       selected: true },
-    ];
-
-    // Open your console and watch minData changes
-    $scope.$watch( "minData" , function( newVal ) {                 
-        angular.forEach( newVal , function( value, key ) {                    
-            if ( value.selected === true ) {
-                console.log( 'minData .selected === true: ' + value.firstName + ' ' + value.lastName );
-            }
-        });
-        console.log( '--------' );
-    }, true );                
-
-
-    /////////////
-    //  Full
-    /////////////
-    
     $scope.resultData = [];
     
-    // Data. For the sake of testing, this time around we try to use 'checked' to hold checkbox state.
-    $scope.fullData = [
-        { id: 1, firstName: "Tom",      lastName: "Cruise",     checked: true },
-        { id: 2, firstName: "Brad",     lastName: "Pitt",       checked: false },
-        { id: 3, firstName: "Angelina", lastName: "Jolie",      checked: false },
-        { id: 4, firstName: "Scarlett", lastName: "Johansson",  checked: false },
-        { id: 5, firstName: "Gerard",   lastName: "Buttler",    checked: true },
-        { id: 6, firstName: "Leonardo", lastName: "DiCaprio",   checked: false },
+    // Modern web browsers
+    $scope.modernWebBrowsers = [
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
+            name: 'Opera',              
+            maker: '(Opera Software)',        
+            ticked: true    
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
+            name: 'Internet Explorer',  
+            maker: '(Microsoft)',
+            ticked: false   
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
+            name: 'Firefox',            
+            maker: '(Mozilla Foundation)',    
+            ticked: true    
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
+            name: 'Safari',             
+            maker: '(Apple)',                 
+            ticked: false   
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
+            name: 'Chrome',             
+            maker: '(Google)',                
+            ticked: true    }    
     ];
 
-    // Open your console and watch fullData changes
-    $scope.$watch( "fullData" , function( newVal ) {
-        angular.forEach( newVal , function( value, key ) {                    
-            if ( value.checked === true ) {
-               console.log( 'fullData .checked === true: ' + value.firstName + ' ' + value.lastName );
-            }
-        });
-        console.log( '--------' );         
-    }, true );         
+    $scope.modernWebBrowsers2 = angular.copy( $scope.modernWebBrowsers );
+    
+    $scope.singleWebBrowsers = [
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
+            name: 'Opera',              
+            maker: '(Opera Software)',        
+            ticked: false
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
+            name: 'Internet Explorer',  
+            maker: '(Microsoft)',
+            ticked: false   
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
+            name: 'Firefox',            
+            maker: '(Mozilla Foundation)',    
+            ticked: true    
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
+            name: 'Safari',             
+            maker: '(Apple)',                 
+            ticked: false   
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
+            name: 'Chrome',             
+            maker: '(Google)',                
+            ticked: false   
+        }    
+    ];
 
-    // Open your console and watch resultData changes
-    $scope.$watch( "resultData" , function( newVal, oldVal ) {        
-        if ( $scope.resultData.length > 0 && !angular.equals( oldVal, newVal ) ) {
-            angular.forEach( newVal , function( value, key ) {                    
-                if ( value.checked === true ) {
-                   console.log( 'resultData .checked === true: ' + value.firstName + ' ' + value.lastName );
-                }
-            });
-            console.log( '--------' );
+
+    // Old web browsers
+    $scope.oldWebBrowsers = [
+        { 
+            icon: '<img class="multiSelect" src="http://www.ucdmc.ucdavis.edu/apps/error/nojavascript/images/netscape_icon.jpg" />',      
+            name: 'Netscape Navigator', 
+            maker: '(Netscape Corporation)',  
+            ticked: true    
+        },
+        { 
+            icon: '<img class="multiSelect" src="http://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Amaya_logo_65x50.png/48px-Amaya_logo_65x50.png" />',             
+            name: 'Amaya',  
+            maker: '(Inria & W3C)',             
+            ticked: true   
+        },
+        {
+            icon: '<img class="multiSelect" src="http://upload.wikimedia.org/wikipedia/commons/8/8c/WorldWideWeb_Icon.png" />',
+            name: 'WorldWideWeb Nexus',
+            maker: '(Tim Berners-Lee)',
+            ticked: false
         }
-    }, true );    
+    ];
 
+   // Demo of granular controls
+    $scope.granWebBrowsers = [
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
+            name: 'Opera',              
+            maker: '(Opera Software)',        
+            ticked: true,
+            checkboxDisabled: true
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
+            name: 'Internet Explorer',  
+            maker: '(Microsoft)',
+            ticked: false,
+            checkboxDisabled: true
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
+            name: 'Firefox',            
+            maker: '(Mozilla Foundation)',    
+            ticked: true,
+            checkboxDisabled: false
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
+            name: 'Safari',             
+            maker: '(Apple)',                 
+            ticked: false,   
+            checkboxDisabled: false
+        },
+        { 
+            icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
+            name: 'Chrome',             
+            maker: '(Google)',                
+            ticked: true,   
+            checkboxDisabled: false    
+        }    
+    ];    
 
     /////////////
     //  Dynamic
     /////////////    
 
-    $scope.dynamicData = [];
-    $scope.dinDisabled = false;
+    $scope.granDisabled = false;
 
     $scope.switchSource = function( data ) {
         $scope.dynamicData = $scope[ data ];
     }
-    
-    // Japanese cars
-    $scope.data1 = [
-        { car: 'Toyota',    ticked: true },
-        { car: 'Mazda',     ticked: false },
-        { car: 'Nissan',    ticked: true },
-        { car: 'Honda',     ticked: false }
-    ];
 
-    // German cars
-    $scope.data2 = [
-        { car: 'Audi',      ticked: false },
-        { car: 'BMW',       ticked: false },
-        { car: 'Mercedes',  ticked: true },
-    ];
+    $scope.switchSource( 'modernWebBrowsers' );
 
-    // Italian cars
-    $scope.data3 = [
-        { car: 'Porsche'    , ticked: false },
-        { car: 'Ferrari'    , ticked: false },
-        { car: 'Fiat'       , ticked: true },        
-        { car: 'Lamborgini' , ticked: true },                
-    ];
-
-    // Open your console and watch dynamicData changes
-    $scope.$watch( "dynamicData" , function( newVal, oldVal ) {        
-        if ( !angular.equals( oldVal, newVal ) ) {
-            angular.forEach( newVal , function( value, key ) {                    
-                if ( value.ticked === true ) {
-                   console.log( 'dynamicData .ticked === true: ' + value.car );
-                }
-            });
-            console.log( '--------' ); 
+    $scope.removeHost = function( url ) {
+        if ( url ) {
+             var r = /[^/\\]+(?:jpg|gif|png)/gi;
+             return '[...]/' + url.match( r )[0];
         }
-    }, true );                 
-
-    /////////////
-    // HTML tag
-    /////////////
-    
-    // Web browsers
-    $scope.webBrowsers = [
-        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         name: 'Opera',              ticked: true    },
-        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             name: 'Internet Explorer',  ticked: false   },
-        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         name: 'Firefox',            ticked: true    },
-        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             name: 'Safari',             ticked: false   },
-        { icon: '<img class="multiSelect" src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  name: 'Chrome',             ticked: true    }    
-    ];
-
-    // Open your console and watch dynamicData changes
-    $scope.$watch( "webBrowsers" , function( newVal, oldVal ) {        
-        if ( !angular.equals( oldVal, newVal ) ) {
-            angular.forEach( newVal , function( value, key ) {                    
-                if ( value.ticked === true ) {
-                   console.log( 'webBrowsers .ticked === true: ' + value.name );
-                }
-            });
-            console.log( '--------' ); 
-        }
-    }, true );                 
-    
+    }
 
 }]);    
 
+hljs.initHighlightingOnLoad(); 
+
 </script>    
 </html>
+
+
