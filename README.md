@@ -5,13 +5,14 @@ Allows you to customize your labels and use HTML tags in the data. Fully configu
 
 <br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
 
-Demo & How-tos
+Demo & How To Use
 --
 Go to http://isteven.github.io/angular-multi-select
 
 Note
 --
 I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
+
 I'm all ears for new development ideas. Just open an issue in https://github.com/isteven/angular-multi-select. 
 
 Licence
