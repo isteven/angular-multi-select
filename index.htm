@@ -282,7 +282,7 @@ In your view, set the directive as an attribute<br />
                     </li>
                     <li>
                         If you want to use HTML tags in your data, put <span class="inlinefauxcode">class="multiSelect"</span> on them, or else clicking these tags will not 
-                        select / deselect a checkbox. There might be some limitations on what HTML tags you can use.
+                        select / deselect a checkbox. There might be some limitations on what HTML tags you can use. It's highly suggested that you don't use BUTTON tag to prevent conflicts.
                         <br />        
                         <div style="clear:both;">
 <pre><code>$scope.modernWebBrowsers = [
@@ -650,9 +650,6 @@ code
         <h2>Note</h2>
         I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
         <br />I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.
-
-        <h2>Known Bugs</h2>
-        On Google Chrome browsers, somehow clicking HTML tags on the button doesn't toggle the checkboxes. Still finding a way to fix this.
 
         <h2>Requirements</h2>
         AngularJS v1.2.15. Other versions may or may not work.
