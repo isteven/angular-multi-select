@@ -75,7 +75,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                         '</div>' +
                         '<div class="multiSelect acol">' +
                             '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
-                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item )" />' +
+                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event )" />' +
                                     '<span class="multiSelect" ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
                             '</label>&nbsp;&nbsp;' +
                         '</div>' +
@@ -90,18 +90,19 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             $scope.varButtonLabel   = '';            
 
             // Checkbox is ticked
-            $scope.syncItems = function( item ) {                                                                
-                index       = $scope.inputModel.indexOf( item );                
-                tempState   = $scope.inputModel[ index ][ $scope.tickProperty ];
-                $scope.inputModel[ index ][ $scope.tickProperty ] = !tempState;
+            $scope.syncItems = function( item, e ) {                                                                
+                index = $scope.inputModel.indexOf( item );                
+                $scope.inputModel[ index ][ $scope.tickProperty ]   = !$scope.inputModel[ index ][ $scope.tickProperty ];
                 
                 // If it's single selection mode
-                if ( $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                    $scope.inputModel[ index ][ $scope.tickProperty ] = true;
                     for( i=0; i<$scope.inputModel.length;i++) {
                         if ( i !== index ) {
-                            $scope.inputModel[ i ][ $scope.tickProperty ] = tempState;
+                            $scope.inputModel[ i ][ $scope.tickProperty ] = false;
                         }
-                    }
+                    }        
+                    $scope.toggleCheckboxes( e );
                 }
 
                 $scope.refreshSelectedItems();                   
@@ -197,7 +198,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
 
             // UI operations to show/hide checkboxes
             $scope.toggleCheckboxes = function( e ) {
-
+                
                 $scope.labelFilter = '';                
               
                 // We search them based on the class names
@@ -210,7 +211,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                         multiSelectIndex = i;
                         break;
                     }
-                }                                
+                }                
+
+                if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                    for( i=0; i < multiSelectButtons.length; i++ ) {
+                        if ( e.target.parentNode.parentNode.parentNode.parentNode.previousSibling === multiSelectButtons[ i ] ) {                        
+                            multiSelectIndex = i;
+                            break;
+                        }
+                    }
+                }
 
                 if ( multiSelectIndex > -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {
