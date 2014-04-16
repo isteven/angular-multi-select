@@ -17,7 +17,8 @@
         pre {
             padding: 0px;
             margin: 0;
-            min-width:350px;
+            // min-width:350px;
+            word-wrap: break-word;
         }
         code {        
             padding: 15px !important; 
@@ -69,9 +70,53 @@
             vertical-align: top;
             white-space: nowrap;
         }
+        .download {
+            border-radius:5px;
+            border:1px solid #ccc;
+            display:table-cell;
+            color:#333;
+            font-weight:bold;
+            font-size:17px;
+            height:30px;
+            line-height:25px;
+            //width:240px;
+            text-decoration:none;
+            text-align:center;
+            vertical-align:middle;
+            position: relative;
+            -moz-border-colors: none;
+            background-color: #E6E6E6;
+            background-image: linear-gradient(#FAFAFA, #EAEAEA);
+            background-repeat: no-repeat;
+            border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+            border-image: none;
+            border-style: solid;
+            border-width: 1px;
+            // text-shadow:1px 1px 0px #ffffff;
+            padding:10px;
+        }
+        .download:hover {
+            //background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+            //background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+            //filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+            //background-color:#dfdfdf;
+            background-color: #e6e6e6;
+            background-image: linear-gradient(#599bdc, #307bd3);   
+            border-width: 1px;
+            border-color: #518cc6 #518cc6 #2a65a0;
+            color: #fff;
+            text-shadow: 1px 1px 0px #333;
+            -webkit-filter: grayscale(0%);
+        }
+        .download img {            
+            height: 25px;
+            float: left;
+            padding-right:10px;
+        }
     </style>   
 
     <!-- css -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">    
     <link rel="stylesheet" href="highlight/styles/github.css">     
     <link rel="stylesheet" href="angular-multi-select.css">                        
 
@@ -83,21 +128,29 @@
 <body ng-controller="main">
     <div id="container">
         <h1>Angular Multi Select</h1>
-        An AngularJS directive which creates a dropdown button with multiple or single selections. 
-        <br />Allows you to customize your labels and use HTML tags in the data. Fully configurable through element attributes and CSS.
+        An AngularJS directive which creates a dropdown button with multiple or single selections. Fully configurable through element attributes and CSS.
         <br /><br />
-        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=fork&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=follow&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200" height="30"></iframe>        
-        <br /><br /><br />
         <div
             multi-select 
-            input-model="modernWebBrowsers" 
+            input-model="modernWebBrowsersDemo" 
             button-label="icon name"        
             item-label="icon name maker"        
             tick-property="ticked" 
             >
-        </div>  
+        </div>
+                
+        <br /><br />
+
+        <a href="https://github.com/isteven/angular-multi-select/archive/master.zip" class="download">
+            <div class="fa fa-github fa-lg">
+            </div>
+            Download from Github
+        </a>                
+        <br />
+        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=follow&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="160" height="20"></iframe>
+
 <h2>Features</h2>
         <ul>
             <li>Multiple or single selection types</li>
@@ -113,6 +166,7 @@
                 </ul>
             </li>
             <li>Utilizes AngularJS filter</li>
+            <li>Purely AngularJS. Can be easily combined with other UI frameworks such as jQuery, Twitter Bootstrap, etc.</li>
         </ul>                            
 <h2>Usage</h2>
 Load the required files
@@ -213,12 +267,12 @@ In your view, set the directive as an attribute<br />
                 <br />Example:
                 <br /><br />
                 <pre><code>$scope.inputList = [
-    { id: 1, firstName: "Peter",    lastName: "Parker",     pic: "&lt;img src='[...]/peter.png  class='multiSelect'  /&gt;",   selected: false },
-    { id: 2, firstName: "Mary",     lastName: "Jane",       pic: "&lt;img src='[...]/mary.png   class='multiSelect'  /&gt;",   selected: false },
-    { id: 3, firstName: "Bruce",    lastName: "Wayne",      pic: "&lt;img src='[...]/bruce.png  class='multiSelect'  /&gt;",   selected: true  },
-    { id: 4, firstName: "David",    lastName: "Banner",     pic: "&lt;img src='[...]/david.png  class='multiSelect'  /&gt;",   selected: false },
-    { id: 5, firstName: "Natalia",  lastName: "Romanova",   pic: "&lt;img src='[...]/natalia.png class='multiSelect' /&gt;",   selected: false },
-    { id: 6, firstName: "Clark",    lastName: "Kent",       pic: "&lt;img src='[...]/clark.png  class='multiSelect'  /&gt;",   selected: true  }
+    { firstName: "Peter",    lastName: "Parker",     pic: "&lt;img src='[...]/peter.png  class='multiSelect'  /&gt;",   selected: false },
+    { firstName: "Mary",     lastName: "Jane",       pic: "&lt;img src='[...]/mary.png   class='multiSelect'  /&gt;",   selected: false },
+    { firstName: "Bruce",    lastName: "Wayne",      pic: "&lt;img src='[...]/bruce.png  class='multiSelect'  /&gt;",   selected: true  },
+    { firstName: "David",    lastName: "Banner",     pic: "&lt;img src='[...]/david.png  class='multiSelect'  /&gt;",   selected: false },
+    { firstName: "Natalia",  lastName: "Romanova",   pic: "&lt;img src='[...]/natalia.png class='multiSelect' /&gt;",   selected: false },
+    { firstName: "Clark",    lastName: "Kent",       pic: "&lt;img src='[...]/clark.png  class='multiSelect'  /&gt;",   selected: true  }
 ];</code></pre><br />
                 <strong>! Important</strong>: <br >
                 <ul>
@@ -328,7 +382,7 @@ In your view, set the directive as an attribute<br />
             </li>
         </ul>
         <br /><strike>I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.</strike>
-        <br />Switched back to caret. HTML entity 9662 is not available on some Android operating systems.
+        <br />Switched back to CSS caret. HTML entity 9662 is not available on some Android operating systems.
 
         <h2>Demo</h2>
         Look at the <span class="inlinefauxcode">$scope</span> input-models to see the values getting updated as you select / deselect a checkbox.
@@ -356,6 +410,7 @@ In your view, set the directive as an attribute<br />
 &lt;/div&gt;</code></pre>
 </div>
         <div class="col">
+            <br />
             input-model<br />
             <div class="fauxcode hljs xml">
             $scope.modernWebBrowsers = [
@@ -414,6 +469,7 @@ In your view, set the directive as an attribute<br />
 </code></pre>
         </div>
 <div class="col">
+                <br />
             input-model<br />
             <div class="fauxcode hljs xml">
             $scope.modernWebBrowsers2 = [
@@ -430,7 +486,7 @@ In your view, set the directive as an attribute<br />
             </table>
             ];
             </div>
-            <br /><br />
+            <br />
             output-model (Will list all with "ticked" === true) <br />
              <div class="fauxcode hljs xml">
             $scope.resultData = [
@@ -478,6 +534,7 @@ code
         </div>
         
         <div class="col">
+                        <br />
             input-model <br />
             <div class="fauxcode hljs xml">
                 $scope.dynamicData = [                                
@@ -571,6 +628,7 @@ code
 &lt;/div&gt;
 </pre></code></div>  
         <div class="col">
+            <br />
             input-model <br />
             <div class="fauxcode hljs xml">
                 $scope.singleWebBrowsers = [   
@@ -592,6 +650,9 @@ code
         <h2>Note</h2>
         I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
         <br />I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.
+
+        <h2>Known Bugs</h2>
+        On Google Chrome browsers, somehow clicking HTML tags on the button doesn't toggle the checkboxes. Still finding a way to fix this.
 
         <h2>Requirements</h2>
         AngularJS v1.2.15. Other versions may or may not work.
@@ -675,7 +736,8 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
             ticked: true    }    
     ];
 
-    $scope.modernWebBrowsers2 = angular.copy( $scope.modernWebBrowsers );
+    $scope.modernWebBrowsers2       = angular.copy( $scope.modernWebBrowsers );
+    $scope.modernWebBrowsersDemo    = angular.copy( $scope.modernWebBrowsers );
     
     $scope.singleWebBrowsers = [
         { 
@@ -794,6 +856,14 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
 }]);    
 
 hljs.initHighlightingOnLoad(); 
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-50075821-1', 'isteven.github.io');
+ga('send', 'pageview');
 
 </script>    
 </html>
