@@ -197,8 +197,17 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             }
 
             // UI operations to show/hide checkboxes
-            $scope.toggleCheckboxes = function( e ) {
-                
+            $scope.toggleCheckboxes = function( e ) {                                
+
+                if ( e.target ) {                    
+                    if ( e.target.tagName.toUpperCase() !== 'BUTTON' && e.target.className.indexOf( 'multiSelectButton' ) < 0 ) {
+                        e = $scope.findUpTag( e.target, 'button', 'multiSelectButton' );
+                    }
+                    else {
+                        e = e.target;
+                    }
+                }                      
+
                 $scope.labelFilter = '';                
               
                 // We search them based on the class names
@@ -207,7 +216,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 var multiSelectButtons  = document.querySelectorAll( '.multiSelectButton' );   
 
                 for( i=0; i < multiSelectButtons.length; i++ ) {
-                    if ( e.target === multiSelectButtons[ i ] ) {                        
+                    if ( e === multiSelectButtons[ i ] ) {                        
                         multiSelectIndex = i;
                         break;
                     }
@@ -236,6 +245,18 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
                     }                
                 }
+            }
+
+            // Traverse up to find the button tag
+            // http://stackoverflow.com/questions/7332179/how-to-recursively-search-all-parentnodes
+            $scope.findUpTag = function ( el, tag, className ) {
+
+                while ( el.parentNode ) {
+                    el = el.parentNode;                    
+                    if ( el.tagName.toUpperCase() === tag.toUpperCase() && el.className.indexOf( 'multiSelectButton' ) > -1 )
+                        return el;
+                }
+                return null;
             }
 
             // Select All / None / Reset
@@ -336,8 +357,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {                                        
                         checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
-                    }
-                    // $scope.$apply();                    
+                    }    
                     e.stopPropagation();
                 }                                
             });           
