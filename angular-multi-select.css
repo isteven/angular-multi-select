@@ -12,19 +12,25 @@
     margin:0 auto;       
     text-align: center;
     cursor: pointer;
-    border: 1px solid #c3c3c3;
+    border: 1px solid #c6c6c6;
     padding: 7px 12px 5px;
     font-size: 14px;
     line-height: 1.4;
     border-radius: 2px;
     color: #333;      
-    background-color: #fff;
    -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none; 
     white-space:normal;
+    background-color: #fff;
+    background-image: linear-gradient(#fff, #e4e4e4);
+    
+}
+
+.multiSelect .button:hover {
+    background-image: linear-gradient(#fff, #eee);    
 }
 
 /* helper buttons style (select all, none, reset, clear filter); */
