@@ -197,16 +197,25 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             }
 
             // UI operations to show/hide checkboxes
-            $scope.toggleCheckboxes = function( e ) {                                
+            $scope.toggleCheckboxes = function( e ) {                                                
 
                 if ( e.target ) {                    
                     if ( e.target.tagName.toUpperCase() !== 'BUTTON' && e.target.className.indexOf( 'multiSelectButton' ) < 0 ) {
-                        e = $scope.findUpTag( e.target, 'button', 'multiSelectButton' );
+                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                            if ( e.target.tagName.toUpperCase() === 'INPUT' )
+                            {
+                                e = $scope.findUpTag( e.target, 'div', 'checkboxLayer' );
+                                e = e.previousSibling;    
+                            }
+                        }
+                        else {
+                            e = $scope.findUpTag( e.target, 'button', 'multiSelectButton' );
+                        }
                     }
                     else {
                         e = e.target;
                     }
-                }                      
+                }                    
 
                 $scope.labelFilter = '';                
               
@@ -221,16 +230,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                         break;
                     }
                 }                
-
-                if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
-                    for( i=0; i < multiSelectButtons.length; i++ ) {
-                        if ( e.target.parentNode.parentNode.parentNode.parentNode.previousSibling === multiSelectButtons[ i ] ) {                        
-                            multiSelectIndex = i;
-                            break;
-                        }
-                    }
-                }
-
+                                 
                 if ( multiSelectIndex > -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {
                         if ( i != multiSelectIndex ) {
@@ -252,9 +252,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             $scope.findUpTag = function ( el, tag, className ) {
 
                 while ( el.parentNode ) {
-                    el = el.parentNode;                    
-                    if ( el.tagName.toUpperCase() === tag.toUpperCase() && el.className.indexOf( 'multiSelectButton' ) > -1 )
-                        return el;
+                    el = el.parentNode;      
+                    if ( typeof el.tagName !== 'undefined' ) {
+                        if ( el.tagName.toUpperCase() === tag.toUpperCase() && el.className.indexOf( className ) > -1 ) {
+                            return el;
+                        }
+                    }
                 }
                 return null;
             }

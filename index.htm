@@ -839,7 +839,7 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
     $scope.granDisabled = false;
 
     $scope.switchSource = function( data ) {
-        $scope.dynamicData = $scope[ data ];
+        $scope.dynamicData = angular.copy( $scope[ data ] );
     }
 
     $scope.switchSource( 'modernWebBrowsers' );
