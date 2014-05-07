@@ -3,6 +3,7 @@
     "version"   : "v1.0.0",
     "main"      : [
         "angular-multi-select.js",
+        "angular-multi-select.min.js",    
         "angular-multi-select.css",
         "LICENSE"
     ],
