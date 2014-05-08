@@ -51,7 +51,10 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             orientation     : '@',
             maxLabels       : '@',
             isDisabled      : '=',
-            directiveId     : '@'
+            directiveId     : '@',
+            // JH DotComIt Added 5/8/2014
+            onPopupopen: '&onPopupopen',
+            onPopupclose: '&onPopupclose'
         },
 
         template: 
@@ -235,15 +238,21 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                     for( i=0; i < checkboxes.length; i++ ) {
                         if ( i != multiSelectIndex ) {
                             checkboxes[i].className = 'multiSelect checkboxLayer hide';
+                            // JH DotComIt 5/8/2014 Added method handler for closing the popup
+                            $scope.onPopupclose();
                         }
                     }                    
 
                     if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer hide' ) {                    
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer show';
+                        // JH DotComIt 5/8/2014 Added method handler for opening the popup
+                        $scope.onPopupopen();
                     }
                     else if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer show' ) {                                    
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
-                    }                
+                        // JH DotComIt 5/8/2014 Added method handler for closing the popup
+                        $scope.onPopupclose();
+                    }
                 }
             }
 
@@ -359,8 +368,10 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
                 if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {                                        
-                        checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
-                    }    
+                        checkboxes[i].className = 'multiSelect checkboxLayer hide';
+                        // JH DotComIt 5/8/2014 Added method handler for closing the popup
+                        $scope.onPopupclose();
+                    }
                     e.stopPropagation();
                 }                                
             });           
