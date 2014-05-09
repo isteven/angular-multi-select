@@ -138,6 +138,10 @@ label.multiSelect span:hover{
     margin-left: 1px;
 }
 
+input:focus ~ span::after {
+    content: " *";
+}
+
 /* for checkboxes currently selected */
 .multiSelect .checkboxSelected {
     color: #000;

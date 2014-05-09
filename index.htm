@@ -136,6 +136,12 @@
             button-label="icon name"        
             item-label="icon name maker"        
             tick-property="ticked" 
+            helper-buttons=""
+            on-open="open()"
+            on-close="close()"
+            on-focus="focus()"
+            on-blur="blur()"
+            on-change="change()"
             >
         </div>
                 
@@ -851,6 +857,26 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
              return '[...]/' + url.match( r )[0] + '...';
         }
     }
+
+    $scope.open = function() {
+        console.log( 'multi-select: on-open' );
+    }
+
+    $scope.close = function() {
+        console.log( 'multi-select: on-close' );
+    }    
+
+    $scope.focus = function() {
+        console.log( 'multi-select: on-focus' );
+    }    
+
+    $scope.blur = function() {
+        console.log( 'multi-select: on-blur' );
+    }    
+
+    $scope.change = function() {
+        console.log( 'multi-select: on-change' );
+    }    
 
 }]);    
 
