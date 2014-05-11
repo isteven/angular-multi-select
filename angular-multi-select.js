@@ -31,7 +31,7 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', function ( $sce ) {
+angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$filter', function ( $sce, $filter ) {
     return {
         restrict: 
             'AE',
@@ -52,47 +52,93 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             maxLabels       : '@',
             isDisabled      : '=',
             directiveId     : '@',
-            // JH DotComIt Added 5/8/2014
-            onPopupopen: '&onPopupopen',
-            onPopupclose: '&onPopupclose'
+            helperElements  : '@',
+            onOpen          : '&',
+            onClose         : '&',
+            onBlur          : '&',
+            onFocus         : '&'            
         },
 
         template: 
-            '<span class="multiSelect inlineBlock">' +
-                '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel">' +
+            '<span class="multiSelect inlineBlock" >' +
+                '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel" ng-focus="onFocus()" ng-blur="onBlur()">' +
                 '</button>' +                
                 '<div class="multiSelect checkboxLayer hide">' +
                     '<div class="multiSelect line">' +
-                        '<span ng-if="!isDisabled">Select: &nbsp;</span>' + 
-                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled && selectionMode.toUpperCase() != \'SINGLE\'">All</button> ' +
-                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled && selectionMode.toUpperCase() != \'SINGLE\'">None</button> ' + 
-                            '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" ng-if="!isDisabled">Reset</button>' +
+                        '<span ng-if="!isDisabled && ( displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' ))">Select: &nbsp;</span>' + 
+                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">All</button> ' +
+                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">None</button> ' + 
+                            '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )">Reset</button>' +
                     '</div>' +
-                    '<div class="multiSelect line">' + 
+                    '<div class="multiSelect line" ng-show="displayHelper( \'filter\' )">' + 
                         'Filter: <input class="multiSelect" type="text" ng-model="labelFilter" />' +
                             '&nbsp;<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
                     '</div>' +
-                    '<div ng-repeat="item in inputModel | filter:labelFilter" ng-class="orientation" class="multiSelect multiSelectItem">' +
+                    '<div ng-repeat="item in (filteredModel = (inputModel | filter:labelFilter ))" ng-class="orientation" class="multiSelect multiSelectItem">' +
                         '<div class="multiSelect acol">' +
                             '<div class="multiSelect" ng-show="item[ tickProperty ]">&#10004;</div>' +
                         '</div>' +
                         '<div class="multiSelect acol">' +
                             '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
-                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event )" />' +
-                                    '<span class="multiSelect" ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
+                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event )"/>' +
+                                '<span class="multiSelect" ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
                             '</label>&nbsp;&nbsp;' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
             '</span>',
 
-        link: function ( $scope, element, attrs ) {      
+        link: function ( $scope, element, attrs ) {           
             
             $scope.selectedItems    = [];    
             $scope.backUp           = [];
-            $scope.varButtonLabel   = '';            
+            $scope.varButtonLabel   = '';   
+            $scope.tabIndex         = 0;
+            $scope.tabables         = null;
+            $scope.currentButton    = null;
 
-            // Checkbox is ticked
+            // Show or hide a helper element 
+            $scope.displayHelper = function( elementString ) {
+                if ( typeof attrs.helperElements === 'undefined' ) {
+                    return true;                    
+                }
+                switch( elementString.toUpperCase() ) {
+                    case 'ALL':
+                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {                            
+                            return false;
+                        }
+                        else {
+                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'ALL' ) >= 0 ) {
+                                return true;
+                            }
+                        }
+                        break;
+                    case 'NONE':
+                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                            return false;
+                        }
+                        else {
+                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'NONE' ) >= 0 ) {
+                                return true;
+                            }
+                        }
+                        break;
+                    case 'RESET':
+                        if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'RESET' ) >= 0 ) {
+                            return true;
+                        }
+                        break;
+                    case 'FILTER':
+                        if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'FILTER' ) >= 0 ) {
+                            return true;
+                        }
+                        break;                    
+                    default:                        
+                        break;
+                }
+            }                
+
+            // Call this function when a checkbox is ticked...
             $scope.syncItems = function( item, e ) {                                                                
                 index = $scope.inputModel.indexOf( item );                
                 $scope.inputModel[ index ][ $scope.tickProperty ]   = !$scope.inputModel[ index ][ $scope.tickProperty ];
@@ -107,8 +153,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                     }        
                     $scope.toggleCheckboxes( e );
                 }
-
-                $scope.refreshSelectedItems();                   
+                                
+                $scope.refreshSelectedItems();                                   
+                e.target.focus();
             }     
 
             // Refresh the button to display the selected items and push into output model if specified
@@ -199,7 +246,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 return $sce.trustAsHtml( label );
             }
 
-            // UI operations to show/hide checkboxes
+            // UI operations to show/hide checkboxes based on click event..
             $scope.toggleCheckboxes = function( e ) {                                                
 
                 if ( e.target ) {                    
@@ -238,20 +285,19 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                     for( i=0; i < checkboxes.length; i++ ) {
                         if ( i != multiSelectIndex ) {
                             checkboxes[i].className = 'multiSelect checkboxLayer hide';
-                            // JH DotComIt 5/8/2014 Added method handler for closing the popup
-                            $scope.onPopupclose();
                         }
                     }                    
 
                     if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer hide' ) {                    
+                        $scope.currentButton = multiSelectButtons[ multiSelectIndex ];
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer show';
-                        // JH DotComIt 5/8/2014 Added method handler for opening the popup
-                        $scope.onPopupopen();
+                        // https://github.com/isteven/angular-multi-select/pull/5 - On open callback
+                        $scope.onOpen();                        
                     }
                     else if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer show' ) {                                    
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
-                        // JH DotComIt 5/8/2014 Added method handler for closing the popup
-                        $scope.onPopupclose();
+                        // https://github.com/isteven/angular-multi-select/pull/5 - On close callback
+                        $scope.onClose();                        
                     }
                 }
             }
@@ -289,8 +335,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                             }
                         });                
                         break;      
-                    case 'RESET':
-                        $scope.inputModel = angular.copy( $scope.backUp );                        
+                    case 'RESET':     
+                        $scope.inputModel = angular.copy( $scope.backUp );
                         break;
                     default:                        
                 }
@@ -299,6 +345,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
 
 
             // Generic validation for required attributes
+            // Might give false positives so just ignore if everything's alright.
             validate = function() {
                 if ( !( 'inputModel' in attrs )) {
                     console.log( 'Multi-select error: input-model is not defined! (ID: ' + $scope.directiveId + ')' );
@@ -337,17 +384,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 });    
                 if ( notThere === true ) {
                     console.log( 'Multi-select error: property "' + missingLabel + '" is not available in the input model. (Name: ' + $scope.directiveId + ')' );
-                }
-                
-            }
+                }                
+            }            
 
             ///////////////////////
             // Logic starts here
             ///////////////////////               
 
             validate();
-            $scope.refreshSelectedItems();                  
-
+            $scope.refreshSelectedItems();   
+            
             // Watch for changes in input model (allow dynamic input)
             $scope.$watch( 'inputModel' , function( oldVal, newVal ) {                 
                 if ( $scope.inputModel !== 'undefined' ) {
@@ -368,14 +414,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
                 if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {                                        
-                        checkboxes[i].className = 'multiSelect checkboxLayer hide';
-                        // JH DotComIt 5/8/2014 Added method handler for closing the popup
-                        $scope.onPopupclose();
+                        checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
                     }
                     e.stopPropagation();
                 }                                
-            });           
-            
+            });             
+                    
             // For IE8, perhaps. Not sure if this is really executed.
             if ( !Array.prototype.indexOf ) {
                 Array.prototype.indexOf = function(what, i) {                    

@@ -1,5 +1,5 @@
-Angular Multi Select
-====================
+Angular MultiSelect
+==
 An AngularJS directive which creates a dropdown button with multiple or single selections. 
 Allows you to customize your labels and use some HTML tags in the data. Fully configurable through element attributes and CSS.
 Doesn't require jQuery and works well with other Javascript libraries.
