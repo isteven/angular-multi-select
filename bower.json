@@ -1,6 +1,6 @@
 {
     "name"      : "isteven-angular-multiselect",
-    "version"   : "v1.0.0",
+    "version"   : "v1.1.0",
     "main"      : [
         "angular-multi-select.js",
         "angular-multi-select.min.js",    
