@@ -480,9 +480,14 @@ And that's it! You should now have dropdown button like the one you saw earlier 
                 max-labels="2"     
                 directive-id="multiSelectFull"
                 is-disabled="false"
+                helper-elements="all none filter reset"
+                on-open="open()"
+                on-close="close()"
+                on-focus="focus()"
+                on-blur="blur()"
                 >
             </div>
-            <br /><br />
+            <br /><br />*Open your console to see the multi-select event callbacks. Note that the events might be triggered differently across different browsers.<br /><br />
         <div class="col">            
             code <br />
 <pre class="col"><code>&lt;div 
@@ -498,6 +503,11 @@ And that's it! You should now have dropdown button like the one you saw earlier 
     max-labels="2"     
     directive-id="multiSelectFull"
     is-disabled="false"
+    helper-elements="all none filter reset"
+    on-open="open()"
+    on-close="close()"
+    on-focus="focus()"
+    on-blur="blur()"    
 &gt;
 &lt;/div&gt;
 </code></pre>
@@ -635,8 +645,7 @@ code
         </div>
 
         <h3>5) Single selection mode (just like a normal drop down menu), no helper elements & testing the callbacks. </h3>
-        Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br/><Br />* Open your console to see the event callbacks. Note that the events might be triggered differently across different browsers.<br /><br />
-        
+        <br />Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br /><br />
         <div 
             multi-select 
             input-model="singleWebBrowsers"
@@ -662,10 +671,6 @@ code
     tick-property="ticked" 
     selection-mode="single"
     helper-elements=""
-    on-open="open()"
-    on-close="close()"
-    on-focus="focus()"
-    on-blur="blur()"
 &gt;
 &lt;/div&gt;
 </pre></code></div>  
