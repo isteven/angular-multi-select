@@ -74,7 +74,7 @@
     border-top: 4px solid #333;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
-    border-bottom: 0 dotted;   
+    border-bottom: 0 dotted;       
 }
 
 .multiSelect.multiSelectItem {
@@ -110,11 +110,6 @@ label.multiSelect span {
     user-select: none;    
 }
 
-label.multiSelect span:hover{
-    cursor: pointer;    
-    color: #333;
-}
-
 /* hide the checkbox away */
 .multiSelect .checkbox {
     position: absolute;
@@ -138,8 +133,20 @@ label.multiSelect span:hover{
     margin-left: 1px;
 }
 
-input:focus ~ span::after {
-    content: " *";
+/* On mouse over and focus */
+label.multiSelect input:focus ~ span::after,
+label.multiSelect span:focus::after, 
+label.multiSelect span:hover::after {     
+    /* Enable this if you want some arrow pointer */
+    /* content: ' \00AB'; */
+}
+
+label.multiSelect input:focus ~ span,
+label.multiSelect span:hover {
+    color: #333;
+    cursor: pointer;        
+    /* Enable this if you want some arrow pointer */
+    /* content: ' \00AB'; */
 }
 
 /* for checkboxes currently selected */

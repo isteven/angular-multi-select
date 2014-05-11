@@ -16,14 +16,20 @@
             padding: 15px 50px;
         }
         pre {
-            padding: 0px;
-            margin: 0;
-            // min-width:350px;
-            word-wrap: break-word;
+            word-wrap: break-word;   
+            margin: 0px;
+            margin-bottom: 14px;
         }
-        code {        
-            padding: 15px !important; 
-            border: 1px solid #ccc;
+
+        code {            
+            background-color: #f6f6f6;
+            display: inline-block;
+            border: 1px solid #ccc !important;
+            padding: 0 2px 0 2px !important; 
+        }
+
+        pre code {
+            padding: 10px !important; 
         }
 
         h1 {
@@ -80,7 +86,6 @@
             font-size:17px;
             height:30px;
             line-height:25px;
-            //width:240px;
             text-decoration:none;
             text-align:center;
             vertical-align:middle;
@@ -93,14 +98,10 @@
             border-image: none;
             border-style: solid;
             border-width: 1px;
-            // text-shadow:1px 1px 0px #ffffff;
+
             padding:10px;
         }
         .download:hover {
-            //background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-            //background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-            //filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-            //background-color:#dfdfdf;
             background-color: #e6e6e6;
             background-image: linear-gradient(#599bdc, #307bd3);   
             border-width: 1px;
@@ -113,36 +114,30 @@
             height: 25px;
             float: left;
             padding-right:10px;
-        }
+        }        
     </style>   
 
     <!-- css -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">    
-    <link rel="stylesheet" href="highlight/styles/github.css">     
+    <link rel="stylesheet" href="highlight/styles/github.css">
     <link rel="stylesheet" href="angular-multi-select.css">                        
 
     <!-- JS -->
     <script src="highlight/highlight.pack.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>        
-    <script src="angular-multi-select.js"></script>      
+    <script src="angular-multi-select.min.js"></script>      
     
 </head>
 <body ng-controller="main">
     <div id="container">
         <h1>AngularJS MultiSelect</h1>
-        <h4 style="position:relative;top:-20px">An AngularJS directive which creates a dropdown button with multiple or single selections. Fully configurable through element attributes and CSS.</h4>        
+        <h4 style="position:relative;top:-20px">An AngularJS directive which creates a dropdown button with multiple or single selections. Fully configurable through element attributes and CSS.<br />Version: 1.1.0 </h4>                        
         <div
             multi-select 
             input-model="modernWebBrowsersDemo" 
             button-label="icon name"        
             item-label="icon name maker"        
-            tick-property="ticked" 
-            helper-buttons=""
-            on-open="open()"
-            on-close="close()"
-            on-focus="focus()"
-            on-blur="blur()"
-            on-change="change()"
+            tick-property="ticked"                   
             >
         </div>
                 
@@ -161,19 +156,21 @@
 <h2>Features</h2>
         <ul>
             <li>Multiple or single selection types</li>
-            <li>Use HTML &amp; CSS in your button & checkbox labels (Limited support, BUTTON and INPUT tags are not advised).</li>
+            <li>Use HTML &amp; CSS in your button & checkbox labels (Limited support, and BUTTON and INPUT tags are not advised).</li>
             <li>Reset selections to original state</li>
-            <li>Directly updates the input model on tick</li>
-            <li>Load/switch input model on the fly</li>
+            <li>Load/change input model on the fly</li>
             <li>Configurable, such as:
                 <ul>
                     <li>Set orientation of checkboxes</li>
-                    <li>Enable / disable all or one of the checkboxes</li>
+                    <li>Enable / disable all or one of the checkboxes (granular control)</li>
                     <li>Set maximum number of items to be displayed on the button label</li>
+                    <li>Set which helper elements to display ~ v1.1.0</li>
                 </ul>
             </li>
             <li>Utilizes AngularJS filter</li>
-            <li>Purely AngularJS. Can be easily combined with other UI frameworks such as jQuery, Twitter Bootstrap, etc.</li>
+            <li>Responsive to some extent</li>
+            <li>Event callbacks available ~ v1.1.0</li>            
+            <li>Pure AngularJS. Can be easily combined with other Javascript libraries such as jQuery, Twitter Bootstrap, etc.</li>
         </ul>                            
 <h2>Usage</h2>
 Load the required files
@@ -182,12 +179,11 @@ Load the required files
 &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"&gt;&lt;/script&gt;
 &lt;script src="angular-multi-select.js"&gt;&lt;/script&gt;      
 ...
-</pre></code>
-<br />
-Load the multi-select directive
+</code></pre>
 
-<pre><code>var myApp = angular.module('myApp', [ 'multi-select' ]);</pre></code>
+Load the multi-select directive
 <br />
+<pre><code>var myApp = angular.module('myApp', [ 'multi-select' ]);</code></pre>
 In your controller, prepare the input-model as a <span class="inlinefauxcode">$scope</span> variable <br />
 <pre><code>$scope.modernWebBrowsers = [
     { icon: "[...]/opera.png...",               name: "Opera",              maker: "(Opera Software)",        ticked: true  },
@@ -197,8 +193,8 @@ In your controller, prepare the input-model as a <span class="inlinefauxcode">$s
     { icon: "[...]/chrome.png...",              name: "Chrome",             maker: "(Google)",                ticked: true  }
 ]; 
 </code></pre>
-<br />
-        <div class="col">
+
+<div class="col">
 In your view, set the directive as an attribute<br />
 <pre><code>&lt;div     
     multi-select
@@ -223,7 +219,7 @@ In your view, set the directive as an attribute<br />
 </code></pre>
 </div>
 <div style="clear:both">       
-<br />And that's it! You should now have dropdown button like the one you saw earlier on top of the page.
+And that's it! You should now have dropdown button like the one you saw earlier on top of the page.
 </div>
 
 <h2>Attributes / Options</h2>
@@ -232,8 +228,8 @@ In your view, set the directive as an attribute<br />
     Full spec
 <pre><code>&lt;div 
     multi-select 
-    input-model="scopeArrOfObject"
-    output-model="scopeArrOfObject2"
+    input-model="$scope.arrOfObjects"
+    output-model="$scope.arrOfObjects2"
     button-label="property1 property2 ..."         
     item-label="property1 property2 ..." 
     tick-property="property3" 
@@ -243,6 +239,11 @@ In your view, set the directive as an attribute<br />
     max-labels="999"     
     directive-id="..."
     is-disabled="true | false"
+    helper-elements="all none reset filter"
+    on-open="$scope.functionOpen()"
+    on-close="$scope.functionClose()"
+    on-focus="$scope.functionFocus()"
+    on-blur="$scope.functionBlur()"    
 &gt;
 &lt;/div&gt;
 </code></pre>
@@ -250,17 +251,7 @@ In your view, set the directive as an attribute<br />
 <div class="col">
 .. or ..
 <pre><code>&lt;multi-select 
-    input-model="scopeArrOfObject"
-    output-model="scopeArrOfObject2"
-    button-label="property1 property2 ..."         
-    item-label="property1 property2 ..." 
-    tick-property="property3" 
-    disable-property="property4"
-    orientation="horizontal | vertical"
-    selection-mode="multiple | single"
-    max-labels="999"     
-    directive-id="..."
-    is-disabled="true | false"
+    ...
 &gt;
 &lt;/multi-select&gt;
 </code></pre>
@@ -288,7 +279,7 @@ In your view, set the directive as an attribute<br />
                         You need to copy the input variable to a new one and use it on the second multi-select, and so on.
                     </li>
                     <li>
-                        If you want to use HTML tags in your data, put <span class="inlinefauxcode">class="multiSelect"</span> on them, or else clicking these tags will not 
+                        If you want to use HTML tags in your data, put <code>class="multiSelect"</code> on them, or else clicking these tags will not 
                         select / deselect a checkbox. There might be some limitations on what HTML tags you can use. It's highly suggested that you don't use BUTTON and INPUT tags to prevent conflicts.
                         <br />        
                         <div style="clear:both;">
@@ -311,14 +302,14 @@ In your view, set the directive as an attribute<br />
                 <strong>button-label (REQUIRED)</strong>
                 <br />input-model property that you want to display on the button. Separate multiple values by space. 
                 <br />Example: 
-                button-label="firstName" 
+                <code>button-label="firstName"</code>
             </li>
 
             <li class="attrs">
                 <strong>item-label (REQUIRED)</strong>
                 <br />input-model property that you want to display on the checkboxes. Separate multiple values by space. 
                 <br>Example: 
-                item-label="firstName lastName"          
+                <code>item-label="firstName lastName"</code>
             </li>        
             <li class="attrs">
                 <strong>tick-property (REQUIRED)</strong>
@@ -326,14 +317,14 @@ In your view, set the directive as an attribute<br />
                 <br />For example:
                 <ul>
                     <li>
-                        tick-property is "selected"
+                    <code>tick-property="selected"</code>
                         <ul>
                             <li>selected === true, checkbox is ticked. </li>
                             <li>selected === false, checkbox is not ticked.</li>
                         </ul>
                     </li>
                     <li>
-                        tick-property is "isOn"
+                    <code>tick-property="isOn"</code>
                         <ul>
                             <li>isOn === true, checkbox is ticked. </li>
                             <li>isOn === false, checkbox is not ticked.</li>
@@ -345,10 +336,10 @@ In your view, set the directive as an attribute<br />
                 <strong>disable-property</strong>
                 <br />input-model property with a boolean value that represent whether a checkbox is disabled or enabled. 
                 <br />This gives you granular control over each checkbox, and it has higher priority over the "is-disabled" attribute explained later.
-                <br />For example:
+                <br />Example:
                 <ul>
                     <li>
-                        disable-property is "thisItemIsDisabled"
+                    <code>disable-property="thisItemIsDisabled"</code>
                         <ul>
                             <li>thisItemIsDisabled === true, checkbox is disabled. </li>
                             <li>thisItemIsDisabled === false, checkbox is enabled.</li>
@@ -373,7 +364,7 @@ In your view, set the directive as an attribute<br />
                 <strong>max-labels</strong>
                 <br />Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
                 <br />Example: 
-                <br />If we use the input-model <span class="inlinefauxcode">$scope.inputList</span> above, then <span class="inlinefauxcode">max-labels="1"</span> will display: "Bruce Wayne, ... (Total: 2)" on the button.
+                <br />If we use the input-model <code>$scope.inputList</code> above, then <code>max-labels="1"</code> will display: "Bruce Wayne, ... (Total: 2)" on the button.
             </li>
             <li class="attrs">
                 <strong>is-disabled</strong>
@@ -387,13 +378,51 @@ In your view, set the directive as an attribute<br />
                 and this id will help to check which directive displays error message (in case you use more than one directive in one page). 
                 <br />* <em>Please note that you might see some false positive messages. Just ignore those if you see nothing wrong with your multi-select and the $scope data are updated properly.</em>
             </li>
+            <li class="attrs">
+                <strong>helper-elements</strong>
+                <br />Define which helper buttons (Select all, none, reset, filter box) to be displayed.
+                <br />Possible values are:
+                <ul>
+                    <li>Display some: combinations of 'all', 'none', 'reset', 'filter'. Separate multiple values by space. Order of values does not matter.<br> Example; to show select 'All' button and the filter box: <code>helper-elements="all filter"</code></li>
+                    <li>Display none: To display none, just put empty string.
+                    <br>Example: <code class="inlinefauxcode">helper-elements=""</code>. 
+                    <li>If not specified, by default will display all.
+                </ul>                
+            </li>
+            <li class="attrs">
+                <strong>on-open</strong>
+                <br />A $scope function to call on multi-select open. 
+                <br />Example: <code>on-open="msOpen()"</code>
+                <br />Then specify the function in your controller: <code>$scope.msOpen = function() { ... }</code>
+            </li>
+            <li class="attrs">
+                <strong>on-close</strong>
+                <br />A $scope function to call on multi-select close. 
+                <br />Example: <code>on-close="msClose()"</code>
+                <br />Then specify the function in your controller: <code>$scope.msClose = function() { ... }</code>
+                <br />Note: close here means closing by clicking the button, not by clicking outside of the multi-select element.
+            </li>
+            <li class="attrs">
+                <strong>on-focus</strong>
+                <br />A $scope function to call on multi-select focus. 
+                <br />Example: <code>on-focus="msFocus()"</code>
+                <br />Then specify the function in your controller: <code>$scope.msFocus = function() { ... }</code>
+            </li>                                    
+            <li class="attrs">
+                <strong>on-blur</strong>
+                <br />A $scope function to call on multi-select out-of-focus, like clicking somewhere outside the multi-select element. 
+                <br />Example: <code>on-blur="msBlur()"</code>
+                <br />Then specify the function in your controller: <code>$scope.msBlur = function() { ... }</code>
+                <br />Note: blur does not equal close.
+            </li>            
+
         </ul>
         <br /><strike>I use HTML entity 9662 for the caret (downward pointing arrow). If you want a better looking arrow, you can use the .caret class in the CSS file. Just create a span using that .caret. Do note that this span won't toggle the dropdown. You need to click outside the span.</strike>
         <br />Switched back to CSS caret. HTML entity 9662 is not available on some Android operating systems.
 
         <h2>Demo</h2>
-        Look at the <span class="inlinefauxcode">$scope</span> input-models to see the values getting updated as you select / deselect a checkbox.
-        Icons in the objects are actually HTML img tag ( <span class="inlinefauxcode">&lt;img src="full_path" class="multiSelect"... /&gt;</span> ), shortened for simplicity. 
+        Look at the <code>$scope</code> input-models to see the values getting updated as you select / deselect a checkbox.
+        Icons in the objects are actually HTML img tag ( <code>&lt;img src="full_path" class="multiSelect"... /&gt;</code> ), shortened for simplicity. 
         <h3>1) Minimum</h3>
             <div
                 multi-select 
@@ -404,7 +433,6 @@ In your view, set the directive as an attribute<br />
                 >
             </div>  
             <br /><br />
-
         <div class="col">            
             code<br />    
 <pre class="col"><code>&lt;div
@@ -417,7 +445,6 @@ In your view, set the directive as an attribute<br />
 &lt;/div&gt;</code></pre>
 </div>
         <div class="col">
-            <br />
             input-model<br />
             <div class="fauxcode hljs xml">
             $scope.modernWebBrowsers = [
@@ -475,8 +502,7 @@ In your view, set the directive as an attribute<br />
 &lt;/div&gt;
 </code></pre>
         </div>
-<div class="col">
-                <br />
+<div class="col">            
             input-model<br />
             <div class="fauxcode hljs xml">
             $scope.modernWebBrowsers2 = [
@@ -540,8 +566,7 @@ code
 </pre></code>
         </div>
         
-        <div class="col">
-                        <br />
+        <div class="col">            
             input-model <br />
             <div class="fauxcode hljs xml">
                 $scope.dynamicData = [                                
@@ -567,7 +592,7 @@ code
             item-label="icon name maker" 
             tick-property="ticked" 
             disable-property="checkboxDisabled"
-            is-disabled="granDisabled"
+            is-disabled="granDisabled"            
             >
         </div>
         <br /><br />
@@ -588,10 +613,9 @@ code
 &lt;/div&gt;
 </pre></code>
         </div>  
-        <div class="col">
-            <br />
+        <div class="col">            
             input-model <br />
-            * take note that checkboxes with "checkboxDisabled" === true will always be disabled regardless of the <span class="inlinefauxcode">$scope.granDisabled</span> value.
+            * take note that checkboxes with "checkboxDisabled" === true will always be disabled regardless of the <code class="inlinefauxcode">$scope.granDisabled</code> value.
             <br /><br />
             <div class="fauxcode hljs xml">
                 $scope.granWebBrowsers = [   
@@ -610,15 +634,21 @@ code
             ];
         </div>
 
-        <h3>5) Single selection mode, just like a normal drop down menu.</h3>
-        *Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br/><br />
+        <h3>5) Single selection mode (just like a normal drop down menu), no helper elements & testing the callbacks. </h3>
+        Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br/><Br />* Open your console to see the event callbacks. Note that the events might be triggered differently across different browsers.<br /><br />
+        
         <div 
             multi-select 
             input-model="singleWebBrowsers"
             button-label="icon name"         
             item-label="icon name maker" 
             tick-property="ticked" 
-            selection-mode="single"
+            selection-mode="single"            
+            helper-elements=""
+            on-open="open()"
+            on-close="close()"
+            on-focus="focus()"
+            on-blur="blur()"
             >
         </div>
         <br /><br />
@@ -631,11 +661,15 @@ code
     item-label="icon name maker" 
     tick-property="ticked" 
     selection-mode="single"
+    helper-elements=""
+    on-open="open()"
+    on-close="close()"
+    on-focus="focus()"
+    on-blur="blur()"
 &gt;
 &lt;/div&gt;
 </pre></code></div>  
-        <div class="col">
-            <br />
+        <div class="col">            
             input-model <br />
             <div class="fauxcode hljs xml">
                 $scope.singleWebBrowsers = [   
@@ -655,7 +689,7 @@ code
         </div>                                    
 
         <h2>Dependency</h2>
-        Requires AngularJS v1.2.15. Other versions may or may not work.        
+        AngularJS v1.2.15. Other versions may or may not work.
 
         <h2>Browser Compatibility</h2>
         Tested on:
@@ -668,9 +702,12 @@ code
         </ul>
 
         <h2>Note</h2>
-        I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
-        <br />I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.
-        <br />Kindly let me know if you use this directive in your projects -just open a new issue in Github- it's a huge motivation for me. Thanks!        
+        <ul>
+            <li>I'm a Github newbie so pardon me if you experience weird commit / forking sequence.</li>
+        <li>I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.</li>
+        <li>Kindly let me know if you use this directive in your projects -just open a new issue in Github- it's a huge motivation for me. Thanks!</li>        
+        <li>Pardon the some incorrect HTML highlighting. Apparently highlight.js breaks when it sees on-open="function()" etc.</li>
+        </ul>
         
         <h2>Licence</h2>
         Released under the MIT license:
@@ -875,13 +912,10 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         console.log( 'multi-select: on-blur' );
     }    
 
-    $scope.change = function() {
-        console.log( 'multi-select: on-change' );
-    }    
-
 }]);    
 
 hljs.initHighlightingOnLoad(); 
+
 
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

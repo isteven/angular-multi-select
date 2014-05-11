@@ -31,7 +31,7 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', function ( $sce ) {
+angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$filter', function ( $sce, $filter ) {
     return {
         restrict: 
             'AE',
@@ -51,38 +51,36 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             orientation     : '@',
             maxLabels       : '@',
             isDisabled      : '=',
-            directiveId     : '@',            
-            // https://github.com/isteven/angular-multi-select/pull/5             
+            directiveId     : '@',
+            helperElements  : '@',
             onOpen          : '&',
             onClose         : '&',
-            // TODO 
             onBlur          : '&',
-            onFocus         : '&',
-            helperButtons   : '@'
+            onFocus         : '&'            
         },
 
         template: 
             '<span class="multiSelect inlineBlock" >' +
-                '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel">' +
+                '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel" ng-focus="onFocus()" ng-blur="onBlur()">' +
                 '</button>' +                
                 '<div class="multiSelect checkboxLayer hide">' +
                     '<div class="multiSelect line">' +
-                        '<span ng-if="!isDisabled && ( helperButtons2.toUpperCase().indexOf( \'ALL\') >= 0 || helperButtons2.toUpperCase().indexOf( \'NONE\') >= 0 || helperButtons2.toUpperCase().indexOf( \'RESET\') >= 0 )">Select: &nbsp;</span>' + 
-                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled && selectionMode.toUpperCase() != \'SINGLE\' && helperButtons2.toUpperCase().indexOf( \'ALL\') >= 0 ">All</button> ' +
-                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled && selectionMode.toUpperCase() != \'SINGLE\' && helperButtons2.toUpperCase().indexOf( \'NONE\') >= 0 ">None</button> ' + 
-                            '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" ng-if="!isDisabled && helperButtons2.toUpperCase().indexOf( \'RESET\') >= 0 "">Reset</button>' +
+                        '<span ng-if="!isDisabled && ( displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' ))">Select: &nbsp;</span>' + 
+                            '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">All</button> ' +
+                            '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">None</button> ' + 
+                            '<button type="button" ng-click="select( \'reset\' )"  class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )">Reset</button>' +
                     '</div>' +
-                    '<div class="multiSelect line" ng-if="helperButtons2.toUpperCase().indexOf( \'FILTER\') >= 0">' + 
+                    '<div class="multiSelect line" ng-show="displayHelper( \'filter\' )">' + 
                         'Filter: <input class="multiSelect" type="text" ng-model="labelFilter" />' +
                             '&nbsp;<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
                     '</div>' +
-                    '<div ng-repeat="item in inputModel | filter:labelFilter" ng-class="orientation" class="multiSelect multiSelectItem">' +
+                    '<div ng-repeat="item in (filteredModel = (inputModel | filter:labelFilter ))" ng-class="orientation" class="multiSelect multiSelectItem">' +
                         '<div class="multiSelect acol">' +
                             '<div class="multiSelect" ng-show="item[ tickProperty ]">&#10004;</div>' +
                         '</div>' +
                         '<div class="multiSelect acol">' +
                             '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
-                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event )" />' +
+                                '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event )"/>' +
                                 '<span class="multiSelect" ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
                             '</label>&nbsp;&nbsp;' +
                         '</div>' +
@@ -90,7 +88,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 '</div>' +
             '</span>',
 
-        link: function ( $scope, element, attrs ) {      
+        link: function ( $scope, element, attrs ) {           
             
             $scope.selectedItems    = [];    
             $scope.backUp           = [];
@@ -98,9 +96,49 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
             $scope.tabIndex         = 0;
             $scope.tabables         = null;
             $scope.currentButton    = null;
-            $scope.helperButtons2   = '';
 
-            // When a checkbox is ticked...
+            // Show or hide a helper element 
+            $scope.displayHelper = function( elementString ) {
+                if ( typeof attrs.helperElements === 'undefined' ) {
+                    return true;                    
+                }
+                switch( elementString.toUpperCase() ) {
+                    case 'ALL':
+                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {                            
+                            return false;
+                        }
+                        else {
+                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'ALL' ) >= 0 ) {
+                                return true;
+                            }
+                        }
+                        break;
+                    case 'NONE':
+                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                            return false;
+                        }
+                        else {
+                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'NONE' ) >= 0 ) {
+                                return true;
+                            }
+                        }
+                        break;
+                    case 'RESET':
+                        if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'RESET' ) >= 0 ) {
+                            return true;
+                        }
+                        break;
+                    case 'FILTER':
+                        if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'FILTER' ) >= 0 ) {
+                            return true;
+                        }
+                        break;                    
+                    default:                        
+                        break;
+                }
+            }                
+
+            // Call this function when a checkbox is ticked...
             $scope.syncItems = function( item, e ) {                                                                
                 index = $scope.inputModel.indexOf( item );                
                 $scope.inputModel[ index ][ $scope.tickProperty ]   = !$scope.inputModel[ index ][ $scope.tickProperty ];
@@ -115,8 +153,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                     }        
                     $scope.toggleCheckboxes( e );
                 }
-                
-                $scope.refreshSelectedItems();                   
+                                
+                $scope.refreshSelectedItems();                                   
+                e.target.focus();
             }     
 
             // Refresh the button to display the selected items and push into output model if specified
@@ -246,23 +285,19 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                     for( i=0; i < checkboxes.length; i++ ) {
                         if ( i != multiSelectIndex ) {
                             checkboxes[i].className = 'multiSelect checkboxLayer hide';
-                            // JH DotComIt 5/8/2014 Added method handler for closing the popup                            
-                            removeKeyListener( multiSelectButtons[ multiSelectIndex ] );
                         }
                     }                    
 
                     if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer hide' ) {                    
                         $scope.currentButton = multiSelectButtons[ multiSelectIndex ];
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer show';
-                        // JH DotComIt 5/8/2014 Added method handler for opening the popup                        
-                        $scope.onOpen();
-                        addKeyListener( multiSelectButtons[ multiSelectIndex ] );
+                        // https://github.com/isteven/angular-multi-select/pull/5 - On open callback
+                        $scope.onOpen();                        
                     }
                     else if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer show' ) {                                    
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
-                        // JH DotComIt 5/8/2014 Added method handler for closing the popup
-                        $scope.onClose();
-                        removeKeyListener( multiSelectButtons[ multiSelectIndex ] );
+                        // https://github.com/isteven/angular-multi-select/pull/5 - On close callback
+                        $scope.onClose();                        
                     }
                 }
             }
@@ -301,13 +336,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                         });                
                         break;      
                     case 'RESET':     
-                        var ctr = 0;
-                        // The reset method is a bit worrying.. 
-                        // What if one day a browser decides to sort object on their own?
-                        angular.forEach( $scope.backUp, function( value, key ) {
-                            $scope.inputModel[ ctr ][ $scope.tickProperty ] = value[ $scope.tickProperty ];                            
-                            ctr++;
-                        });
+                        $scope.inputModel = angular.copy( $scope.backUp );
                         break;
                     default:                        
                 }
@@ -356,99 +385,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 if ( notThere === true ) {
                     console.log( 'Multi-select error: property "' + missingLabel + '" is not available in the input model. (Name: ' + $scope.directiveId + ')' );
                 }                
-            }
-
-            // Button listeners 
-            buttonListener = function( keyPressEvent ) {
-
-                nextElement = this.nextSibling.querySelectorAll( 'button, input' );        
-                
-                // Down or right or tab
-                if ( keyPressEvent.keyCode === 40 || keyPressEvent.keyCode === 39 || (keyPressEvent.keyCode === 9 && !keyPressEvent.shiftKey) ) {
-                    nextElement[ 0 ].focus();
-                    $scope.tabIndex = 0;                        
-                    keyPressEvent.preventDefault();
-                    keyPressEvent.stopPropagation();
-                }
-
-                // Up or left or shift+tab
-                else if ( keyPressEvent.keyCode === 38 || keyPressEvent.keyCode === 37 || (keyPressEvent.keyCode === 9 && keyPressEvent.shiftKey) ) {
-                    nextElement[ nextElement.length - 1 ].focus();
-                    $scope.tabIndex = nextElement.length - 1;                        
-                    keyPressEvent.preventDefault();
-                    keyPressEvent.stopPropagation();
-                }
-
-                // Esc
-                else if ( keyPressEvent.keyCode === 27 ) {                        
-                    var checkboxes = document.querySelectorAll( '.checkboxLayer' );
-                    for( i=0; i < checkboxes.length; i++ ) {
-                        checkboxes[ i ].className = 'multiSelect checkboxLayer hide';
-                    }
-                    $scope.tabIndex = 0;
-                }
-            }
-
-            // Checkbox listeners
-            checkboxListener = function( keyPressEvent ) {
-                
-                // Down or right or tab                
-                if ( keyPressEvent.keyCode === 40 || keyPressEvent.keyCode === 39 || (keyPressEvent.keyCode === 9 && !keyPressEvent.shiftKey) ) {                    
-                    $scope.tabIndex++;
-                    if ( $scope.tabIndex > $scope.tabables.length - 1) { 
-                        $scope.tabIndex = 0;
-                    }                            
-                    $scope.tabables[ $scope.tabIndex ].focus();                                                        
-                    keyPressEvent.preventDefault();
-                    keyPressEvent.stopPropagation();                
-                }
-
-                // Up or left or shift+tab
-                else if ( keyPressEvent.keyCode === 38 || keyPressEvent.keyCode === 37 || (keyPressEvent.keyCode === 9 && keyPressEvent.shiftKey) ) {
-                    $scope.tabIndex--;
-                    if ( $scope.tabIndex < 0 ) { 
-                        $scope.tabIndex = $scope.tabables.length - 1;
-                    }                            
-                    $scope.tabables[ $scope.tabIndex ].focus();                                                        
-                    keyPressEvent.preventDefault();
-                    keyPressEvent.stopPropagation();                
-                }
-
-                // Esc
-                else if ( keyPressEvent.keyCode === 27 ) {
-                    var checkboxes = document.querySelectorAll( '.checkboxLayer' );
-                    for( i=0; i < checkboxes.length; i++ ) {
-                        checkboxes[ i ].className = 'multiSelect checkboxLayer hide';
-                    }
-                    $scope.tabIndex = 0;
-                }                                        
-            }
-
-            // Register listeners
-            addKeyListener = function( element ) { 
-
-                $scope.tabIndex = 0;
-
-                // Button                
-                element.addEventListener( 'keypress', buttonListener, false );
-
-                // Checkboxes
-                $scope.tabables = element.nextSibling.querySelectorAll( 'button, input' );                
-                for( i = 0 ; i < $scope.tabables.length ; i++ ) {
-                    $scope.tabables[ i ].addEventListener( 'keypress', checkboxListener, false );
-                }
-            }
-
-            // Remove key listener 
-            removeKeyListener = function( element ) {
-                // Button
-                element.removeEventListener( 'keypress', buttonListener );
-                // Checkboxes
-                $scope.tabables = element.nextSibling.querySelectorAll( 'button, input' );                
-                for( i = 0 ; i < $scope.tabables.length ; i++ ) {
-                    $scope.tabables[ i ].removeEventListener( 'keypress', checkboxListener, false );
-                }                
-            }
+            }            
 
             ///////////////////////
             // Logic starts here
@@ -456,12 +393,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
 
             validate();
             $scope.refreshSelectedItems();   
-
-            // If helperButtons is not defined, we show all helpers
-            if ( typeof $scope.helperButtons === 'undefined' ) {
-                $scope.helperButtons2 = 'all none reset filter';
-            }
-
+            
             // Watch for changes in input model (allow dynamic input)
             $scope.$watch( 'inputModel' , function( oldVal, newVal ) {                 
                 if ( $scope.inputModel !== 'undefined' ) {
@@ -482,13 +414,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', fu
                 var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
                 if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {                                        
-                        checkboxes[i].className = 'multiSelect checkboxLayer hide';
-                        // JH DotComIt 5/8/2014 Added method handler for closing the popup
-                        // Call on blur but just once                        
-                        if ( i === 0 ) {
-                            $scope.onBlur();
-                        }
-                        
+                        checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
                     }
                     e.stopPropagation();
                 }                                
