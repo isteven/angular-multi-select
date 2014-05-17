@@ -394,15 +394,27 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             validate();
             $scope.refreshSelectedItems();   
             
-            // Watch for changes in input model (allow dynamic input)
+            // Watch for changes in input model 
+            // Updates multi-select when user select/deselect a single checkbox programatically
+            // https://github.com/isteven/angular-multi-select/issues/8
             $scope.$watch( 'inputModel' , function( oldVal, newVal ) {                 
-                if ( $scope.inputModel !== 'undefined' ) {
+                if ( $scope.newVal !== 'undefined' ) {
+                    validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
+                    validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
+                }                
+                $scope.refreshSelectedItems();                                                 
+            }, true);
+
+            // Watch for changes in input model 
+            // This on updates the multi-select when a user load a whole new input-model. We also update the $scope.backUp variable
+            $scope.$watch( 'inputModel' , function( oldVal, newVal ) {                 
+                if ( $scope.newVal !== 'undefined' ) {
                     validateProperties( $scope.itemLabel.split( ' ' ), $scope.inputModel );
                     validateProperties( new Array( $scope.tickProperty ), $scope.inputModel );
                 }
                 $scope.backUp = angular.copy( $scope.inputModel );                                                    
                 $scope.refreshSelectedItems();                                                 
-            });
+            });            
 
             // Watch for changes in directive state (disabled or enabled)
             $scope.$watch( 'isDisabled' , function( newVal ) {         
