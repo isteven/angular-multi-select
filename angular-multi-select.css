@@ -5,7 +5,7 @@
     display: inline-block;
 }
 
-/* multi select button style */
+/* button */
 .multiSelect .button {
     display: block;
     position: relative;
@@ -13,7 +13,7 @@
     text-align: center;
     cursor: pointer;
     border: 1px solid #c6c6c6;
-    padding: 7px 12px 5px;
+    padding: 5px 8px 2px;
     font-size: 14px;
     line-height: 1.4;
     border-radius: 2px;
@@ -29,6 +29,7 @@
     
 }
 
+/* button on mouse hover */
 .multiSelect .button:hover {
     background-image: linear-gradient(#fff, #eee);    
 }
@@ -51,6 +52,7 @@
     float: left;        
 }
 
+/* The checkboxes container */
 .multiSelect .checkboxLayer {
     background-color: #fff;
     position: absolute;
@@ -65,6 +67,7 @@
     min-width:270px;
 }
 
+/* Downward pointing arrow */
 .multiSelect .caret {
     display: inline-block;
     width: 0;
@@ -96,7 +99,6 @@
     line-height: 1.4;  
     min-width: 14px;
 }
-
 
 label.multiSelect span {
     white-space:nowrap;
@@ -137,7 +139,7 @@ label.multiSelect span {
 label.multiSelect input:focus ~ span::after,
 label.multiSelect span:focus::after, 
 label.multiSelect span:hover::after {     
-    /* Enable this if you want some arrow pointer */
+    /* Enable this if you want some arrow pointer on focus */
     /* content: ' \00AB'; */
 }
 
@@ -145,7 +147,7 @@ label.multiSelect input:focus ~ span,
 label.multiSelect span:hover {
     color: #333;
     cursor: pointer;        
-    /* Enable this if you want some arrow pointer */
+    /* Enable this if you want some arrow pointer on focus */
     /* content: ' \00AB'; */
 }
 
@@ -161,7 +163,9 @@ label.multiSelect span:hover {
     cursor: not-allowed;
 }
 
-/* If you use images in button / checkbox label, you might want to change the image style here.. */
+/* 
+ * If you use images in button / checkbox label, you might want to change the image style here.
+ */
 .multiSelect img {
     vertical-align: middle;
     margin-bottom:3px;
