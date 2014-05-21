@@ -64,7 +64,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel" ng-focus="onFocus()" ng-blur="onBlur()">' +
                 '</button>' +                
                 '<div class="multiSelect checkboxLayer hide">' +
-                    '<div class="multiSelect line">' +
+                    '<div class="multiSelect line" ng-show="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                         '<span ng-if="!isDisabled && ( displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' ))">Select: &nbsp;</span>' + 
                             '<button type="button" ng-click="select( \'all\' )"    class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">All</button> ' +
                             '<button type="button" ng-click="select( \'none\' )"   class="multiSelect helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">None</button> ' + 
@@ -421,8 +421,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 $scope.isDisabled = newVal;                               
             });
 
-            // Monitor for clicks outside the button element to hide the checkboxes
-            angular.element( document ).bind( 'click' , function( e ) {                                
+            // Monitor for clicks or touches outside the button element to hide the checkboxes
+            angular.element( document ).bind( 'click touchstart' , function( e ) {                                
                 var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
                 if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {                                        
