@@ -182,10 +182,10 @@ Load the required files
 ...
 </code></pre>
 
-Load the multi-select directive
+Load the multi-select directive, such as:
 <br />
 <pre><code>var myApp = angular.module('myApp', [ 'multi-select' ]);</code></pre>
-In your controller, prepare the input-model as a <span class="inlinefauxcode">$scope</span> variable <br />
+In your controller, prepare a <span class="inlinefauxcode">$scope</span> variable as the input-model<br /> 
 <pre><code>$scope.modernWebBrowsers = [
     { icon: "[...]/opera.png...",               name: "Opera",              maker: "(Opera Software)",        ticked: true  },
     { icon: "[...]/internet_explorer.png...",   name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
@@ -649,7 +649,7 @@ code
             ];
         </div>
 
-        <h3>5) Single selection mode with no helper elements. Just like a normal drop down menu.</h3>
+        <h3>5) Single selection mode with no helper elements, just like a normal drop down menu (Also check your browser console to see the events). </h3>
         <br />Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br /><br />
         <div 
             multi-select 
@@ -714,7 +714,7 @@ code
         <h2>Note</h2>
         <ul>
             <li>I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.</li>
-            <li>If you use this directive in your commercial projects, do let me know. Just open a new issue in Github, or, you can simply star this repo. It's a huge motivation for me. Thanks!</li>        
+            <li>If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Thanks!</li>        
             <li>Pardon the some incorrect HTML highlighting. Apparently highlight.js breaks when it sees on-open="function()" etc.</li>
         </ul>
         
