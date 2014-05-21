@@ -61,7 +61,7 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box; 
-    padding: 15px;
+    padding: 14px 0px 7px 14px;
     min-width:270px;
 }
 
