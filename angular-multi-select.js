@@ -56,7 +56,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             onOpen          : '&',
             onClose         : '&',
             onBlur          : '&',
-            onFocus         : '&'            
+            onFocus         : '&',
         },
 
         template: 
@@ -93,9 +93,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.selectedItems    = [];    
             $scope.backUp           = [];
             $scope.varButtonLabel   = '';   
-            $scope.tabIndex         = 0;
-            $scope.tabables         = null;
             $scope.currentButton    = null;
+            $scope.scrolled         = false;
 
             // Show or hide a helper element 
             $scope.displayHelper = function( elementString ) {
@@ -135,7 +134,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         break;                    
                     default:                        
                         break;
-                }
+                }$scope
             }                
 
             // Call this function when a checkbox is ticked...
@@ -207,7 +206,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                     if ( $scope.more === true ) {
                         $scope.varButtonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
-                    }
+                    }$scope
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="multiSelect caret"></span>' );
             }
@@ -219,7 +218,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 if ( item[ $scope.disableProperty ] === true ) {                    
                     return true;
                 }
-                else {                    
+                else {             $scope       
                     if ( $scope.isDisabled === true ) {
                         return true;
                     }
@@ -249,6 +248,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // UI operations to show/hide checkboxes based on click event..
             $scope.toggleCheckboxes = function( e ) {                                                
 
+                // Determine what element is clicked (has to be button). 
                 if ( e.target ) {                    
                     if ( e.target.tagName.toUpperCase() !== 'BUTTON' && e.target.className.indexOf( 'multiSelectButton' ) < 0 ) {
                         if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
@@ -269,11 +269,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 $scope.labelFilter = '';                
               
-                // We search them based on the class names
+                // Search all the multi-select instances based on the class names
                 var multiSelectIndex    = -1;                                
                 var checkboxes          = document.querySelectorAll( '.checkboxLayer' );
                 var multiSelectButtons  = document.querySelectorAll( '.multiSelectButton' );   
 
+                // Mark which instance is clicked
                 for( i=0; i < multiSelectButtons.length; i++ ) {
                     if ( e === multiSelectButtons[ i ] ) {                        
                         multiSelectIndex = i;
@@ -281,6 +282,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }                
                                  
+                // Apply the hide css to all multi-select instances except the clicked one
                 if ( multiSelectIndex > -1 ) {
                     for( i=0; i < checkboxes.length; i++ ) {
                         if ( i != multiSelectIndex ) {
@@ -288,12 +290,15 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         }
                     }                    
 
+                    // If it's already hidden, show it
                     if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer hide' ) {                    
                         $scope.currentButton = multiSelectButtons[ multiSelectIndex ];
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer show';
                         // https://github.com/isteven/angular-multi-select/pull/5 - On open callback
                         $scope.onOpen();                        
                     }
+
+                    // If it's already displayed, hide it
                     else if ( checkboxes[ multiSelectIndex ].className == 'multiSelect checkboxLayer show' ) {                                    
                         checkboxes[ multiSelectIndex ].className = 'multiSelect checkboxLayer hide';
                         // https://github.com/isteven/angular-multi-select/pull/5 - On close callback
@@ -419,17 +424,33 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // Watch for changes in directive state (disabled or enabled)
             $scope.$watch( 'isDisabled' , function( newVal ) {         
                 $scope.isDisabled = newVal;                               
+            });            
+
+            // This is for touch enabled devices. We don't want to hide checkboxes on scroll. 
+            angular.element( document ).bind( 'touchstart', function( e ) { 
+                $scope.$apply( function() {
+                    $scope.scrolled = false;
+                }); 
             });
 
-            // Monitor for clicks or touches outside the button element to hide the checkboxes
-            angular.element( document ).bind( 'click touchstart' , function( e ) {                                
-                var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
-                if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
-                    for( i=0; i < checkboxes.length; i++ ) {                                        
-                        checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
-                    }
-                    e.stopPropagation();
-                }                                
+            angular.element( document ).bind( 'touchmove', function( e ) { 
+                $scope.$apply( function() {
+                    $scope.scrolled = true;                
+                });
+            });
+
+            // Monitor for click or touches outside the button element to hide the checkboxes
+            angular.element( document ).bind( 'click touchend' , function( e ) {                                                                
+
+                if ( e.type === 'click' || e.type === 'touchend' && $scope.scrolled === false ) {
+                    var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
+                    if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
+                        for( i=0; i < checkboxes.length; i++ ) {                                        
+                            checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
+                        }
+                        e.stopPropagation();
+                    }                                                                        
+                }     
             });             
                     
             // For IE8, perhaps. Not sure if this is really executed.

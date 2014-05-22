@@ -13,7 +13,7 @@
     text-align: center;
     cursor: pointer;
     border: 1px solid #c6c6c6;
-    padding: 5px 8px 2px;
+    padding: 5px 8px 6px;
     font-size: 14px;
     line-height: 1.4;
     border-radius: 2px;
@@ -168,7 +168,7 @@ label.multiSelect span:hover {
  */
 .multiSelect img {
     vertical-align: middle;
-    margin-bottom:3px;
+    margin-bottom:0px;
     height: 22px;
     width:22px;
 }
