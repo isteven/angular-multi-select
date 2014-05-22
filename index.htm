@@ -124,8 +124,8 @@
 
     <!-- JS -->
     <script src="highlight/highlight.pack.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>        
-    <script src="angular-multi-select.min.js"></script>      
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>    
+    <script src="angular-multi-select.js"></script>      
     
 </head>
 <body ng-controller="main">
@@ -171,8 +171,14 @@
             <li>Responsive to some extent</li>
             <li>Use SHIFT and SHIFT+TAB to move between inputs</li>
             <li>Event callbacks available ~ v1.1.0</li>            
-            <li>Pure AngularJS. Can be easily combined with other Javascript libraries such as jQuery, Twitter Bootstrap, etc.</li>
-        </ul>                            
+            <li>Pure AngularJS. Can be easily combined with other Javascript libraries such as jQuery, Twitter Bootstrap, etc.</li>            
+        </ul>              
+       
+        Wish list in the pipeline:
+        <ul>
+            <li>Grouping of checkboxes. Easy to work on but currently thinking of the best way to implement it.</li>            
+            <li>Custom classes for each directive (for the button and the checkboxes)</li>            
+        </ul>
 <h2>Usage</h2>
 Load the required files
 <pre><code>&lt;link rel="stylesheet" href="angular-multi-select.css"&gt;
@@ -649,7 +655,7 @@ code
             ];
         </div>
 
-        <h3>5) Single selection mode with no helper elements, just like a normal drop down menu (Also check your browser console to see the events). </h3>
+        <h3>5) Single selection mode with no helper elements, just like a normal drop down menu.</h3>
         <br />Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br /><br />
         <div 
             multi-select 
