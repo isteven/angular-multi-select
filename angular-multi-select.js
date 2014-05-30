@@ -444,7 +444,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 if ( e.type === 'click' || e.type === 'touchend' && $scope.scrolled === false ) {
                     var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
-                    if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
+                    if ( e.target.className.indexOf === undefined || e.target.className.indexOf( 'multiSelect' ) {
                         for( i=0; i < checkboxes.length; i++ ) {                                        
                             checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
                         }
