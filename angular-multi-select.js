@@ -181,9 +181,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 if ( $scope.selectedItems.length === 0 ) {
                     $scope.varButtonLabel = 'None selected';
                 }
-                else {                
+                else {
                     var tempMaxLabels = $scope.selectedItems.length;
-                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' && $scope.maxLabels !== "0" ) {
+                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
                         tempMaxLabels = $scope.maxLabels;
                     }
 
@@ -202,11 +202,15 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             }
                             ctr++;
                         }
-                    });                
+                    });
 
                     if ( $scope.more === true ) {
-                        $scope.varButtonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
-                    }$scope
+                        if (tempMaxLabels > 0) {
+                            $scope.varButtonLabel += ', ... ';
+                        }
+
+                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
+                    }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="multiSelect caret"></span>' );
             }
