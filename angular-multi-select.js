@@ -49,6 +49,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             tickProperty    : '@',
             disableProperty : '@',
             orientation     : '@',
+            defaultLabel    : '@',
             maxLabels       : '@',
             isDisabled      : '=',
             directiveId     : '@',
@@ -179,7 +180,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // Write label...
                 if ( $scope.selectedItems.length === 0 ) {
-                    $scope.varButtonLabel = 'None selected';
+                    $scope.varButtonLabel = ($scope.defaultLabel)? $scope.defaultLabel : 'None selected';
                 }
                 else {
                     var tempMaxLabels = $scope.selectedItems.length;
