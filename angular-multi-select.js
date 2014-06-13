@@ -49,6 +49,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             tickProperty    : '@',
             disableProperty : '@',
             orientation     : '@',
+            defaultLabel    : '@',
             maxLabels       : '@',
             isDisabled      : '=',
             directiveId     : '@',
@@ -179,11 +180,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // Write label...
                 if ( $scope.selectedItems.length === 0 ) {
-                    $scope.varButtonLabel = 'None selected';
+                    $scope.varButtonLabel = ($scope.defaultLabel)? $scope.defaultLabel : 'None selected';
                 }
-                else {                
+                else {
                     var tempMaxLabels = $scope.selectedItems.length;
-                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' && $scope.maxLabels !== "0" ) {
+                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
                         tempMaxLabels = $scope.maxLabels;
                     }
 
@@ -202,11 +203,15 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             }
                             ctr++;
                         }
-                    });                
+                    });
 
                     if ( $scope.more === true ) {
-                        $scope.varButtonLabel += ', ... (Total: ' + $scope.selectedItems.length + ')';
-                    }$scope
+                        if (tempMaxLabels > 0) {
+                            $scope.varButtonLabel += ', ... ';
+                        }
+
+                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
+                    }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="multiSelect caret"></span>' );
             }
@@ -444,7 +449,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 if ( e.type === 'click' || e.type === 'touchend' && $scope.scrolled === false ) {
                     var checkboxes = document.querySelectorAll( '.checkboxLayer' );     
-                    if ( e.target.className.indexOf( 'multiSelect' ) === -1 ) {
+                    if ( e.target.className.indexOf === undefined || e.target.className.indexOf( 'multiSelect' )) {
                         for( i=0; i < checkboxes.length; i++ ) {                                        
                             checkboxes[i].className = 'multiSelect checkboxLayer hide';                        
                         }
