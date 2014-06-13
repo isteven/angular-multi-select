@@ -94,7 +94,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.backUp           = [];
             $scope.varButtonLabel   = '';   
             $scope.currentButton    = null;
-            $scope.scrolled         = false;
+            $scope.scrolled         = false;            
 
             // Show or hide a helper element 
             $scope.displayHelper = function( elementString ) {
