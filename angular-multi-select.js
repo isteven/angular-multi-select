@@ -29,7 +29,7 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module('multi-select', ['ng']).directive('multiSelect', [ function () {
+angular.module('multi-select', ['ng']).directive('multiSelect', ['$sce', function ($sce) {
     return {
         restrict: 'AE',
 
@@ -57,9 +57,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ function () {
         },
 
         template: '<span class="multiSelect inlineBlock" >' +
-            '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-focus="onFocus()" ng-blur="onBlur()">' +
-            '{{ varButtonLabel }}' +
-            '<span class="multiSelect caret"></span>' +
+            '<button type="button" class="multiSelect button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems();" ng-bind-html="varButtonLabel" ng-focus="onFocus()" ng-blur="onBlur()">' +
             '</button>' +
             '<div class="multiSelect checkboxLayer hide">' +
             '<div class="multiSelect line" ng-show="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
@@ -79,7 +77,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ function () {
             '<div class="multiSelect acol">' +
             '<label class="multiSelect" ng-class="{checkboxSelected:item[ tickProperty ]}">' +
             '<input class="multiSelect checkbox" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event )"/>' +
-            '<span class="multiSelect">{{ writeLabel(item, \'itemLabel\') }}</span>' +
+            '<span class="multiSelect" ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel(item, \'itemLabel\')"></span>' +
             '</label>&nbsp;&nbsp;' +
             '</div>' +
             '</div>' +
@@ -212,6 +210,8 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ function () {
                         }
                     }
                 }
+                // so one can use HTML, like <img>, for the item labels
+                $scope.varButtonLabel = $sce.trustAsHtml($scope.varButtonLabel + '<span class="multiSelect caret"></span>');
             };
 
             // Check if a checkbox is disabled or enabled. It will check the granular control (disableProperty) and global control (isDisabled)
@@ -237,7 +237,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ function () {
                         });                    
                     }
                 });
-                return label;
+                return $sce.trustAsHtml(label);
             };
 
             // UI operations to show/hide checkboxes based on click event..
