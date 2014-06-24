@@ -14,7 +14,7 @@ Note
 --
 
 <br />ATTENTION: new version is coming -in about 1 or 2 weeks- so at the moment I won't be merging pull requests. Instead I will manually add them into the version I am working on.
-<br />Kindly let me know if you use this directive in your projects -just open a new issue in Github- or start the directive if you like it. It's a huge motivation for me. Thanks!        
+<br /><br />Kindly let me know if you use this directive in your projects -just open a new issue in Github- or start the directive if you like it. It's a huge motivation for me. Thanks!        
 
 Licence
 --
