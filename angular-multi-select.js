@@ -54,6 +54,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             isDisabled      : '=',
             directiveId     : '@',
             helperElements  : '@',
+            keepDefaultLabel: '@',
             onOpen          : '&',
             onClose         : '&',
             onBlur          : '&',
@@ -183,34 +184,40 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.varButtonLabel = ($scope.defaultLabel)? $scope.defaultLabel : 'None selected';
                 }
                 else {
-                    var tempMaxLabels = $scope.selectedItems.length;
-                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
-                        tempMaxLabels = $scope.maxLabels;
-                    }
+                    switch (attrs.keepDefaultLabel) {
+                      case 'true':
+                        $scope.varButtonLabel = ($scope.defaultLabel)? $scope.defaultLabel : 'None selected';
+                        break;
+                      default:
+                        var tempMaxLabels = $scope.selectedItems.length;
+                        if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
+                          tempMaxLabels = $scope.maxLabels;
+                        }
 
-                    // If max amount of labels displayed..
-                    if ( $scope.selectedItems.length > tempMaxLabels ) {
-                        $scope.more = true;
-                    }
-                    else {
-                        $scope.more = false;
-                    }                
-                
-                    angular.forEach( $scope.selectedItems, function( value, key ) {
-                        if ( typeof value !== 'undefined' ) {                        
-                            if ( ctr < tempMaxLabels ) {                            
-                                $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value, 'buttonLabel' );
+                        // If max amount of labels displayed..
+                        if ( $scope.selectedItems.length > tempMaxLabels ) {
+                          $scope.more = true;
+                        }
+                        else {
+                          $scope.more = false;
+                        }
+
+                        angular.forEach( $scope.selectedItems, function( value, key ) {
+                          if ( typeof value !== 'undefined' ) {
+                            if ( ctr < tempMaxLabels ) {
+                              $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? ', ' : '') + $scope.writeLabel( value, 'buttonLabel' );
                             }
                             ctr++;
-                        }
-                    });
+                          }
+                        });
 
-                    if ( $scope.more === true ) {
-                        if (tempMaxLabels > 0) {
+                        if ( $scope.more === true ) {
+                          if (tempMaxLabels > 0) {
                             $scope.varButtonLabel += ', ... ';
-                        }
+                          }
 
-                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
+                          $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
+                        }
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="multiSelect caret"></span>' );
