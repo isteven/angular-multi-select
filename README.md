@@ -10,11 +10,15 @@ Demo & How To
 --
 Go to http://isteven.github.io/angular-multi-select
 
+Changes
+--
+See changelog.md
+
 Note
 --
-I'm a Github newbie so pardon me if you experience weird commit / forking sequence =)
-<br />I'm all ears for new development ideas. Just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.
-<br />Kindly let me know if you use this directive in your projects -just open a new issue in Github- it's a huge motivation for me. Thanks!        
+<br />If you have any problem, just open an issue in https://github.com/isteven/angular-multi-select.
+<br />Pardon the some incorrect HTML highlighting. Apparently highlight.js breaks when it sees on-open="function()" etc.
+<br />If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Thanks!
 
 Licence
 --
