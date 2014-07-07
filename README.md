@@ -1,9 +1,7 @@
 AngularJS MultiSelect
-==
-v2.0.0
--
-An AngularJS directive which creates a dropdown button with multiple or single selections. 
-Allows you to customize your labels and use some HTML tags in the data. Fully configurable through element attributes and CSS.
+--
+An AngularJS directive which creates a dropdown button with multiple or single selections. Fully configurable through element attributes and CSS.
+Allows you to customize your labels and use some HTML tags in the data. 
 Doesn't require jQuery and works well with other Javascript libraries.
 
 ![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
@@ -11,6 +9,10 @@ Doesn't require jQuery and works well with other Javascript libraries.
 Demo & How To 
 --
 Go to http://isteven.github.io/angular-multi-select
+
+Current Version
+--
+2.0.0
 
 Change Log
 --
@@ -48,5 +50,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
