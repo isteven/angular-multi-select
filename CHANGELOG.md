@@ -5,7 +5,8 @@
 - Supports arrow key navigation (up, down, left, right, and spacebar). 
 - New CSS styling
 - default-label attribute. You can define your default text on the button when nothing is selected.
-- on-item-click attribute. This is a callback which will be triggered when a user click an item.
+- on-item-click attribute. This is a callback which will be triggered when a user click an item. Will pass the clicked item to the callback function.
+- on-open and on-close callbacks will now pass the multi-select element (HTML) to the callback function.
 
 ##### Removed / Deprecated:
 - on-focus attribute is deprecated.
