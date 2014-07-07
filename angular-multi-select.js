@@ -77,12 +77,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                             '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                                 '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &#10799;&nbsp; Select None</button>&nbsp;' +
+                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>&nbsp;' +
                                 '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
                             '</div>' +
                             '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
                                 '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
-                                '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&#10799;</button> ' +
+                                '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
                             '</div>' +
                         '</div>' +
                         '<div class="checkBoxContainer" style="{{setHeight();}}">' +
@@ -523,7 +523,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // Just to make sure.. had a bug where key events were recorded twice
                 angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                angular.element( window ).unbind( 'keypress', $scope.keyboardListener );                                    
+                angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                    
 
                 // clear filter
                 $scope.inputLabel.labelFilter = '';                
@@ -534,7 +534,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                    angular.element( window ).unbind( 'keypress', $scope.keyboardListener );                                                                            
+                    angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                                                            
 
                     // clear the focused element;
                     $scope.removeFocusStyle( $scope.tabIndex );
@@ -571,7 +571,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                    angular.element( window ).unbind( 'keypress', $scope.keyboardListener );                                    
+                    angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                    
 
                     // clear the focused element;
                     $scope.removeFocusStyle( $scope.tabIndex );
@@ -588,7 +588,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( $scope.checkBoxLayer ).addClass( 'show' );                         
                     angular.element( clickedEl ).addClass( 'buttonClicked' );                                        
                     angular.element( document ).bind( 'click', $scope.externalClickListener );
-                    angular.element( window ).bind( 'keypress', $scope.keyboardListener );  
+                    angular.element( window ).bind( 'keydown', $scope.keyboardListener );  
 
                     // open callback
                     $scope.onOpen( { data: element } );
@@ -631,7 +631,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 angular.element( $scope.checkBoxLayer.previousSibling ).removeClass( 'buttonClicked' );                    
                 angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
                 angular.element( document ).unbind( 'click', $scope.externalClickListener ); 
-                angular.element( document ).unbind( 'click', $scope.keyboardListener );                
+                angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                
                 // close callback
                 $scope.onClose( { data: element } );
             }
@@ -727,10 +727,10 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             }
 
             // navigate using up and down arrow
-            $scope.keyboardListener = function( e ) {                
+            $scope.keyboardListener = function( e ) { 
                 
                 var key = e.keyCode ? e.keyCode : e.which;      
-                var isNavigationKey = false;
+                var isNavigationKey = false;                
 
                 // ESC key (close)
                 if ( key === 27 ) {
