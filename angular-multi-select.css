@@ -20,7 +20,7 @@
 
 /* ! create a "row" */
 .multiSelect .line { 
-    height: 26px;
+    max-height: 26px;
     padding-bottom: 8px;    
 }
 
