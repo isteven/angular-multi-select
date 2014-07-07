@@ -16,7 +16,7 @@ See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGEL
 
 Note
 --
-- If you have any problem, just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.<br />
+- If you have any problem, try to search in the issue section first. Somebody might have asked similar question. If there's none, then please open a new issue.
 - This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.<br />
 - As for the moment, developments are on going, so I am not accepting pull requests. I will choose &  add them manually instead.
 - If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!<br />
