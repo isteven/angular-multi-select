@@ -4,15 +4,15 @@ An AngularJS directive which creates a dropdown button with multiple or single s
 Allows you to customize your labels and use some HTML tags in the data. Fully configurable through element attributes and CSS.
 Doesn't require jQuery and works well with other Javascript libraries.
 
-<br />![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
 
 Demo & How To 
 --
 Go to http://isteven.github.io/angular-multi-select
 
-Changes
+Change Log
 --
-See <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>
+See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>
 
 Note
 --
