@@ -60,6 +60,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             tickProperty    : '@',
             disableProperty : '@',
             groupProperty   : '@',
+            maxHeight       : '@',
 
             // callbacks
             onClose         : '&',            
@@ -84,13 +85,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                 '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&#10799;</button> ' +
                             '</div>' +
                         '</div>' +
-                        '<div class="checkBoxContainer">' +
-
+                        '<div class="checkBoxContainer" style="{{setHeight();}}">' +
                             '<div ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
                                 'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
                                 'ng-click="syncItems( item, $event, $index );"' + 
                                 'ng-mouseleave="removeFocusStyle( tabIndex );">' + 
-
                                 '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +              
                                 '<div class="acol">' +
                                     '<label>' +
@@ -99,9 +98,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                     '</label>' +                                
                                 '</div>' +
                                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 
-
                                 '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true">&#10004;</span>' +
-
                             '</div>' +
                         '</div>' +
                     '<form>' +
@@ -126,6 +123,13 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             prevTabIndex            = 0;
             helperItems             = [];
             helperItemsLength       = 0;
+
+            // If user specify a height, call this function
+            $scope.setHeight = function() {
+                if ( typeof $scope.maxHeight !== 'undefined' ) {
+                    return 'max-height: ' + $scope.maxHeight + '; overflow-y:scroll';
+                }
+            }
 
             // A little hack so that AngularJS ng-repeat can loop using start and end index like a normal loop
             // http://stackoverflow.com/questions/16824853/way-to-ng-repeat-defined-number-of-times-instead-of-repeating-over-array
@@ -242,7 +246,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             return true;
                         }
                         break;                    
-                    default:                        
+                    default:             
+                        return false;
                         break;
                 }
             }                
