@@ -59,7 +59,6 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // settings based on input model property 
             tickProperty    : '@',
             disableProperty : '@',
-<<<<<<< HEAD
             groupProperty   : '@',
 
             // callbacks
@@ -452,12 +451,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
-<<<<<<< HEAD
                     // https://github.com/isteven/angular-multi-select/pull/19                    
                     $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
-=======
-                    $scope.varButtonLabel = ($scope.defaultLabel)? $scope.defaultLabel : 'None selected';
->>>>>>> 93c81c29e84ff5859b4d4b294b04687f2198493e
                 }
                 else {
                     var tempMaxLabels = $scope.selectedItems.length;
@@ -483,19 +478,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     });
 
                     if ( $scope.more === true ) {
-<<<<<<< HEAD
                         // https://github.com/isteven/angular-multi-select/pull/16
                         if (tempMaxLabels > 0) {
                             $scope.varButtonLabel += ', ... ';
                         }
                         $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
-=======
-                        if (tempMaxLabels > 0) {
-                            $scope.varButtonLabel += ', ... ';
-                        }
 
-                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
->>>>>>> 93c81c29e84ff5859b4d4b294b04687f2198493e
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
