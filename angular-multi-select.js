@@ -205,10 +205,6 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 return true;
             }
             
-=======
-            $scope.currentButton    = null;
-            $scope.scrolled         = false;            
->>>>>>> 5b5918303a29130b22587ac2dd166f6c0b4b2591
 
             // Show or hide a helper element 
             $scope.displayHelper = function( elementString ) {
