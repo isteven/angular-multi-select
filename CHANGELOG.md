@@ -5,7 +5,8 @@ Added / Updated
 - Supports arrow key navigation (up, down, left, right, and spacebar). 
 - New CSS styling
 - default-label attribute. You can define your default text on the button when nothing is selected.
-- on-item-click attribute. This is a callback which will be triggered when a user click an item.
+- on-item-click attribute. This is a new callback which will be triggered when a user click an item. Returns the clicked item as an object.
+- on-open and on-close callbacks now will return the multi-select element (HTML)
 Removed / Deprecated:
 - on-focus attribute is deprecated.
 - on-blur attribute is deprecated. Use on-close instead, as it will be triggered when user close a directive by clicking outside the directive.
