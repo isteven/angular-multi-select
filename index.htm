@@ -114,7 +114,10 @@
             height: 25px;
             float: left;
             padding-right:10px;
-        }        
+        }       
+        .grey {
+            color: #999;
+        }
     </style>   
 
     <!-- css 
@@ -136,7 +139,7 @@
         <h4 style="position:relative;top:-20px">An AngularJS directive which creates a dropdown button with multiple or single selections. Fully configurable through element attributes and CSS.<br />Version: 2.0.0 </h4>                        
         <div
             multi-select 
-            input-model="modernWebBrowsers" 
+            input-model="modernWebBrowsersDemo" 
             button-label="icon name"        
             item-label="icon name maker"        
             tick-property="ticked"              
@@ -160,13 +163,13 @@
             <li>Pure AngularJS. Can be easily combined with other Javascript libraries such as jQuery, Twitter Bootstrap, etc.</li>            
             <li>Multiple or single selection types</li>
             <li>Use HTML &amp; CSS in your button & checkbox labels</li>            
-            <li>Reset selections to original state</li>
             <li>Change/update input model on the fly</li>
             <li>Unlimited nested grouping</li>                        
             <li>Utilizes AngularJS filter</li>
             <li>Responsive to some extent</li>
             <li>Arrow key navigation support</li>
             <li>Event callbacks available</li>            
+            <li>Reset selections to original state</li>
             <li>Configurable, such as:
                 <ul>
                     <li>Set orientation of checkboxes (vertical/horizontal)</li>
@@ -253,11 +256,9 @@ And that's it! You should now have dropdown button like the one you saw earlier 
     is-disabled="true | false"
     helper-elements="all none reset filter"
     default-label="..."
-    on-open="$scope.functionOpen()"
-    on-close="$scope.functionClose()"
-    on-item-click="$scope.functionClick()"
-    on-focus="$scope.functionFocus()" &lt;!-- deprecated and will be removed in the next version --&gt;
-    on-blur="$scope.functionBlur()" &lt;!-- deprecated and will be removed in the next version --&gt;   
+    on-open="$scope.functionOpen( data )"
+    on-close="$scope.functionClose( data )"
+    on-item-click="$scope.functionClick( data )"
 &gt;
 &lt;/div&gt;
 </code></pre>
@@ -404,34 +405,36 @@ And that's it! You should now have dropdown button like the one you saw earlier 
             <li class="attrs">
                 <strong>on-open</strong>
                 <br />A $scope function to call on multi-select open. 
-                <br />Example: <code>on-open="msOpen()"</code>
-                <br />Then specify the function in your controller: <code>$scope.msOpen = function() { ... }</code>
+                <br />Will pass the multi-select element as the parameter.
+                <br />Example: <code>on-open="msOpen( data )"</code>
+                <br />Then specify the function in your controller: <code>$scope.msOpen = function( data ) { ... }</code>
             </li>
             <li class="attrs">
                 <strong>on-close</strong>
                 <br />A $scope function to call on multi-select close (be it by clicking the button or clicking outside the multi-select element). 
-                <br />Example: <code>on-close="msClose()"</code>
-                <br />Then specify the function in your controller: <code>$scope.msClose = function() { ... }</code>
-                <br />Note: close here means closing by clicking the button, not by clicking outside of the multi-select element.
+                <br />Will pass the multi-select element as the parameter.
+                <br />Example: <code>on-close="msClose( data )"</code>
+                <br />Then specify the function in your controller: <code>$scope.msClose = function( data ) { ... }</code>
             </li>
             <li class="attrs">
-                <strong>on-focus</strong> <i>(Deprecated and will be removed in the next version)</i>
+                <strong>on-item-click</strong>
+                <br />A $scope function to call when user click on an item. 
+                <br />Will pass the clicked item as an object.
+                <br />Example: <code>on-item-click="msClick( data )"</code>
+                <br />Then specify the function in your controller: <code>$scope.msClick = function( data ) { ... }</code>                
+            </li>                        
+            <li class="attrs grey" >
+                <strong>on-focus</strong> <i>(Deprecated)</i>
                 <br />A $scope function to call on multi-select button focus. 
                 <br />Example: <code>on-focus="msFocus()"</code>
                 <br />Then specify the function in your controller: <code>$scope.msFocus = function() { ... }</code>
             </li>                                    
-            <li class="attrs">
-                <strong>on-blur</strong> <i>(Buggy, deprecated, and will be removed in the next version)</i>
+            <li class="attrs grey">
+                <strong>on-blur</strong> <i>(Deprecated)</i>
                 <br />A $scope function to call on multi-select out-of-focus, like clicking somewhere outside the multi-select element. 
                 <br />Example: <code>on-blur="msBlur()"</code>
                 <br />Then specify the function in your controller: <code>$scope.msBlur = function() { ... }</code>
                 <br />Note: blur does not equal close.
-            </li>            
-            <li class="attrs">
-                <strong>on-item-click</strong>
-                <br />A $scope function to call when user click on an item. 
-                <br />Example: <code>on-item-click="msClick()"</code>
-                <br />Then specify the function in your controller: <code>$scope.msClick = function() { ... }</code>                
             </li>            
         </ul>
 
@@ -497,9 +500,9 @@ And that's it! You should now have dropdown button like the one you saw earlier 
                 is-disabled="false"
                 helper-elements="all none filter reset"
                 default-label="Please select one"
-                on-open="open()"
-                on-close="close()"
-                on-item-click="click()"
+                on-open="open( data )"
+                on-close="close( data )"
+                on-item-click="click( data )"
                 >
             </div>
             <br />*Open your console to see the multi-select event callbacks. Note that the events might be triggered differently across different browsers.<br /><br />
@@ -839,7 +842,7 @@ Note on grouping:
     <li>You don't need to put anything on the group end marker since it won't be displayed. As you can see, the <code>multiSelectGroup: false</code> above doesn't have any other data.</li>    
     <li>You can use HTML tags on groups as usual.</li>    
     <li>You can have unlimited nested grouping, as many as your layout permits.</li>    
-    <li>Clicking the group header will select/deselect all visible items under that particular group (also depends on the filtered result, if any) EXCEPT on single selection-mode.
+    <li>Clicking the group header will select/deselect all visible items under that particular group EXCEPT on single selection-mode. 
 </ul>    
             <!--
             <div class="fauxcode hljs xml">
@@ -866,18 +869,19 @@ Note on grouping:
         <h2>Browser Compatibility</h2>
         Tested on:
         <ul>
-            <li>Opera 12.16 (Yes, I love Opera browser! Download yours here: <a href="http://www.opera.com/">http://www.opera.com/</a>)</li>
-            <li><strike>IE8</strike> IE9+</li>
-            <li>Firefox 27</li>
-            <li>Google Chrome 33</li>
-            <li>Might work on some mobile browsers. Please test it first.</li>
+            <li>Opera >= 12.16 (Yes, I love Opera browser! Download yours here: <a href="http://www.opera.com/">http://www.opera.com/</a>)</li>
+            <li><strike>IE8</strike> IE: At the moment I don't have access to IE9 and above, so please test first before you use this on production environment.</li>
+            <li>Firefox >= 27</li>
+            <li>Google Chrome >= 33</li>
+            <li>Might work on some mobile browsers. Please test first before you use this on production environment.</li>
         </ul>
 
         <h2>Note</h2>
-        <ul>
+        <ul>            
             <li>If you have any problem, just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.</li>
-            <li>Pardon the some incorrect HTML highlighting. Apparently highlight.js breaks when it sees on-open="function()" etc.</li>
-            <li>If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Thanks!</li>                    
+            <li>This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.</li>
+            <li>Pardon some incorrect HTML highlighting in this document. Apparently highlight.js breaks when it sees on-open="function()" etc.</li>
+            <li>If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!</li>                    
         </ul>
         
         <h2>Licence</h2>
@@ -1213,20 +1217,19 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
         }
     }
 
-    $scope.open = function() {
+    $scope.open = function( data ) {
         console.log( 'multi-select: on-open' );
+        console.log( data );
     }
 
-    $scope.close = function() {
+    $scope.close = function( data ) {
         console.log( 'multi-select: on-close' );
+        console.log( data );        
     }    
 
-    $scope.focus = function() {
+    $scope.click= function( data ) {
         console.log( 'multi-select: on-focus' );
-    }    
-
-    $scope.blur = function() {
-        console.log( 'multi-select: on-blur' );
+        console.log( data );
     }    
 
 }]);    

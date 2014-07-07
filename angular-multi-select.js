@@ -390,7 +390,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }  
 
-                $scope.onItemClick( { item: item } );     
+                $scope.onItemClick( { data: item } );     
 
                 // We update the index here
                 prevTabIndex = $scope.tabIndex;
@@ -535,7 +535,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.removeFocusStyle( $scope.tabIndex );
 
                     // close callback
-                    $scope.onClose();
+                    $scope.onClose( { data: element } );
                     return true;
                 }
                 
@@ -572,7 +572,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.removeFocusStyle( $scope.tabIndex );
 
                     // close callback
-                    $scope.onClose();
+                    $scope.onClose( { data: element } );
                 } 
                 // open
                 else                 
@@ -586,7 +586,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( window ).bind( 'keypress', $scope.keyboardListener );  
 
                     // open callback
-                    $scope.onOpen();
+                    $scope.onOpen( { data: element } );
 
                     // to get the initial tab index, depending on how many helper elements we have. 
                     // priority is to always focus it on the input filter 
@@ -628,7 +628,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 angular.element( document ).unbind( 'click', $scope.externalClickListener ); 
                 angular.element( document ).unbind( 'click', $scope.keyboardListener );                
                 // close callback
-                $scope.onClose();
+                $scope.onClose( { data: element } );
             }
    
             // traverse up to find the button tag
@@ -680,6 +680,10 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         break;
                     case 'CLEAR':
                         $scope.tabIndex = $scope.tabIndex + 1;
+                        break;
+                    case 'FILTER':                        
+                        $scope.tabIndex = helperItems.length - 1;
+                        break;
                     default:                        
                 }                                                                                 
             }            
