@@ -16,9 +16,10 @@ See changelog.md
 
 Note
 --
-<br />If you have any problem, just open an issue in https://github.com/isteven/angular-multi-select.
-<br />Pardon the some incorrect HTML highlighting. Apparently highlight.js breaks when it sees on-open="function()" etc.
-<br />If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Thanks!
+If you have any problem, just open an issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.<br />
+This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.<br />
+Pardon some incorrect HTML highlighting in this document. Apparently highlight.js breaks when it sees on-open="function()" etc.<br />
+If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!<br />
 
 Licence
 --
