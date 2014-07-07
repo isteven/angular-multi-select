@@ -12,7 +12,7 @@ Go to http://isteven.github.io/angular-multi-select
 
 Changes
 --
-See changelog.md
+See <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>
 
 Note
 --
