@@ -19,9 +19,16 @@
 }
 
 /* ! create a "row" */
-.multiSelect .line { 
-    max-height: 26px;
-    padding-bottom: 8px;    
+.multiSelect .line:first-child { 
+
+    //max-height: 26px;
+    line-height: 0px;     
+     //padding-top: 8px;      
+}
+
+.multiSelect .line + .line {     
+    //padding-top: 8px;        
+    //padding-bottom: 8px;
 }
 
 /* ! */
@@ -117,6 +124,7 @@
     color: #666;    
     background-color: #f1f1f1;
     line-height: 1.6;
+    margin: 0px 0px 8px 0px;
 }
 
 /* clear button */
@@ -149,6 +157,7 @@
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */    
     color: #888;
+    margin: 0px 0px 8px 0px;
 }
 
 /* helper elements on hover & focus */

@@ -242,7 +242,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             return true;
                         }
                         break;                    
-                    default:                        
+                    default:             
+                        return false;
                         break;
                 }
             }                
