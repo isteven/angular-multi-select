@@ -142,8 +142,8 @@
             input-model="modernWebBrowsersDemo" 
             button-label="icon name"        
             item-label="icon name maker"        
-            tick-property="ticked"              
-            >
+            tick-property="ticked"                            
+        >            
         </div>
                 
         <br /><br />
@@ -402,6 +402,12 @@ And that's it! You should now have dropdown button like the one you saw earlier 
                 <br />If not specified, the default will be "None selected". 
             </li>            
             <li class="attrs">
+                <strong>height</strong>
+                <br />Set the height of the selection item list area. 
+                <br />If not specified, the default will be auto.
+                <br />Example: <code>height="90px"</code>
+            </li>                        
+            <li class="attrs">
                 <strong>on-open</strong>
                 <br />A $scope function to call on multi-select open. 
                 <br />Will pass the multi-select element as the parameter.
@@ -502,6 +508,7 @@ And that's it! You should now have dropdown button like the one you saw earlier 
                 on-open="open( data )"
                 on-close="close( data )"
                 on-item-click="click( data )"
+                max-height="80px"
                 >
             </div>
             <br />*Open your console to see the multi-select event callbacks. Note that the events might be triggered differently across different browsers.<br /><br />
@@ -712,7 +719,7 @@ code
         </div>
         </div>
 
-        <h3>6) Grouping</h3>        
+        <h3>6) Grouping (and setting max-height example)</h3>        
         Vertical (default) grouping:
         <br />
         <div 
@@ -722,6 +729,7 @@ code
             item-label="icon name maker" 
             tick-property="ticked"           
             group-property="multiSelectGroup"
+            max-height="200px"
             >
         </div>
 
@@ -752,6 +760,7 @@ code
     tick-property="ticked" 
     orientation="vertical" &lt;!-- or horizontal --&gt;
     group-property="multiSelectGroup" 
+    max-height="200px"
 &gt;
 &lt;/div&gt;
 </pre></code></div>
