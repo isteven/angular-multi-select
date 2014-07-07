@@ -65,18 +65,6 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             onClose         : '&',            
             onItemClick     : '&',
             onOpen          : '&'                        
-=======
-            orientation     : '@',
-            defaultLabel    : '@',
-            maxLabels       : '@',
-            isDisabled      : '=',
-            directiveId     : '@',
-            helperElements  : '@',
-            onOpen          : '&',
-            onClose         : '&',
-            onBlur          : '&',
-            onFocus         : '&',
->>>>>>> 93c81c29e84ff5859b4d4b294b04687f2198493e
         },
 
         template: 
@@ -454,7 +442,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     // https://github.com/isteven/angular-multi-select/pull/19                    
                     $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
                 }
-                else {
+                else {                
                     var tempMaxLabels = $scope.selectedItems.length;
                     if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
                         tempMaxLabels = $scope.maxLabels;
@@ -475,7 +463,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             }
                             ctr++;
                         }
-                    });
+                    });                
 
                     if ( $scope.more === true ) {
                         // https://github.com/isteven/angular-multi-select/pull/16
@@ -483,7 +471,6 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             $scope.varButtonLabel += ', ... ';
                         }
                         $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
-
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
