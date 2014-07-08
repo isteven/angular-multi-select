@@ -120,6 +120,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.selectedItems    = [];                                    
             $scope.formElements     = [];
             $scope.tabIndex         = 0;
+            $scope.clickedItem      = null;
             prevTabIndex            = 0;
             helperItems             = [];
             helperItemsLength       = 0;
@@ -376,12 +377,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // single item click
                 else {
-                    $scope.filteredModel[ index ][ $scope.tickProperty ]   = !$scope.filteredModel[ index ][ $scope.tickProperty ];
+                    $scope.filteredModel[ index ][ $scope.tickProperty ] = !$scope.filteredModel[ index ][ $scope.tickProperty ];
                     
                     // we refresh input model as well
                     inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ];                    
-                    $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];
-
+                    $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];                    
 
                     // If it's single selection mode
                     if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
@@ -393,9 +393,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         }        
                         $scope.toggleCheckboxes( e );
                     }
-                }  
+                }                                  
 
-                $scope.onItemClick( { data: item } );     
+                $scope.clickedItem = angular.copy( item );                                    
 
                 // We update the index here
                 prevTabIndex = $scope.tabIndex;
@@ -831,11 +831,15 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // watch1, for changes in input model property
             // updates multi-select when user select/deselect a single checkbox programatically
             // https://github.com/isteven/angular-multi-select/issues/8
-            $scope.$watch( 'inputModel' , function( newVal ) {                 
+            $scope.$watch( 'inputModel' , function( newVal ) {                                 
                 if ( newVal ) {
                     $scope.refreshSelectedItems();                                   
                     $scope.refreshOutputModel();
-                    $scope.refreshButton();                                 
+                    $scope.refreshButton();                              
+                    if ( $scope.clickedItem !== null ) {
+                        $scope.onItemClick( { data: $scope.clickedItem } );                         
+                        $scope.clickedItem = null;                    
+                    }                                    
                 }
             }, true);
 
