@@ -352,7 +352,7 @@ And that's it! You should now have dropdown button like the one you saw earlier 
                 </ul>
             </li>
             <li class="attrs">
-                <strong>output-model</strong>
+                <strong>output-model</strong> 
                 <br />A $scope variable. Array of objects. 
                 <br />If specified, will list all the selected checkboxes.
             </li>
@@ -1224,18 +1224,15 @@ myApp.controller( 'main' , [ '$scope' , function ($scope) {
     }
 
     $scope.open = function( data ) {
-        console.log( 'multi-select: on-open' );
-        console.log( data );
+        console.log( 'multi-select: on-open' , data );
     }
 
     $scope.close = function( data ) {
-        console.log( 'multi-select: on-close' );
-        console.log( data );        
+        console.log( 'multi-select: on-close' , data );
     }    
 
     $scope.click= function( data ) {
-        console.log( 'multi-select: on-click' );
-        console.log( data );
+        console.log( 'multi-select: on-click' , data );
     }    
 
 }]);    
