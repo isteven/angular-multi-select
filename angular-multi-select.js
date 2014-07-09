@@ -521,6 +521,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // UI operations to show/hide checkboxes based on click event..
             $scope.toggleCheckboxes = function( e ) {    
 
+                // We grab the checkboxLayer
+                $scope.checkBoxLayer = element.children()[1];
+
+                // We grab the button
+                clickedEl = element.children()[0];
+
                 // Just to make sure.. had a bug where key events were recorded twice
                 angular.element( document ).unbind( 'click', $scope.externalClickListener );
                 angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                    
@@ -542,9 +548,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     // close callback
                     $scope.onClose( { data: element } );
                     return true;
-                }
-                
-                $scope.checkBoxLayer = angular.element( element ).children()[1];
+                }                                
 
                 // The idea below was taken from another multi-select directive - https://github.com/amitava82/angular-multiselect 
                 // His version is awesome if you need a more simple multi-select approach.
