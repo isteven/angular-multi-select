@@ -432,8 +432,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         // remove the index number and spacing number from output model
                         delete value[ $scope.indexProperty ];
                         delete value[ $scope.spacingProperty ];      
-                    })
-                }                                                
+                    });
+                }                  
             }
 
             // refresh button label
@@ -544,28 +544,10 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     return true;
                 }
                 
-                // Our button accept HTML tags. Depending on browser, the click event might be intercepted by those tags instead of the button. 
-                // Since we want the button to handle click event, we need traverse up to find the button element.
-                if ( e.target ) {                    
-                    if ( e.target.tagName.toUpperCase() !== 'BUTTON' && e.target.className.indexOf( 'multiSelectButton' ) < 0 ) {
-                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
-                            e = $scope.findUpTag( e.target, 'div', 'checkboxLayer' );
-                            e = e.previousSibling;    
-                        }
-                        else {
-                            e = $scope.findUpTag( e.target, 'button', 'multiSelectButton' );
-                        }
-                    }
-                    else {
-                        e = e.target;
-                    }
-                }                 
-                clickedEl = e;
-                $scope.checkBoxLayer = clickedEl.nextSibling;                
+                $scope.checkBoxLayer = angular.element( element ).children()[1];
 
                 // The idea below was taken from another multi-select directive - https://github.com/amitava82/angular-multiselect 
                 // His version is awesome if you need a more simple multi-select approach.
-
                 // close
                 if ( angular.element( $scope.checkBoxLayer ).hasClass( 'show' )) {                                          
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
@@ -590,9 +572,6 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( document ).bind( 'click', $scope.externalClickListener );
                     angular.element( window ).bind( 'keydown', $scope.keyboardListener );  
 
-                    // open callback
-                    $scope.onOpen( { data: element } );
-
                     // to get the initial tab index, depending on how many helper elements we have. 
                     // priority is to always focus it on the input filter 
                     $scope.getFormElements();
@@ -616,6 +595,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     else {                        
                         $scope.formElements[ $scope.tabIndex ].focus();
                     }                    
+
+                    // open callback
+                    $scope.onOpen( { data: element } );
                 }                            
             }
             
@@ -639,8 +621,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // traverse up to find the button tag
             // http://stackoverflow.com/questions/7332179/how-to-recursively-search-all-parentnodes
             $scope.findUpTag = function ( el, tag, className ) {
-                while ( el.parentNode ) {
-                    el = el.parentNode;      
+                while ( el.parentNode ) {                    
+                    el = el.parentNode;                          
                     if ( typeof el.tagName !== 'undefined' ) {
                         if ( el.tagName.toUpperCase() === tag.toUpperCase() && el.className.indexOf( className ) > -1 ) {
                             return el;
@@ -837,7 +819,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.refreshOutputModel();
                     $scope.refreshButton();                              
                     if ( $scope.clickedItem !== null ) {
-                        $scope.onItemClick( { data: $scope.clickedItem } );                         
+                        $timeout( function() {
+                            $scope.onItemClick( { data: $scope.clickedItem } );
+                        }, 0 );                         
                         $scope.clickedItem = null;                    
                     }                                    
                 }
