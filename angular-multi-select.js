@@ -395,7 +395,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }                                  
 
-                $scope.clickedItem = angular.copy( item );                                    
+                $scope.clickedItem = angular.copy( item );                                                    
 
                 // We update the index here
                 prevTabIndex = $scope.tabIndex;
@@ -823,11 +823,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.refreshSelectedItems();                                   
                     $scope.refreshOutputModel();
                     $scope.refreshButton();                              
-                    if ( $scope.clickedItem !== null ) {
+                    if ( $scope.clickedItem !== null ) {                        
                         $timeout( function() {
                             $scope.onItemClick( { data: $scope.clickedItem } );
-                        }, 0 );                         
-                        $scope.clickedItem = null;                    
+                            $scope.clickedItem = null;                    
+                        }, 0 );                                                 
                     }                                    
                 }
             }, true);
