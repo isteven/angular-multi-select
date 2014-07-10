@@ -529,7 +529,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // Just to make sure.. had a bug where key events were recorded twice
                 angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                    
+                angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                                    
 
                 // clear filter
                 $scope.inputLabel.labelFilter = '';                
@@ -540,7 +540,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                    angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                                                            
+                    angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                                                                            
 
                     // clear the focused element;
                     $scope.removeFocusStyle( $scope.tabIndex );
@@ -558,7 +558,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                    angular.element( window ).unbind( 'keydown', $scope.keyboardListener );                                    
+                    angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                                    
 
                     // clear the focused element;
                     $scope.removeFocusStyle( $scope.tabIndex );
@@ -575,7 +575,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     angular.element( $scope.checkBoxLayer ).addClass( 'show' );                         
                     angular.element( clickedEl ).addClass( 'buttonClicked' );                                        
                     angular.element( document ).bind( 'click', $scope.externalClickListener );
-                    angular.element( window ).bind( 'keydown', $scope.keyboardListener );  
+                    angular.element( document ).bind( 'keydown', $scope.keyboardListener );  
 
                     // to get the initial tab index, depending on how many helper elements we have. 
                     // priority is to always focus it on the input filter 
@@ -619,8 +619,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
                 angular.element( document ).unbind( 'click', $scope.externalClickListener ); 
                 angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                
-                // close callback
-                $scope.onClose( { data: element } );
+                
+                // close callback                
+                $timeout( function() {
+                    $scope.onClose( { data: element } );
+                }, 0 );
             }
    
             // traverse up to find the button tag
