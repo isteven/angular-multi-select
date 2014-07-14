@@ -12,6 +12,12 @@
     float: left;
 }
 
+/* ! create a "row" */
+.multiSelect .line {
+    max-height: 34px;   
+    overflow: hidden;
+}
+
 /* ! create a "column" */
 .multiSelect .acol {
     display: inline-block;    
@@ -161,12 +167,6 @@
 .multiSelect .checkBoxContainer {
     display: inline-block;
     padding: 8px;   
-    
-    /* Enable this to set a height limit 
-        max-height:200px;
-        overflow-y: scroll;
-    */
-    
 }
 
 /* ! to show / hide the checkbox layer above */

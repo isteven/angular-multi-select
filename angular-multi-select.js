@@ -2,10 +2,10 @@
  * Angular JS Multi Select
  * Creates a dropdown-like button with checkboxes. 
  *
- * Created: Tue, 14 Jan 2014 - 5:18:02 PM
+ * Project started on: Tue, 14 Jan 2014 - 5:18:02 PM
+ * Current version: 2.0.0
  * 
  * Released under the MIT License
- *
  * --------------------------------------------------------------------------------
  * The MIT License (MIT)
  *
@@ -75,12 +75,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 '<div class="checkboxLayer">' +                        
                     '<form>' + 
                         '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-                            '<div ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+                            '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                                 '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>&nbsp;' +
+                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
                                 '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
                             '</div>' +
-                            '<div style="position:relative" ng-if="displayHelper( \'filter\' )">' +
+                            '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
                                 '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
                                 '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
                             '</div>' +
@@ -213,44 +213,48 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
             // Show or hide a helper element 
             $scope.displayHelper = function( elementString ) {
-                if ( typeof attrs.helperElements === 'undefined' ) {
-                    return true;                    
-                }
-                switch( elementString.toUpperCase() ) {
-                    case 'ALL':
-                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {                            
+
+                if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+
+                    switch( elementString.toUpperCase() ) {
+                        case 'ALL':                                                        
+                            return false;                    
+                            break;
+                        case 'NONE':                            
                             return false;
-                        }
-                        else {
-                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'ALL' ) >= 0 ) {
+                            break;
+                        case 'RESET':
+                            if ( typeof attrs.helperElements === 'undefined' ) {
+                                return true;                    
+                            }
+                            else if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'RESET' ) >= 0 ) {
+                                return true;
+                            }                            
+                            break;
+                        case 'FILTER':
+                            if ( typeof attrs.helperElements === 'undefined' ) {
+                                return true;                    
+                            }                            
+                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'FILTER' ) >= 0 ) {
                                 return true;
                             }
-                        }
-                        break;
-                    case 'NONE':
-                        if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
-                            return false;
-                        }
-                        else {
-                            if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'NONE' ) >= 0 ) {
-                                return true;
-                            }
-                        }
-                        break;
-                    case 'RESET':
-                        if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'RESET' ) >= 0 ) {
-                            return true;
-                        }
-                        break;
-                    case 'FILTER':
-                        if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( 'FILTER' ) >= 0 ) {
-                            return true;
-                        }
-                        break;                    
-                    default:             
-                        return false;
-                        break;
+                            break;                    
+                        default:                                         
+                            break;
+                    }                    
+
+                    return false;
                 }
+
+                else {
+                    if ( typeof attrs.helperElements === 'undefined' ) {
+                        return true;                    
+                    }
+                    if ( attrs.helperElements && $scope.helperElements.toUpperCase().indexOf( elementString.toUpperCase() ) >= 0 ) {
+                        return true;
+                    }
+                    return false;
+                }                
             }                
 
             // call this function when an item is clicked
@@ -377,22 +381,27 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // single item click
                 else {
-                    $scope.filteredModel[ index ][ $scope.tickProperty ] = !$scope.filteredModel[ index ][ $scope.tickProperty ];
+
+                    // If it's single selection mode
+                    if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
+                        
+                        // first, set everything to false
+                        for( i=0 ; i < $scope.filteredModel.length ; i++) {                            
+                            $scope.filteredModel[ i ][ $scope.tickProperty ] = false;                            
+                        }        
+                        for( i=0 ; i < $scope.inputModel.length ; i++) {                            
+                            $scope.inputModel[ i ][ $scope.tickProperty ] = false;                            
+                        }        
+                        
+                        $scope.toggleCheckboxes( e );
+                    }
+
+                    // then set the clicked item to true
+                    $scope.filteredModel[ index ][ $scope.tickProperty ] = true;
                     
                     // we refresh input model as well
                     inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ];                    
                     $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];                    
-
-                    // If it's single selection mode
-                    if ( attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE' ) {
-                        $scope.filteredModel[ index ][ $scope.tickProperty ] = true;
-                        for( i=0 ; i < $scope.filteredModel.length ; i++) {
-                            if ( i !== index ) {
-                                $scope.filteredModel[ i ][ $scope.tickProperty ] = false;
-                            }
-                        }        
-                        $scope.toggleCheckboxes( e );
-                    }
                 }                                  
 
                 $scope.clickedItem = angular.copy( item );                                                    
