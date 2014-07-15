@@ -16,7 +16,7 @@ See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGEL
 
 ### Bug Reporting
 - Search in the issue section first. Somebody might have reported the same bug and/or asked similar question. If there's none, then please create a new issue.
-- Try to reproduce the problem in JSFiddle or Plunker (or any other online JS collaboration tool) and send me the URL.
+- Try to reproduce the problem in JSFiddle or Plunker (or any other online JS collaboration tool), and include the URL in the issue you are creating.
 
 
 ### Note
