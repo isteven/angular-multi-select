@@ -231,8 +231,18 @@ In your view, set the directive as an attribute<br />
 &lt;/multi-select&gt;
 </code></pre>
 </div>
-<div style="clear:both">       
+<div style="clear:both">   
 And that's it! You should now have dropdown button like the one you saw earlier on top of the page.
+<br /><br />
+</div>
+<div style="clear:both">   
+To get the selected items:
+<pre><code>angular.forEach( $scope.modernWebBrowsers, function( value, key ) {
+    if ( value.ticked === true ) {
+        /* do your stuff here */
+    }
+}
+</code></pre>
 </div>
 
 <h2>Attributes / Options</h2>
@@ -847,23 +857,6 @@ Note on grouping:
     <li>You can have unlimited nested grouping, as many as your layout permits.</li>    
     <li>Clicking the group header will select/deselect all visible items under that particular group EXCEPT on single selection-mode. 
 </ul>    
-            <!--
-            <div class="fauxcode hljs xml">
-                $scope.singleWebBrowsers = [   
-            <table>
-                <tr class="hljs-tag" ng-repeat="row in webBrowsersGrouped" >
-                    <td>&nbsp;</td>
-                    <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
-                    <td><span class="hljs-attribute">multiSelectGroup</span>: <span class="hljs-value">{{row.multiSelectGroup}}</span></td>
-                    <td>}<span ng-if="$index < singleWebBrowsers.length - 1">,</span></td>
-                </tr>
-            </table>
-            ];
-            -->
         </div>        
 
         <h2>Dependency</h2>
