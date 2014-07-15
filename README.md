@@ -14,11 +14,15 @@ Go to http://isteven.github.io/angular-multi-select
 ### Change Log
 See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>
 
+### Bug Reporting
+- Search in the issue section first. Somebody might have reported the same bug and/or asked similar question. If there's none, then please open a new issue in <a href="https://github.com/isteven/angular-multi-select">https://github.com/isteven/angular-multi-select</a>.
+- Try to reproduce the problem in JSFiddle or Plunker (or any other online JS collaboration tool) and send me the URL.
+
+
 ### Note
-- If you have any problem, try to search in the issue section first. Somebody might have asked similar question. If there's none, then please open a new issue.
-- This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.<br />
+- This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.
 - As for the moment, developments are on going, so I am not accepting pull requests. I will choose &  add them manually instead.
-- If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!<br />
+- If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!
 
 ### Licence
 Released under the MIT license:
