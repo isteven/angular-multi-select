@@ -393,12 +393,17 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                             $scope.inputModel[ i ][ $scope.tickProperty ] = false;                            
                         }        
                         
-                        $scope.toggleCheckboxes( e );
+                        // then set the clicked item to true
+                        $scope.filteredModel[ index ][ $scope.tickProperty ] = true;
+
+                        $scope.toggleCheckboxes( e );                                                
+                    }   
+
+                    // Multiple
+                    else {
+                        $scope.filteredModel[ index ][ $scope.tickProperty ]   = !$scope.filteredModel[ index ][ $scope.tickProperty ];
                     }
 
-                    // then set the clicked item to true
-                    $scope.filteredModel[ index ][ $scope.tickProperty ] = true;
-                    
                     // we refresh input model as well
                     inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ];                    
                     $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];                    
