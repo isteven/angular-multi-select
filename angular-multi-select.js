@@ -52,6 +52,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             defaultLabel    : '@',
             maxLabels       : '@',
             isDisabled      : '=',
+            limitTo         : '@',
             directiveId     : '@',
             helperElements  : '@',
             onOpen          : '&',
@@ -75,7 +76,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         'Filter: <input class="multiSelect" type="text" ng-model="labelFilter" />' +
                             '&nbsp;<button type="button" class="multiSelect helperButton" ng-click="labelFilter=\'\'">Clear</button>' +
                     '</div>' +
-                    '<div ng-repeat="item in (filteredModel = (inputModel | filter:labelFilter ))" ng-class="orientation" class="multiSelect multiSelectItem">' +
+                    '<div ng-repeat="item in (filteredModel = (inputModel | filter:labelFilter | limitTo: limit))" ng-class="orientation" class="multiSelect multiSelectItem">' +
                         '<div class="multiSelect acol">' +
                             '<div class="multiSelect" ng-show="item[ tickProperty ]">&#10004;</div>' +
                         '</div>' +
@@ -96,6 +97,13 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.varButtonLabel   = '';   
             $scope.currentButton    = null;
             $scope.scrolled         = false;
+
+            //if you have more than 1000 items in the array you have a problem
+            $scope.limit            = 1000;
+
+            if(angular.isDefined(attrs.limitTo) && angular.isNumber(parseInt(attrs.limitTo)) && parseInt(attrs.limitTo) > 0){
+                $scope.limit = parseInt(attrs.limitTo);
+            }
 
             // Show or hide a helper element 
             $scope.displayHelper = function( elementString ) {
