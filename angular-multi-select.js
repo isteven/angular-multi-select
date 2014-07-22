@@ -3,7 +3,7 @@
  * Creates a dropdown-like button with checkboxes. 
  *
  * Project started on: Tue, 14 Jan 2014 - 5:18:02 PM
- * Current version: 2.0.0
+ * Current version: 2.0.1
  * 
  * Released under the MIT License
  * --------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                 '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true">&#10004;</span>' +
                             '</div>' +
                         '</div>' +
-                    '<form>' +
+                    '</form>' +
                 '</div>' +
             '</span>',
 
