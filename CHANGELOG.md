@@ -1,3 +1,7 @@
+### v2.0.1
+##### Added / Updated
+- <a href="https://github.com/isteven/angular-multi-select/issues/52">#52</a> Form tag is now properly closed
+
 ### v2.0.0
 ##### Added / Updated
 - Unlimited nested grouping. Group headers are clickable to select / deselect all items under the group. Group headers are filter aware, means it will only affect filtered result.
@@ -16,13 +20,13 @@
 
 ### v1.2.0
 ##### Added / Updated:
-- Default label on the dropdown button is now configurable using attribute "default-label"="..." (Issue #19)
-- Attribute "max-labels" can now be 0. If set to 0, the dropdown button will only display "(Total: X)" (Issue #16)
+- <a href="https://github.com/isteven/angular-multi-select/issues/19">#19</a> Default label on the dropdown button is now configurable using attribute "default-label"="..."
+- <a href="https://github.com/isteven/angular-multi-select/issues/16">#16</a> Attribute "max-labels" can now be 0. If set to 0, the dropdown button will only display "(Total: X)"
 
 ### v1.1.0
 ##### Added / Updated:
 - Added event callbacks
-- Helper elements are now configurable (Issue #5)
+- <a href="https://github.com/isteven/angular-multi-select/issues/5">#5</a> Helper elements are now configurable
 
 ### v1.0.0
 First release
