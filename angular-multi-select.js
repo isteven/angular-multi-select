@@ -55,6 +55,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             maxLabels       : '@',
             orientation     : '@',
             selectionMode   : '@',            
+            separator       : '@',            
                                                          
             // settings based on input model property 
             tickProperty    : '@',
@@ -477,8 +478,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 
                     angular.forEach( $scope.selectedItems, function( value, key ) {
                         if ( typeof value !== 'undefined' ) {                        
-                            if ( ctr < tempMaxLabels ) {                            
-                                $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? '</div>, <div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel( value, 'buttonLabel' );
+                            if ( ctr < tempMaxLabels ) {                
+                                $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? '</div>' + ($scope.separator !== undefined ? $scope.separator : ', ') + '<div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel( value, 'buttonLabel' );
                             }
                             ctr++;
                         }
