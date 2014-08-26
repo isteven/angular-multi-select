@@ -57,6 +57,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             selectionMode   : '@',            
             selectedPrefix  : '@',
             selectedSuffix  : '@',
+            showRemaining   : '@',
                                                          
             // settings based on input model property 
             tickProperty    : '@',
@@ -493,7 +494,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         }
                         var customLabel = [];
                         if ($scope.selectedPrefix) customLabel.push($scope.selectedPrefix);
-                        customLabel.push($scope.selectedItems.length);
+                        $scope.showRemaining ? customLabel.push($scope.selectedItems.length - parseInt($scope.maxLabels)) : customLabel.push($scope.selectedItems.length);
                         if ($scope.selectedSuffix) customLabel.push($scope.selectedSuffix);
 
                         if (customLabel.length > 1) {
