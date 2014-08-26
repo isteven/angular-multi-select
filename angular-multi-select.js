@@ -499,7 +499,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         if (customLabel.length > 1) {
                           $scope.varButtonLabel += customLabel.join(' ');
                         } else {
-                          $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';••••••••••••••••••••••••
+                          $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
                         }
 
                     }
