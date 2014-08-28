@@ -60,6 +60,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             tickProperty    : '@',
             disableProperty : '@',
             groupProperty   : '@',
+            hiddenProperty  : '@',
             maxHeight       : '@',
 
             // callbacks
@@ -87,7 +88,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         '</div>' +
                         '<div class="checkBoxContainer" style="{{setHeight();}}">' +
                             '<div ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
-                                'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
+                                'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item ), hidden:itemIsHidden( item )}"' +
                                 'ng-click="syncItems( item, $event, $index );"' + 
                                 'ng-mouseleave="removeFocusStyle( tabIndex );">' + 
                                 '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +              
@@ -511,6 +512,15 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }
                 
+            }
+            
+            //Check if the item is hidden
+            $scope.itemIsHidden = function( item ) {
+                if ( typeof attrs.hiddenProperty !== 'undefined' && item[ $scope.hiddenProperty ] === true ) {
+                    return true;
+                }else{
+                    return false;
+                }
             }
 
             // A simple function to parse the item label settings
