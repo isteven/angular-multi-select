@@ -55,6 +55,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             maxLabels       : '@',
             orientation     : '@',
             selectionMode   : '@',            
+            moreLabel       : '&',
                                                          
             // settings based on input model property 
             tickProperty    : '@',
@@ -485,11 +486,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     });                
 
                     if ( $scope.more === true ) {
-                        // https://github.com/isteven/angular-multi-select/pull/16
-                        if (tempMaxLabels > 0) {
-                            $scope.varButtonLabel += ', ... ';
+                        if ( typeof $scope.moreLabel === 'function' ) {
+                          $scope.varButtonLabel += $scope.moreLabel({items: $scope.selectedItems});
                         }
-                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
+                        else {
+                          // https://github.com/isteven/angular-multi-select/pull/16
+                          if (tempMaxLabels > 0) {
+                              $scope.varButtonLabel += ', ... ';
+                          }
+                          $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
+                        }
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
