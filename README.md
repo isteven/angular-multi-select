@@ -1,4 +1,7 @@
 # AngularJS MultiSelect
+
+This is a fork of iSteven's multi-select that fixes a filtering issue and tweaks the CSS to work with our site layout.
+
 Pure AngularJS directive which creates a dropdown button with multiple or single selections. 
 Doesn't require jQuery and works well with other Javascript libraries. 
 Fully configurable through element attributes and CSS. 
