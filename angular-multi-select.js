@@ -127,6 +127,29 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             helperItems             = [];
             helperItemsLength       = 0;
 
+          var throttle =  function(fn, threshhold, scope) {
+            threshhold || (threshhold = 250);
+            var last,
+              deferTimer;
+            return function () {
+              var context = scope || this;
+
+              var now = +new Date,
+                args = arguments;
+              if (last && now < last + threshhold) {
+                // hold on to it
+                clearTimeout(deferTimer);
+                deferTimer = setTimeout(function () {
+                  last = now;
+                  fn.apply(context, args);
+                }, threshhold);
+              } else {
+                last = now;
+                fn.apply(context, args);
+              }
+            };
+          };
+
             // If user specify a height, call this function
             $scope.setHeight = function() {
                 if ( typeof $scope.maxHeight !== 'undefined' ) {
@@ -167,7 +190,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     var gotData = false;
                     if (typeof $scope.inputModel[ i ][ $scope.groupProperty ] === 'undefined') {
 
-                      var objectKeys = _.keys($scope.inputModel[ i ]);
+                      var objectKeys = Object.keys($scope.inputModel[ i ]);
                       var keysLength = objectKeys.length;
                       var key;
 
@@ -209,7 +232,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 },0);
             };
 
-            $scope.throttledUpdateFilter = _.throttle($scope.updateFilter,500);
+            $scope.throttledUpdateFilter = throttle($scope.updateFilter,500);
 
             // List all the input elements.
             // This function will be called everytime the filter is updated. Not good for performance, but oh well..
