@@ -586,7 +586,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     helperItems = [];
                     helperItemsLength = 0;
 
-                    angular.element( $scope.checkBoxLayer ).addClass( 'show' );                         
+                    angular.element( $scope.checkBoxLayer ).addClass( 'show' );    
+                    var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+                        et = element[0].getBoundingClientRect().top,
+                        eh = element[0].offsetHeight,
+                        cblh = $scope.checkBoxLayer.offsetHeight;
+                    if (vh - (et + eh + cblh) < 0) {
+                        angular.element($scope.checkBoxLayer).addClass('above');
+                    } else {
+                        angular.element($scope.checkBoxLayer).removeClass('above');
+                    }
                     angular.element( clickedEl ).addClass( 'buttonClicked' );                                        
                     angular.element( document ).bind( 'click', $scope.externalClickListener );
                     angular.element( document ).bind( 'keydown', $scope.keyboardListener );  
