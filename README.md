@@ -2,6 +2,12 @@
 
 This is a fork of iSteven's multi-select that fixes a filtering issue and tweaks the CSS to work with our site layout.
 
+### Modifications:
+- Adds display-class attribute that allows user to add classes specific to each tag in the dropdown list.
+- Adds search-key attribute to allow user to specify a space separated list of keys to search, defaults to button-label if blank
+- Adds a debounce modifier to the search field, so there is a 500ms delay before filtering occurs. This makes searching large lists seem snappier.
+
+
 Pure AngularJS directive which creates a dropdown button with multiple or single selections. 
 Doesn't require jQuery and works well with other Javascript libraries. 
 Fully configurable through element attributes and CSS. 
