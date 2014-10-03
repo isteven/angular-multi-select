@@ -790,7 +790,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.toggleCheckboxes( e );
                 }
 
-                // next element ( tab, down & right key )
+                // next element ( tab [9], down [40] & right [39] key )
                 else if ( key === 40 || key === 39 || ( !e.shiftKey && key == 9 ) ) {
                     isNavigationKey = true;
                     prevTabIndex = $scope.tabIndex;
@@ -807,7 +807,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }
 
-                // prev element ( shift+tab, up & left key )
+                // prev element ( shift+tab, up[38] & left[37] key )
                 else if ( key === 38 || key === 37 || ( e.shiftKey && key == 9 ) ) {
                     isNavigationKey = true;
                     prevTabIndex = $scope.tabIndex;

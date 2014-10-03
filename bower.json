@@ -1,6 +1,6 @@
 {
-    "name"      : "ns-cloned-isteven-angular-multiselect",
-    "version"   : "v2.0.19",
+    "name"      : "neustar-angular-multiselect",
+    "version"   : "v2.0.20",
     "main"      : [
         "angular-multi-select.js",
         "angular-multi-select.css"
