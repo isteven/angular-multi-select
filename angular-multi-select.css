@@ -23,7 +23,19 @@
     display: inline-block;    
     min-width: 12px;
 }
-
+/* ! positioning, required for `above` class to work */
+.multiSelect {
+     position: relative;
+}
+/* ! positioning of dropdown `above` */
+.checkboxLayer.above {
+     bottom: 100%;
+     margin-bottom: 38px; /* relates to height of multiSelect button*/
+     left: 0;
+     /* change the shadow as appropriate */
+     -webkit-box-shadow: -0 6px 12px rgba(0, 0, 0, 0.175);
+     box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.175);
+}
 /* ! */
 .multiSelect .inlineBlock {
     display: inline-block;
