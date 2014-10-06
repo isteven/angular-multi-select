@@ -824,6 +824,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }
 
+                // Hack to allow arrow keys inside the inputFilter (search) input.
+                if (/inputFilter/.test(e.currentTarget.activeElement.className)){
+                  isNavigationKey = false;
+                }
+
                 if ( isNavigationKey === true ) {
 
                     e.preventDefault();
