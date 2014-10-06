@@ -1,6 +1,6 @@
 {
     "name"      : "neustar-angular-multiselect",
-    "version"   : "v2.0.20",
+    "version"   : "v2.0.22",
     "main"      : [
         "angular-multi-select.js",
         "angular-multi-select.css"
