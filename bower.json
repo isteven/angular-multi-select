@@ -1,6 +1,6 @@
 {
     "name"      : "isteven-angular-multiselect",
-    "version"   : "v2.0.1",
+    "version"   : "v2.0.2",
     "main"      : [
         "angular-multi-select.js",
         "angular-multi-select.css"
@@ -9,6 +9,8 @@
         ".git",
         ".gitignore",
         "bower.json",
+        "CHANGELOG.md",
+        "package.json",
         "README.md",        
         "screenshot.png"
     ]

@@ -9,7 +9,7 @@ Fully configurable through element attributes and CSS.
 Go to http://isteven.github.io/angular-multi-select
 
 ### Current Version
-2.0.1
+2.0.2
 
 ### Change Log
 See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>

@@ -1,3 +1,7 @@
+### v2.0.2
+##### Added / Updated
+- Bring back CSS into bower.json.
+
 ### v2.0.1
 ##### Added / Updated
 - <a href="https://github.com/isteven/angular-multi-select/issues/52">#52</a> Form tag is now properly closed

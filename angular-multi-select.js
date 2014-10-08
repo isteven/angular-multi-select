@@ -3,7 +3,7 @@
  * Creates a dropdown-like button with checkboxes. 
  *
  * Project started on: Tue, 14 Jan 2014 - 5:18:02 PM
- * Current version: 2.0.1
+ * Current version: 2.0.2
  * 
  * Released under the MIT License
  * --------------------------------------------------------------------------------
