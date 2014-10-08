@@ -27,15 +27,6 @@
 .multiSelect {
      position: relative;
 }
-/* ! positioning of dropdown `above` */
-.checkboxLayer.above {
-     bottom: 100%;
-     margin-bottom: 38px; /* relates to height of multiSelect button*/
-     left: 0;
-     /* change the shadow as appropriate */
-     -webkit-box-shadow: -0 6px 12px rgba(0, 0, 0, 0.175);
-     box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.175);
-}
 /* ! */
 .multiSelect .inlineBlock {
     display: inline-block;
@@ -97,6 +88,7 @@
     background-color: #fff;
     position: absolute;
     z-index: 999;
+    left:0;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
@@ -105,7 +97,13 @@
     display: none !important;
     margin-right: 30px;
 }
-
+/* ! positioning of dropdown `above` */
+.multiSelect .checkboxLayer.above {
+     bottom: 100%;
+     margin-bottom: 38px;
+     -webkit-box-shadow: -0 6px 12px rgba(0, 0, 0, 0.175);
+     box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.175);
+}
 /* container of helper elements */
 .multiSelect .helperContainer {
     border-bottom: 1px solid #ddd;
