@@ -1,221 +1,243 @@
 .multiSelect {
-    .helperItemHover() {
-      &:hover{
-        border: 1px solid #ccc;
-        color: #999;
-        background-color: #f4f4f4;
-      } 
+  @highLight:hsl(255, 255%, 255%);
+  @lowLight:hsl(0, 0%, 0%);
+  @focusColor:hsl(206, 65%, 93%);
+  // c1c1c1 = lighten(@lowLight, 75.5%)
+  // ccc = lighten(@lowLight, 80%)
+  // 999 = lighten(@lowLight, 60%)
+  // f4f4f4 = lighten(@lowLight, 95.5%)
+  // c4c4c4 = lighten(@lowLight, 77%)
+  // c6c6c6 = lighten(@lowLight, 77.5%); 
+  // f7f7f7 = darken(@highLight, 3%); 
+  // f1f1f1 = darken(@highLight, 5.5%);  
+  // e9e9e9 = darken(@highLight, 8.5%)
+  // ddd = lighten(@lowLight, 86.5%);
+  // e4e4e4 = darken(@highLight, 10.5%)
+  // 666 = darken(@highLight, 60%)
+  // c1c1c1 = darken(@highLight, 24.5%)
+  // d9d9d9 = darken(@highLight, 15%)
+  // 444 = darken(@highLight, 73.5%)
+  // 555 = darken(@highLight, 66.5%)
+  // 888 = darken(@highLight, 46.5%)
+  // 333 = darken(@highLight, 80%)
+  .helperItemHover() {
+    &:hover{
+      border: 1px solid lighten(@lowLight, 80%);
+      color: lighten(@lowLight, 60%); 
+      background-color: lighten(@lowLight, 95.5%);
+    } 
+  }
+  .helperItemFocus() {
+    &:focus{
+      border: 1px solid @focusColor;
+      box-shadow: inset 0 0px 1px fade(@lowLight, 3.5%), 0 0 5px fade(@focusColor,7%);
+    }      
+  }
+  .itemHover(){
+    &:hover{      
+      background-image: linear-gradient( lighten(@lowLight, 75.5%), lighten(@lowLight, 60%) );
+      color: @highLight;
+      cursor: pointer;
+      border: 1px solid lighten(@lowLight, 80%);
     }
-    .helperItemFocus() {
-      &:focus{
-        border: 1px solid #66AFE9 !important;
-        box-shadow: inset 0 0px 1px rgba(0,0,0,.035), 0 0 5px rgba(82,168,236,.7) !important;
-      }      
-    }
-    .itemHover(){
-      &:hover{
-          background-image: linear-gradient( #c1c1c1, #999 ) !important;
-          color: #fff !important;
-          cursor: pointer;
-          border: 1px solid #ccc !important;
-      }
-      span:hover {
-          cursor: pointer;
-      }    
-    }
+    span:hover {
+      cursor: pointer;
+    }    
+  }
   .disabledHover(){
-    color: #c4c4c4 !important;
-    cursor: not-allowed !important;
-}
-.disabled{
-.disabledHover;
-&:hover{
-.disabledHover;
-}
-label input:hover ~ span{
-.disabledHover;
-}
+    color: lighten(@lowLight, 77%);
+    cursor: not-allowed;
+  }
 
-}
-    .vertical {
-        float: none;
+  .disabled{
+    .disabledHover;
+    &:hover{
+      .disabledHover;
     }
-    .horizontal:not(.multiSelectGroup) {
-        float: left;
+    label input:hover ~ span{
+      .disabledHover;
     }
-    .line {
-        max-height: 34px;
-        overflow: hidden;
-    }
-    .acol {
-        display: inline-block;
-        min-width: 12px;
-    }
-    .inlineBlock {
-        display: inline-block;
-    }
-    .button {
-        display: block;
-        position: relative;
-        text-align: center;
-        cursor: pointer;
-        border: 1px solid #c6c6c6;
-        padding: 1px 8px 1px 8px;
-        font-size: 14px;
-        min-height : 38px !important;
-        border-radius: 4px;
-        color: #555;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
-        user-select: none;
-        white-space:normal;
-        background-color: #fff;
-        background-image: linear-gradient(#fff, #f7f7f7);
-    }
-    .button:hover {
-        background-image: linear-gradient(#fff, #e9e9e9);
-    }
-    .buttonClicked {
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-    .buttonLabel {
-        display: inline-block;
-        padding: 5px 0px 5px 0px;
-    }
-    .caret {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        margin: 0px 0px 1px 12px  !important;
-        vertical-align: middle;
-        border-top: 4px solid #333;
-        border-right: 4px solid transparent;
-        border-left: 4px solid transparent;
-        border-bottom: 0 dotted;
-    }
-    .checkboxLayer {
-        background-color: #fff;
-        position: absolute;
-        z-index: 999;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        border-radius: 4px;
-        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-        min-width:278px;
-        display: none !important;
-        margin-right: 30px;
-    }
-    .helperContainer {
-        border-bottom: 1px solid #ddd;
-        padding: 8px 8px 0px 8px;
-    }
-    .helperButton {
-        .helperItemHover;
-    .helperItemFocus;
-        display: inline;
-        text-align: center;
-        cursor: pointer;
-        border: 1px solid #ccc;
-        height: 26px;
-        font-size: 13px;
-        border-radius: 2px;
-        color: #666;
-        background-color: #f1f1f1;
-        line-height: 1.6;
-        margin: 0px 0px 8px 0px;
-    }
-    .clearButton {
+    
+  }
+  .vertical {
+    float: none;
+  }
+  .horizontal:not(.multiSelectGroup) {
+    float: left;
+  }
+  .line {
+    max-height: 34px;
+    overflow: hidden;
+  }
+  .acol {
+    display: inline-block;
+    min-width: 12px;
+  }
+  .inlineBlock {
+    display: inline-block;
+  }
+  .button {
+    display: block;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid lighten(@lowLight, 77.5%);
+    padding: 1px 8px 1px 8px;
+    font-size: 14px;
+    min-height : 38px;
+    border-radius: 4px;
+    color: darken(@highLight, 66.5%);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    white-space:normal;
+    background-color: @highLight;
+    background-image: linear-gradient(@highLight, darken(@highLight, 3%));
+  }
+  .button:hover {
+    background-image: linear-gradient(@highLight, darken(@highLight, 8.5%));
+  }
+  .buttonClicked {
+    box-shadow: 0 2px 5px fade(@lowLight, 5%) inset, 0 1px 2px fade(@lowLight, 5%);
+  }
+  .buttonLabel {
+    display: inline-block;
+    padding: 5px 0px 5px 0px;
+  }
+  .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin: 0px 0px 1px 12px;
+    vertical-align: middle;
+    border-top: 4px solid darken(@highLight, 80%);
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    border-bottom: 0 dotted;
+  }
+  .checkboxLayer {
+    background-color: @highLight;
+    position: absolute;
+    z-index: 999;
+    border: 1px solid fade(@lowLight, 15%);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px fade(@lowLight, 17.5%);
+    box-shadow: 0 6px 12px fade(@lowLight, 17.5%);
+    min-width:278px;
+    display: none;
+    margin-right: 30px;
+  }
+  .helperContainer {
+    border-bottom: 1px solid lighten(@lowLight, 86.5%);;
+      padding: 8px 8px 0px 8px;
+  }
+  .helperButton {
     .helperItemHover;
     .helperItemFocus;
-        position: absolute;
-        display: inline;
-        text-align: center;
-        cursor: pointer;
-        border: 1px solid #ccc;
-        height: 22px;
-        width: 22px;
-        font-size: 13px;
-        border-radius: 2px;
-        color: #666;
-        background-color: #f1f1f1;
-        line-height: 1.4;
-        right : 2px;
-        top: 2px;
-    }
-    .inputFilter {
+    display: inline;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid lighten(@lowLight, 80%);
+    height: 26px;
+    font-size: 13px;
+    border-radius: 2px;
+    color: darken(@highLight, 60%);
+    background-color: darken(@highLight, 5.5%);
+    line-height: 1.6;
+    margin: 0px 0px 8px 0px;
+  }
+  .clearButton {
+    .helperItemHover;
     .helperItemFocus;
-        border-radius: 2px;
-        border: 1px solid #ccc;
-        height: 26px;
-        font-size: 14px;
-        width:100%;
-        padding-left:7px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        color: #888;
-        margin: 0px 0px 8px 0px;
-    }
-    .checkBoxContainer {
-        display: inline-block;
-        padding: 8px;
-    }
-    .show {
-        display: block !important;
-    }
-    .multiSelectItem {
+    position: absolute;
+    display: inline;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid lighten(@lowLight, 80%);
+    height: 22px;
+    width: 22px;
+    font-size: 13px;
+    border-radius: 2px;
+    color: darken(@highLight, 60%);
+    background-color: darken(@highLight, 5.5%);
+    line-height: 1.4;
+    right : 2px;
+    top: 2px;
+  }
+  .inputFilter {
+    .helperItemFocus;
+    border-radius: 2px;
+    border: 1px solid lighten(@lowLight, 80%);
+    height: 26px;
+    font-size: 14px;
+    width:100%;
+    padding-left:7px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: darken(@highLight, 46.5%);
+    margin: 0px 0px 8px 0px;
+  }
+  .checkBoxContainer {
+    display: inline-block;
+    padding: 8px;
+  }
+  .show {
+    display: block;
+  }
+  .multiSelectItem {
     .itemHover;
-        display: block;
-        padding: 3px;
-        color: #444;
-        white-space: nowrap;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
-        user-select: none;
-        border: 1px solid transparent;
-        position: relative;
-        min-width:278px;
-    }
-    .multiSelectItem:not(.multiSelectGroup).selected {
-        background-image: linear-gradient( #e9e9e9, #f1f1f1 );
-        color: #555;
-        cursor: pointer;
-        border-top: 1px solid #e4e4e4;
-        border-left: 1px solid #e4e4e4;
-        border-right: 1px solid #d9d9d9;
-    }
-    .multiSelectFocus {
-        background-image: linear-gradient( #c1c1c1, #999 ) !important;
-        color: #fff !important;
-        cursor: pointer;
-        border: 1px solid #ccc !important;
-    }
-    .multiSelectGroup {
+    display: block;
+    padding: 3px;
+    color: darken(@highLight, 73.5%);
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    position: relative;
+    min-width:278px;
+  }
+  .multiSelectItem:not(.multiSelectGroup).selected {
+    background-image: linear-gradient( darken(@highLight, 8.5%), darken(@highLight, 5.5%) );
+    color: darken(@highLight, 66.5%);
+    cursor: pointer;
+    border-top: 1px solid darken(@highLight, 10.5%);
+    border-left: 1px solid darken(@highLight, 10.5%);
+    border-right: 1px solid darken(@highLight, 15%);
+  }
+  .multiSelectFocus {
+    background-image: linear-gradient( darken(@highLight, 24.5%), lighten(@lowLight, 60%) );
+    color: @highLight;
+    cursor: pointer;
+    border: 1px solid lighten(@lowLight, 80%);
+  }
+  .multiSelectGroup {
     .itemHover;
-        display: block;
-        clear: both;
-    }
-    .tickMark {
-        display:inline-block;
-        position: absolute;
-        right: 10px;
-        top: 7px;
-        font-size: 10px;
-    }
-    .checkbox {
-        color: #ddd !important;
-        position: absolute;
-        left: -9999px;
-        cursor: pointer;
-    }
-    img {
-        vertical-align: middle;
-        margin-bottom:0px;
-        height: 22px;
-        width:22px;
-    }
+    display: block;
+    clear: both;
+  }
+  .tickMark {
+    display:inline-block;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    font-size: 10px;
+  }
+  .checkbox {
+    color: lighten(@lowLight, 86.5%);;
+      position: absolute;
+    left: -9999px;
+    cursor: pointer;
+  }
+  img {
+    vertical-align: middle;
+    margin-bottom:0px;
+    height: 22px;
+    width:22px;
+  }
 }
