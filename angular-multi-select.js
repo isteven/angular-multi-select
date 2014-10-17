@@ -560,7 +560,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.removeFocusStyle( $scope.tabIndex );
 
                     // close callback
-                    $scope.onClose( { data: element } );
+                    $scope.onClose( { data: $scope.selectedItems } );
                     return true;
                 }                                
 
@@ -578,7 +578,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     $scope.removeFocusStyle( $scope.tabIndex );
 
                     // close callback
-                    $scope.onClose( { data: element } );
+                    $scope.onClose( { data: $scope.selectedItems } );
                 } 
                 // open
                 else                 
@@ -616,7 +616,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }                       
 
                     // open callback
-                    $scope.onOpen( { data: element } );
+                    $scope.onOpen( { data: $scope.selectedItems } );
                 }                            
             }
             
@@ -636,7 +636,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 
                 // close callback                
                 $timeout( function() {
-                    $scope.onClose( { data: element } );
+                    $scope.onClose( { data: $scope.selectedItems } );
                 }, 0 );
             }
    
