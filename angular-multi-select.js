@@ -33,8 +33,6 @@
 
 angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout ) {
     return {
-        restrict: 
-            'AE',
 
         replace: 
             true,
@@ -108,16 +106,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
         link: function ( $scope, element, attrs ) {           
 
             $scope.backUp           = [];
-            $scope.varButtonLabel   = '';   
+            $scope.varButtonLabel   = '';
             $scope.scrolled         = false;
             $scope.spacingProperty  = '';
-            $scope.indexProperty    = '';            
+            $scope.indexProperty    = '';
             $scope.checkBoxLayer    = '';
             $scope.orientationH     = false;
             $scope.orientationV     = true;
             $scope.filteredModel    = [];
             $scope.inputLabel       = { labelFilter: '' };
-            $scope.selectedItems    = [];                                    
+            $scope.selectedItems    = [];
             $scope.formElements     = [];
             $scope.tabIndex         = 0;
             $scope.clickedItem      = null;
@@ -439,15 +437,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             }
 
             // refresh output model as well
-            $scope.refreshOutputModel = function() {                
-                if ( typeof attrs.outputModel !== 'undefined' ) {            
-                    $scope.outputModel = angular.copy( $scope.selectedItems );                    
+            $scope.refreshOutputModel = function() {
+                if ( typeof attrs.outputModel !== 'undefined' ) {
+                    $scope.outputModel = angular.copy( $scope.selectedItems );
                     angular.forEach( $scope.outputModel, function( value, key ) {
-                        // remove the index number and spacing number from output model
+                        // remove the index number, spacing number, and selected properties from output model
                         delete value[ $scope.indexProperty ];
-                        delete value[ $scope.spacingProperty ];      
+                        delete value[ $scope.spacingProperty ];
+                        delete value[ $scope.tickProperty ];
                     });
-                }                  
+                }
             }
 
             // refresh button label
@@ -543,7 +542,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // Just to make sure.. had a bug where key events were recorded twice
                 angular.element( document ).unbind( 'click', $scope.externalClickListener );
-                angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                                    
+                angular.element( document ).unbind( 'keydown', $scope.keyboardListener );
 
                 // clear filter
                 $scope.inputLabel.labelFilter = '';                
