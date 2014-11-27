@@ -518,16 +518,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 var label = '';
                 var temp = $scope[ type ].split( ' ' );                    
                 angular.forEach( temp, function( value2, key2 ) {
-                    if ( typeof value2 !== 'undefined' ) {                        
-                            value2 = value2.split('.');
-
-                            var propertyVal = item;
-                            do {
-                                propertyVal = propertyVal[value2.shift()];                                
-                            } while (value2.length);
-
-                            label += '&nbsp;' + propertyVal;        
-                    }
+                    value2 && (label += '&nbsp;' + value2.split('.').reduce(function(prev, current){return prev[current]; }, item));        
                 });
                 if ( type.toUpperCase() === 'BUTTONLABEL' ) {
                     return label;
