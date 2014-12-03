@@ -1,3 +1,15 @@
+### v2.0.3
+##### Added / Updated
+- Labels can be localized. Just add a new attribute "localized-labels" and pass the object with the localized strings. Example for italian is $scope.myLocalizedStrings = {
+    selectAll: "Seleziona Tutto",
+    selectNone: "Deseleziona Tutto",
+    reset: "Reset",
+    search: "Cerca ...",
+    noneSelected: "Nulla selezionato"
+};
+
+in the directive add the attribute localized-labels="myLocalizedStrings"
+
 ### v2.0.2
 ##### Added / Updated
 - Bring back CSS into bower.json.
