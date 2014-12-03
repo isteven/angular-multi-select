@@ -55,7 +55,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             maxLabels       : '@',
             orientation     : '@',
             selectionMode   : '@',            
-                                                         
+            localizedLabels : '=',
+            
             // settings based on input model property 
             tickProperty    : '@',
             disableProperty : '@',
@@ -76,12 +77,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     '<form>' + 
                         '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                             '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-                                '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
-                                '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
+                                '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; {{textLabels.selectAll}}</button> ' +
+                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; {{textLabels.selectNone}}</button>' +
+                                '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; {{textLabels.reset}}</button>' +
                             '</div>' +
                             '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
-                                '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
+                                '<input placeholder="{{textLabels.search}}" type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
                                 '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
                             '</div>' +
                         '</div>' +
@@ -124,13 +125,27 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             prevTabIndex            = 0;
             helperItems             = [];
             helperItemsLength       = 0;
+            
+            $scope.textLabels       = {
+                selectAll: "Select All",
+                selectNone: "Select None",
+                reset: "Reset",
+                search: "Search ...",
+                noneSelected: "None selected"
+            };
+        
+            if ( typeof $scope.localizedLabels !== 'undefined' ) {
+                for (var text in $scope.localizedLabels) {
+                    $scope.textLabels[text] = $scope.localizedLabels[text];
+                }
+            }
 
             // If user specify a height, call this function
             $scope.setHeight = function() {
                 if ( typeof $scope.maxHeight !== 'undefined' ) {
                     return 'max-height: ' + $scope.maxHeight + '; overflow-y:scroll';
                 }
-            }
+            };
 
             // A little hack so that AngularJS ng-repeat can loop using start and end index like a normal loop
             // http://stackoverflow.com/questions/16824853/way-to-ng-repeat-defined-number-of-times-instead-of-repeating-over-array
@@ -459,7 +474,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
                     // https://github.com/isteven/angular-multi-select/pull/19                    
-                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
+                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : $scope.textLabels.noneSelected;
                 }
                 else {                
                     var tempMaxLabels = $scope.selectedItems.length;
