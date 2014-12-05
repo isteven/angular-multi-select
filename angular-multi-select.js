@@ -83,7 +83,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                 '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
                             '</div>' +
                             '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
-                                '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="throttledUpdateFilter();$scope.getFormElements();" class="inputFilter" />' +
+                                '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" data-ng-model-options="{debounce: 300}" ng-model="inputLabel.labelFilter" ng-change="throttledUpdateFilter();$scope.getFormElements();" class="inputFilter" />' +
                                 '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
                             '</div>' +
                         '</div>' +
@@ -533,7 +533,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         if (tempMaxLabels > 0) {
                             $scope.varButtonLabel += ', ... ';
                         }
-                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';
+                        $scope.varButtonLabel += 'Selected: ' + $scope.selectedItems.length + ' / ' + $scope.inputModel.length;
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );
