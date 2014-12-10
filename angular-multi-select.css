@@ -248,6 +248,12 @@
     cursor: pointer;    
 }
 
+/* hidden class*/
+.multiSelect .hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
 /* checkboxes currently disabled */
 .multiSelect .disabled, 
 .multiSelect .disabled:hover,
