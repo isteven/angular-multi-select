@@ -190,6 +190,11 @@
     min-width:278px;
 }
 
+.multiSelect .multiSelectLabel {
+    display: inline-block;
+    padding-right: 24px;
+}
+
 /* Item labels: selected - Enable this if you want to apply styling on selected items */
 .multiSelect .multiSelectItem:not(.multiSelectGroup).selected
 {
