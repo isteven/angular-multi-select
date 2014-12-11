@@ -31,7 +31,26 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout ) {
+angular.module( 'multi-select', ['ng'] )
+.provider("MultiSelectLabels", function () {
+        this.labels = {
+            selectAllButtonLabel: "Select All",
+            selectNoneButtonLabel: "Select None",
+            resetButtonLabel: "Reset",
+            totalLabel: "Total",
+            noneLabel: "None selected"
+        };
+
+        this.$get = function () {
+            var labels = this.labels;
+            return labels;  
+        };
+
+        this.setLabels = function (labels) {
+            this.labels = labels;
+        };
+    })
+.directive( 'multiSelect' , [ '$sce', '$timeout', 'MultiSelectLabels', function ( $sce, $timeout, MultiSelectLabels ) {
     return {
         restrict: 
             'AE',
@@ -76,9 +95,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     '<form>' + 
                         '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                             '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-                                '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
-                                '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
+                                '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; {{labels.selectAllButtonLabel}}</button> ' +
+                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; {{labels.selectNoneButtonLabel}}</button>' +
+                                '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; {{labels.resetButtonLabel}}</button>' +
                             '</div>' +
                             '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
                                 '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
@@ -121,10 +140,11 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.formElements     = [];
             $scope.tabIndex         = 0;
             $scope.clickedItem      = null;
+            $scope.labels = MultiSelectLabels;
             prevTabIndex            = 0;
             helperItems             = [];
             helperItemsLength       = 0;
-
+            
             // If user specify a height, call this function
             $scope.setHeight = function() {
                 if ( typeof $scope.maxHeight !== 'undefined' ) {
@@ -459,7 +479,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
                     // https://github.com/isteven/angular-multi-select/pull/19                    
-                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
+                    $scope.varButtonLabel = (typeof $scope.defaultLabel !== 'undefined') ? $scope.defaultLabel : $scope.labels.noneLabel;
                 }
                 else {                
                     var tempMaxLabels = $scope.selectedItems.length;
@@ -489,7 +509,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         if (tempMaxLabels > 0) {
                             $scope.varButtonLabel += ', ... ';
                         }
-                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
+                        $scope.varButtonLabel += '(' + $scope.labels.totalLabel + ': ' + $scope.selectedItems.length + ')';
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
