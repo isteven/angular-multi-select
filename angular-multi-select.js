@@ -31,7 +31,27 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout ) {
+angular.module( 'multi-select', ['ng'] )
+    .directive('compile', ['$compile', function ($compile) {
+        return function(scope, element, attrs) {
+            scope.$watch(
+                function(scope) {
+                    // watch the 'compile' expression for changes
+                    return scope.$eval(attrs.compile);
+                },
+                function(value) {
+                    // when the 'compile' expression changes
+                    // assign it into the current DOM
+                    element.html(value);
+                    // compile the new DOM and link it to the current scope.
+                    // NOTE: we only compile .childNodes so that
+                    // we don't get into infinite loop compiling ourselves
+                    $compile(element.contents())(scope);
+                }
+            );
+        };
+    }])
+    .directive( 'multiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout ) {
     return {
         restrict: 
             'AE',
@@ -94,7 +114,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                 '<div class="acol">' +
                                     '<label>' +
                                         '<input class="checkbox focusable" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event, $index )" />' +
-                                        '<span ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
+                                        '<span ng-class="{disabled:itemIsDisabled( item )}" compile="writeLabel( item, \'itemLabel\' )"></span>' +
                                     '</label>' +                                
                                 '</div>' +
                                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 
@@ -529,7 +549,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 if ( type.toUpperCase() === 'BUTTONLABEL' ) {
                     return label;
                 }
-                return $sce.trustAsHtml( label );
+                return label;
+                //return $sce.trustAsHtml( label ); FIXME no need with .compile directive
             }
 
             // UI operations to show/hide checkboxes based on click event..
