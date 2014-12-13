@@ -5,7 +5,10 @@
         "angular-multi-select.js",
         "angular-multi-select.css"
     ],
-    "ignore"    : [
+    "dependencies" : {
+        "angular-translate": "~2.5.2"
+    },
+    "ignore": [
         ".git",
         ".gitignore",
         "bower.json",

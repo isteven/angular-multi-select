@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../angular-multi-select.css">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
+    <script src="../angular-multi-select.js"></script>
+    <script src="../app/bower_components/angular-translate/angular-translate.js"></script>
+    <script src="example.js"></script>
+</head>
+<body ng-app="angular-multi-select-example">
+<div ng-controller="exampleController">
+
+    <div
+            multi-select
+            default-label="Keine Auswahl vorhanden"
+            input-model="modernWebBrowsers"
+            button-label="icon name"
+            item-label="icon name maker"
+            tick-property="ticked"
+            >
+    </div>
+</div>
+</body>
+</html>
