@@ -49,7 +49,7 @@ angular.module( 'multi-select', ['ng', 'pascalprecht.translate'] )
             'NONE' : 'Keine Auswahl'
         });
 
-        $translateProvider.preferredLanguage('de');
+        $translateProvider.preferredLanguage('en');
     }])
     .directive( 'multiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout) {
     return {
