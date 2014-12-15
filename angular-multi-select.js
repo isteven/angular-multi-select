@@ -84,11 +84,12 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
       '</div>' +
       '</div>' +
-      '<div class="checkBoxContainer" style="{{setHeight();}}">' +
-      '<div ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
+      '<div class="checkBoxContainer" data-subfilter="filteredModel" style="{{setHeight();}}">' +
+      '<div ng-repeat="item in subFilteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
       'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
       'ng-click="syncItems( item, $event, $index );"' +
-      'ng-mouseleave="removeFocusStyle( tabIndex );">' +
+      'ng-mouseleave="removeFocusStyle( tabIndex );"' +
+      'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px)">' +
       '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +
       '<div class="acol">' +
       '<label>' +
@@ -494,8 +495,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       };
 
       // refresh button label
-      $scope.refreshButton = function() {
-
+      $scope.refreshButton = function(newVal) {
         $scope.varButtonLabel = '';
         ctr = 0;
 
@@ -708,7 +708,6 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
       // select All / select None / reset buttons
       $scope.select = function(type, e) {
-
         helperIndex = helperItems.indexOf(e.target);
         $scope.tabIndex = helperIndex;
 
@@ -893,6 +892,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       // updates multi-select when user select/deselect a single checkbox programatically
       // https://github.com/isteven/angular-multi-select/issues/8
       $scope.$watch('inputModel', function(newVal) {
+
         if (newVal) {
           $scope.refreshSelectedItems();
           $scope.refreshOutputModel();
@@ -909,6 +909,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       // watch2 for changes in input model as a whole
       // this on updates the multi-select when a user load a whole new input-model. We also update the $scope.backUp variable
       $scope.$watch('inputModel', function(newVal) {
+
         if (newVal) {
           $scope.backUp = angular.copy($scope.inputModel);
           $scope.updateFilter();
@@ -954,6 +955,106 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
         };
       }
     }
-  }
-}]);
+  };
+}]).directive('subfilter', ['$sce', '$timeout', '$log', function($sce, $timeout, $log) {
 
+  var rowHeight = 31;
+  var showMax = 10;
+
+  var link = function($scope, element){
+    var longest = 0;
+
+    var throttle = function(fn, threshhold, scope) {
+      threshhold || (threshhold = 250);
+      var last,
+        deferTimer;
+      return function() {
+        var context = scope || this;
+
+        var now = +new Date,
+          args = arguments;
+        if (last && now < last + threshhold) {
+          // hold on to it
+          clearTimeout(deferTimer);
+          deferTimer = setTimeout(function() {
+            last = now;
+            fn.apply(context, args);
+          }, threshhold);
+        } else {
+          last = now;
+          fn.apply(context, args);
+        }
+      };
+    };
+
+    var lastScrollPosition = 0;
+
+    var setAllWidthsTo = function(widthValue) {
+      var $multiSelectItems = $(element).parent().find('.multiSelectItem');
+      for(var i=0;i<$multiSelectItems.length;i++){
+        $($multiSelectItems[i]).width(widthValue);
+      }
+    };
+
+    $(element).parent().scope().$watch('filteredModel', function(newVal) {
+
+      //init position to 0;
+      longest = 0;
+      var scrollTop = $(element).scrollTop(0);
+      setAllWidthsTo('auto');
+      setWidthToWidestElement();
+      setAllWidthsTo(longest);
+
+      for (var c = 0; c < newVal.length; c++) {
+        newVal[c].displayIndex = c;
+      }
+
+      $(element).parent().scope().subFilteredModel = newVal.slice(0, showMax);
+      $scope.containerHeight = $(element).parent().scope().filteredModel.length * rowHeight;
+
+      var throttledScroll = throttle(function() {
+        scrollTop = $(element).scrollTop();
+        var topElPos = Math.floor(scrollTop / rowHeight);
+        if (lastScrollPosition === topElPos) {
+          return;
+        }
+        lastScrollPosition = topElPos;
+        $(element).parent().scope().subFilteredModel = newVal.slice(topElPos, topElPos + showMax);
+        $(element).parent().scope().$digest();
+        setWidthToWidestElement();
+        setAllWidthsTo(longest);
+
+      }, 200);
+
+      function setWidthToWidestElement(){
+        var $multiSelectItems = $(element).parent().find('.multiSelectItem');
+
+        if($multiSelectItems.length){
+
+          for(var i=0;i<$multiSelectItems.length;i++){
+            if($($multiSelectItems[i]).width() > longest){
+              longest = $($multiSelectItems[i]).width();
+            }
+          }
+
+          $(element).width(longest);
+        }
+      }
+
+      $(element).off('scroll');
+      $(element).on('scroll', throttledScroll);
+
+
+    });
+
+  };
+  return {
+    restrict: 'A',
+    transclude:true,
+    template:'<div style="height:{{containerHeight}}px;overflow:hidden;position:relative" ng-transclude></div>',
+    scope:{
+      subfilter:'='
+    },
+    link:link
+  };
+}]);
