@@ -863,6 +863,32 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 }
             });            
 
+            // watch for external changes to the output model
+            // this updates the multi-select if the selected items are updated from another source
+            $scope.$watch( 'outputModel' , function( newVal ) {
+                if (!angular.isArray( $scope.outputModel )) {
+                    angular.forEach( $scope.inputModel, function( value, key ) {
+                        var currentItem = angular.copy( value );
+                        delete currentItem[ $scope.indexProperty ];
+                        delete currentItem[ $scope.spacingProperty ];
+                        if (JSON.stringify(newVal) === JSON.stringify(currentItem)) {
+                            value[ $scope.tickProperty ] = true;
+                        }
+                    });
+                } else {
+                    angular.forEach( $scope.outputModel, function( value, key ) {
+                        angular.forEach( $scope.inputModel, function( val, k ) {
+                            var currentItem = angular.copy( val );
+                            delete currentItem[ $scope.indexProperty ];
+                            delete currentItem[ $scope.spacingProperty ];
+                            if (JSON.stringify(value) === JSON.stringify(currentItem)) {
+                                val[ $scope.tickProperty ] = true;
+                            }
+                        });
+                    });
+                }
+            }, true);
+
             // watch for changes in directive state (disabled or enabled)
             $scope.$watch( 'isDisabled' , function( newVal ) {         
                 $scope.isDisabled = newVal;                               
