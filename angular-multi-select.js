@@ -121,9 +121,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.formElements     = [];
             $scope.tabIndex         = 0;
             $scope.clickedItem      = null;
-            prevTabIndex            = 0;
-            helperItems             = [];
-            helperItemsLength       = 0;
+            var prevTabIndex        = 0;
+            var helperItems         = [];
+            var helperItemsLength   = 0;
 
             // If user specify a height, call this function
             $scope.setHeight = function() {
@@ -278,7 +278,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     return false;
                 }                
 
-                index = $scope.filteredModel.indexOf( item );       
+                var index = $scope.filteredModel.indexOf( item );       
 
                 // process items if the start of group marker is clicked ( only for multiple selection! )
                 // if, in a group, there are items which are not selected, then they all will be selected
@@ -330,7 +330,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                         break;
                                     }
                                 }                                                                                    
-
+                                
+                                var inputModelIndex;
                                 if ( allTicked === true ) {
                                     for ( j = startIndex; j <= endIndex ; j++ ) {
                                         if ( typeof $scope.filteredModel[ j ][ $scope.groupProperty ] === 'undefined' ) {
@@ -454,7 +455,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.refreshButton = function() {
 
                 $scope.varButtonLabel   = '';                
-                ctr                     = 0;                  
+                var ctr                 = 0;                  
 
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
@@ -539,7 +540,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 $scope.checkBoxLayer = element.children()[1];
 
                 // We grab the button
-                clickedEl = element.children()[0];
+                var clickedEl = element.children()[0];
 
                 // Just to make sure.. had a bug where key events were recorded twice
                 angular.element( document ).unbind( 'click', $scope.externalClickListener );
@@ -599,7 +600,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     var helperContainer = angular.element( element[ 0 ].querySelector( '.helperContainer' ) )[0];                
                     
                     if ( typeof helperContainer !== 'undefined' ) {
-                        for ( i = 0; i < helperContainer.getElementsByTagName( 'BUTTON' ).length ; i++ ) {
+                        for ( var i = 0; i < helperContainer.getElementsByTagName( 'BUTTON' ).length ; i++ ) {
                             helperItems[ i ] = helperContainer.getElementsByTagName( 'BUTTON' )[ i ];
                         }
                         helperItemsLength = helperItems.length + helperContainer.getElementsByTagName( 'INPUT' ).length;
@@ -622,7 +623,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             
             // handle clicks outside the button / multi select layer
             $scope.externalClickListener = function( e ) {                   
-                targetsArr = element.find( e.target.tagName );
+                var targetsArr = element.find( e.target.tagName );
                 for (var i = 0; i < targetsArr.length; i++) {                                        
                     if ( e.target == targetsArr[i] ) {
                         return;
@@ -657,7 +658,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // select All / select None / reset buttons
             $scope.select = function( type, e ) {
 
-                helperIndex = helperItems.indexOf( e.target );
+                var helperIndex = helperItems.indexOf( e.target );
                 $scope.tabIndex = helperIndex;
 
                 switch( type.toUpperCase() ) {
@@ -698,7 +699,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             }            
 
             // just to create a random variable name                
-            genRandomString = function( length ) {                
+            var genRandomString = function( length ) {                
                 var possible    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
                 var temp        = '';
                 for( var i=0; i < length; i++ ) {
@@ -723,7 +724,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
             // prepare original index
             $scope.prepareIndex = function() {
-                ctr = 0;
+                var ctr = 0;
                 angular.forEach( $scope.filteredModel, function( value, key ) {
                     value[ $scope.indexProperty ] = ctr;
                     ctr++;
@@ -869,17 +870,25 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             });            
 
             // this is for touch enabled devices. We don't want to hide checkboxes on scroll. 
-            angular.element( document ).bind( 'touchstart', function( e ) { 
-                $scope.$apply( function() {
-                    $scope.scrolled = false;
-                }); 
-            });
+            var onTouchStart = function( e ) { 
+            	$scope.$apply( function() {
+            		$scope.scrolled = false;
+            	}); 
+            };
+            angular.element( document ).bind( 'touchstart', onTouchStart);
             
             // also for touch enabled devices
-            angular.element( document ).bind( 'touchmove', function( e ) { 
-                $scope.$apply( function() {
-                    $scope.scrolled = true;                
-                });
+            var onTouchMove = function( e ) { 
+            	$scope.$apply( function() {
+            		$scope.scrolled = true;                
+            	});
+            };
+            angular.element( document ).bind( 'touchmove', onTouchMove);
+                    
+            // unbind document events to prevent memory leaks
+            $scope.$on("$destroy", function () {
+				angular.element( document ).unbind( 'touchstart', onTouchStart);
+            	angular.element( document ).unbind( 'touchmove', onTouchMove);
             });
                     
             // for IE8, perhaps. Not sure if this is really executed.
