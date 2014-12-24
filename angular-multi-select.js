@@ -121,6 +121,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.formElements     = [];
             $scope.tabIndex         = 0;
             $scope.clickedItem      = null;
+
+            // FIXME: defined as var ?
             prevTabIndex            = 0;
             helperItems             = [];
             helperItemsLength       = 0;
@@ -160,7 +162,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     if ( typeof $scope.inputModel[ i ][ $scope.groupProperty ] === 'undefined' ) {                        
 
                         for (var key in $scope.inputModel[ i ] ) {
-                            // if filter string is in one of object property                            
+                            // if filter string is in one of object property
+                            // FIXME: for icon link, it is meaningless to check
                             if ( typeof $scope.inputModel[ i ][ key ] !== 'boolean'  && String( $scope.inputModel[ i ][ key ] ).toUpperCase().indexOf( $scope.inputLabel.labelFilter.toUpperCase() ) >= 0 ) {
                                 gotData = true;
                                 break;
@@ -184,7 +187,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     }
                 }                
 
-                $scope.filteredModel.reverse();  
+                $scope.filteredModel.reverse();
+                // FIXME: why below code exists ?
                 $timeout( function() {
                     $scope.getFormElements();               
                 },0);
@@ -263,6 +267,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 e.preventDefault();
                 e.stopPropagation();
 
+                // FIXME: comments seemed to be wrong, globally disabled is the below one
                 // if it's globaly disabled, then don't do anything
                 if ( typeof attrs.disableProperty !== 'undefined' && item[ $scope.disableProperty ] === true ) {                                        
                     return false;
@@ -278,7 +283,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     return false;
                 }                
 
-                index = $scope.filteredModel.indexOf( item );       
+                // FIXME: in which case, the ng_repeat_index is not same with index calculated below
+                index = $scope.filteredModel.indexOf( item );  
+                console.log('ng-index: ', ng_repeat_index, 'item index: ', index);     
 
                 // process items if the start of group marker is clicked ( only for multiple selection! )
                 // if, in a group, there are items which are not selected, then they all will be selected
@@ -337,6 +344,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                                             if ( typeof attrs.disableProperty === 'undefined' ) {
                                                 $scope.filteredModel[ j ][ $scope.tickProperty ] = false;
                                                 // we refresh input model as well
+                                                // FIXME: inputModelIndex not defined
                                                 inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
                                                 $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = false;
                                             }
@@ -453,7 +461,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // refresh button label
             $scope.refreshButton = function() {
 
-                $scope.varButtonLabel   = '';                
+                $scope.varButtonLabel   = '';  
+                // FIXME: ctr is not defined              
                 ctr                     = 0;                  
 
                 // refresh button label...
@@ -492,7 +501,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
                     }
                 }
-                $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
+                $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );    
+
+                // FIXME: seems there is no closing div tag for the final one
             }
 
             // Check if a checkbox is disabled or enabled. It will check the granular control (disableProperty) and global control (isDisabled)
@@ -517,11 +528,16 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             $scope.writeLabel = function( item, type ) {
                 var label = '';
                 var temp = $scope[ type ].split( ' ' );                    
+                // FIXME: minimize the loop times
+                var matchedPropertyNumber = 0;
                 angular.forEach( temp, function( value2, key2 ) {
                     if ( typeof value2 !== 'undefined' ) {                        
                         angular.forEach( item, function( value1, key1 ) {                    
-                            if ( key1 == value2 ) {
-                                label += '&nbsp;' + value1;        
+                            if(matchedPropertyNumber < temp.length) {
+                                if ( key1 == value2 ) {
+                                    label += '&nbsp;' + value1;
+                                    matchedPropertyNumber += 1;
+                                }
                             }
                         });                    
                     }
@@ -621,7 +637,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             }
             
             // handle clicks outside the button / multi select layer
-            $scope.externalClickListener = function( e ) {                   
+            $scope.externalClickListener = function( e ) {    
+                // FIXME: targetsArr is not defined               
                 targetsArr = element.find( e.target.tagName );
                 for (var i = 0; i < targetsArr.length; i++) {                                        
                     if ( e.target == targetsArr[i] ) {
@@ -642,6 +659,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
    
             // traverse up to find the button tag
             // http://stackoverflow.com/questions/7332179/how-to-recursively-search-all-parentnodes
+            // FIXME: seemed that is not used anywhere
             $scope.findUpTag = function ( el, tag, className ) {
                 while ( el.parentNode ) {                    
                     el = el.parentNode;                          
@@ -723,6 +741,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
             // prepare original index
             $scope.prepareIndex = function() {
+                // FIXME: ctr not defined
                 ctr = 0;
                 angular.forEach( $scope.filteredModel, function( value, key ) {
                     value[ $scope.indexProperty ] = ctr;
