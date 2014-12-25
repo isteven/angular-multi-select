@@ -1,0 +1,40 @@
+<html ng-app="amsTest">
+
+<head>
+	<title>Angular Tags Test</title>
+
+	<link rel="stylesheet" href="angular-multi-select.css"/>
+</head>
+<body ng-controller="amsController">
+
+	<!-- <div     
+	    multi-select
+	    input-model="modernWebBrowsers"
+	    button-label="icon name"
+	    item-label="icon name maker"
+	    tick-property="ticked"
+	>
+	</div> -->
+
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<div 
+	    multi-select 
+	    input-model="webBrowsersGrouped"
+	    button-label="icon name"         
+	    item-label="icon name maker" 
+	    tick-property="ticked" 
+	    orientation="vertical"
+	    group-property="multiSelectGroup"     
+	>
+	</div>
+
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="angular-multi-select.js"></script>
+
+	<script src="script.js"></script>
+</body>
+</html>
