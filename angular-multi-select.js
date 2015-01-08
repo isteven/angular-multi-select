@@ -485,8 +485,6 @@ angular.module( 'multi-select', ['ng', 'pascalprecht.translate'] )
 
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
-
-                    console.log('default label: ' + $scope.defaultLabel);
                     if(typeof $scope.defaultLabel !== 'undefined') {
                         $scope.varButtonLabel = $scope.defaultLabel;
                     }
