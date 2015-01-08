@@ -11,7 +11,7 @@
  *
  * Copyright (c) 2014 Ignatius Steven (https://github.com/isteven)
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal 
  * in the Software without restriction, including without limitation the rights 
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
@@ -31,7 +31,27 @@
  * --------------------------------------------------------------------------------
  */
 
-angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout ) {
+angular.module( 'multi-select', ['ng', 'pascalprecht.translate'] )
+    .config(['$translateProvider', function($translateProvider) {
+        $translateProvider.translations('en', {
+            'SELECTALL': 'Select All',
+            'SELECTNONE': 'Select None',
+            'RESET' : 'Reset',
+            'SEARCH' : 'Search...',
+            'NONE' : 'None selected'
+        });
+
+        $translateProvider.translations('de', {
+            'SELECTALL': 'Alle auswählen',
+            'SELECTNONE': 'Auswahl aufheben',
+            'RESET' : 'Zurücksetzen',
+            'SEARCH' : 'Suchen...',
+            'NONE' : 'Keine Auswahl'
+        });
+
+        $translateProvider.preferredLanguage('en');
+    }])
+    .directive( 'multiSelect' , [ '$sce', '$timeout', '$translate', function ( $sce, $timeout, $translate) {
     return {
         restrict: 
             'AE',
@@ -54,7 +74,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             itemLabel       : '@',
             maxLabels       : '@',
             orientation     : '@',
-            selectionMode   : '@',            
+            selectionMode   : '@',
+            preferredLanguage : '@',
                                                          
             // settings based on input model property 
             tickProperty    : '@',
@@ -76,12 +97,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     '<form>' + 
                         '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                             '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-                                '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
-                                '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
+                                '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; {{\'SELECTALL\' | translate}}</button> ' +
+                                '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; {{\'SELECTNONE\' | translate}}</button>' +
+                                '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; {{\'RESET\' | translate}}</button>' +
                             '</div>' +
                             '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
-                                '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
+                                '<input placeholder="{{\'SEARCH\' | translate}}" type="text" ng-click="select( \'filter\', $event )" ng-model="inputLabel.labelFilter" ng-change="updateFilter();$scope.getFormElements();" class="inputFilter" />' +
                                 '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
                             '</div>' +
                         '</div>' +
@@ -124,6 +145,12 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             prevTabIndex            = 0;
             helperItems             = [];
             helperItemsLength       = 0;
+
+            if($scope.preferredLanguage === undefined) {
+                $translate.use('en');
+            } else {
+                $translate.use($scope.preferredLanguage);
+            }
 
             // If user specify a height, call this function
             $scope.setHeight = function() {
@@ -458,8 +485,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // refresh button label...
                 if ( $scope.selectedItems.length === 0 ) {
-                    // https://github.com/isteven/angular-multi-select/pull/19                    
-                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
+                    if(typeof $scope.defaultLabel !== 'undefined') {
+                        $scope.varButtonLabel = $scope.defaultLabel;
+                    }
                 }
                 else {                
                     var tempMaxLabels = $scope.selectedItems.length;
@@ -492,7 +520,8 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                         $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
                     }
                 }
-                $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
+
+                $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );
             }
 
             // Check if a checkbox is disabled or enabled. It will check the granular control (disableProperty) and global control (isDisabled)
