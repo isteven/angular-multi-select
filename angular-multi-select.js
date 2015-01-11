@@ -48,6 +48,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
             // settings based on attribute
             buttonLabel     : '@',
             defaultLabel    : '@',
+            fixedLabel		: '@',
             directiveId     : '@',
             helperElements  : '@',            
             isDisabled      : '=',
@@ -456,42 +457,49 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 $scope.varButtonLabel   = '';                
                 ctr                     = 0;                  
 
-                // refresh button label...
-                if ( $scope.selectedItems.length === 0 ) {
-                    // https://github.com/isteven/angular-multi-select/pull/19                    
-                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
-                }
-                else {                
-                    var tempMaxLabels = $scope.selectedItems.length;
-                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
-                        tempMaxLabels = $scope.maxLabels;
-                    }
+                // check if we have set a fixed label
+                if ((typeof $scope.fixedLabel !== 'undefined')) {
+                    $scope.varButtonLabel = $scope.fixedLabel + ' (' + $scope.selectedItems.length + ')';
+                } else {
+                	// no fixed label, so continue default behaviour
+                	// refresh button label...
+	                if ( $scope.selectedItems.length === 0 ) {
+	                    // https://github.com/isteven/angular-multi-select/pull/19                    
+	                    $scope.varButtonLabel = ( typeof $scope.defaultLabel !== 'undefined' ) ? $scope.defaultLabel : 'None selected';
+	                }
+	                else {                
+	                    var tempMaxLabels = $scope.selectedItems.length;
+	                    if ( typeof $scope.maxLabels !== 'undefined' && $scope.maxLabels !== '' ) {
+	                        tempMaxLabels = $scope.maxLabels;
+	                    }
 
-                    // if max amount of labels displayed..
-                    if ( $scope.selectedItems.length > tempMaxLabels ) {
-                        $scope.more = true;
-                    }
-                    else {
-                        $scope.more = false;
-                    }                
+	                    // if max amount of labels displayed..
+	                    if ( $scope.selectedItems.length > tempMaxLabels ) {
+	                        $scope.more = true;
+	                    }
+	                    else {
+	                        $scope.more = false;
+	                    }                
+	                
+	                    angular.forEach( $scope.selectedItems, function( value, key ) {
+	                        if ( typeof value !== 'undefined' ) {                        
+	                            if ( ctr < tempMaxLabels ) {                            
+	                                $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? '</div>, <div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel( value, 'buttonLabel' );
+	                            }
+	                            ctr++;
+	                        }
+	                    });                
+
+	                    if ( $scope.more === true ) {
+	                        // https://github.com/isteven/angular-multi-select/pull/16
+	                        if (tempMaxLabels > 0) {
+	                            $scope.varButtonLabel += ', ... ';
+	                        }
+	                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
+	                    }
+	                }
+                }
                 
-                    angular.forEach( $scope.selectedItems, function( value, key ) {
-                        if ( typeof value !== 'undefined' ) {                        
-                            if ( ctr < tempMaxLabels ) {                            
-                                $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? '</div>, <div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel( value, 'buttonLabel' );
-                            }
-                            ctr++;
-                        }
-                    });                
-
-                    if ( $scope.more === true ) {
-                        // https://github.com/isteven/angular-multi-select/pull/16
-                        if (tempMaxLabels > 0) {
-                            $scope.varButtonLabel += ', ... ';
-                        }
-                        $scope.varButtonLabel += '(Total: ' + $scope.selectedItems.length + ')';                        
-                    }
-                }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
             }
 
