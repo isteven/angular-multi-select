@@ -1,0 +1,382 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="pageHeading">Configuration & Options</h3>                    
+<!--
+<div class="row">
+    <div class="col-sm-12">
+        <h5>Full spec</h5>
+        <pre><code>&lt;div 
+    multi-select 
+    input-model="$scope.arrOfObjects"       
+    output-model="$scope.arrOfObjects2"
+    button-label="property1 property2 ..."  
+    item-label="property1 property2 ..."
+    tick-property="property3" 
+    disable-property="property4"
+    orientation="horizontal | vertical"
+    selection-mode="multiple | single"
+    max-labels="999"     
+    directive-id="..."
+    is-disabled="true | false"
+    helper-elements="all none reset filter"
+    default-label="..."
+    on-open="$scope.function()"
+    on-close="$scope.function()"
+    on-item-click="$scope.function( data )"
+    on-select-all="$scope.function()"
+    on-select-none="$scope.function()"
+    on-reset="$scope.function()"
+    on-clear="$scope.function()"
+    on-filter-change="$scope.function()"
+    i18n="$scope.object"
+&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+</div>
+-->
+    <p>Below are the available attributes to configure the multi-select directive. The first 5 are required.</p>    
+    <span class="configData">                
+        <h5>input-model</h5> <span class="label label-primary">required</span>
+        <p>
+            This is the data you pass into the directive. You can programatically do changes 
+            and the directive will refresh accordingly. For example; to reset programmatically, you can iterate over
+            this input-model and set <code>selected = false</code>. If, for any reason, you want to reset it, set it into an empty array.
+            Don't set it to null or other types.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: $scope variable. Array of objects. <br />
+            <span class="inlineTitle">Default value</span>: N/A        <br />
+            <span class="inlineTitle">Example</span>:   <br />
+            In your view: <code>&lt;div isteven-multi-select ... input-model="inputList"&gt;&lt;/div&gt;</code>.
+            <br />
+            In your controller:
+        </p>
+        <pre><code>$scope.inputList = [
+    { firstName: "Peter",    lastName: "Parker",     pic: "&lt;img src='[...]/peter.png  /&gt;",   selected: false },
+    { firstName: "Mary",     lastName: "Jane",       pic: "&lt;img src='[...]/mary.png   /&gt;",   selected: false },
+    { firstName: "Bruce",    lastName: "Wayne",      pic: "&lt;img src='[...]/bruce.png  /&gt;",   selected: true  },
+    { firstName: "David",    lastName: "Banner",     pic: "&lt;img src='[...]/david.png  /&gt;",   selected: false },
+    { firstName: "Natalia",  lastName: "Romanova",   pic: "&lt;img src='[...]/nat.png    /&gt;",   selected: false },
+    { firstName: "Clark",    lastName: "Kent",       pic: "&lt;img src='[...]/clark.png  /&gt;",   selected: true  }
+];</code></pre>
+        <p>
+            <span class="inlineTitle">Note</span>:
+            There might be some limitations on what HTML tags you can use (Use common sense. For example, flash animation 
+            most likely won't work on the button label). It's highly suggested that you don't use 
+            BUTTON and INPUT tags to prevent conflicts.
+        </p>
+        
+        <h5>output-model</h5> <span class="label label-primary">required</span>
+        <p>
+            Will list all the selected items. If you enable grouping, this WILL NOT include the group headers.
+            Also, this model is OUTPUT ONLY. If you want to programmatically change things, do it in the INPUT-MODEL.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: $scope variable. Array of objects. <br />
+            <span class="inlineTitle">Default value</span>: N/A<br />
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... output-model="outputData"&gt;&lt;/div&gt;</code>.
+        </p>        
+
+        <h5>button-label</h5> <span class="label label-primary">required</span>
+        <p>
+            input-model properties that you want to display on the button. 
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: String. Separate multiple values by space.<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... button-label="pic firstName"&gt;&lt;/div&gt;</code>
+        </p>
+            
+        <h5>item-label</h5> <span class="label label-primary">required</span>
+        <p>
+            input-model properties that you use as item label. 
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: String. Separate multiple values by space.<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />
+            <span class="inlineTitle">Example</span>: <code>>&lt;div isteven-multi-select ... item-label="firstName lastName"&gt;&lt;/div&gt;</code>
+        <p>        
+
+        <h5>tick-property</h5> <span class="label label-primary">required</span>
+        <p>
+            input-model property with a boolean value that represents whether a checkbox is ticked or not. 
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: 
+        </p>        
+        <ul>
+            <li>
+                If <code>&lt;div isteven-multi-select ... tick-property="selected"&gt;&lt;/div&gt;</code>, then:
+                <ul>
+                    <li>selected === true, item is selected. </li>
+                    <li>selected === false, item is not selected.</li>
+                </ul>
+            </li>
+            <li>
+                If <code>>&lt;div isteven-multi-select ... tick-property="isOn"&gt;&lt;/div&gt;</code>, then:
+                <ul>
+                    <li>isOn === true, item is selected. </li>
+                    <li>isOn === false, item is not selected.</li>
+                </ul>
+            </li>
+        </ul>
+            
+        <h5>disable-property</h5>
+        <p>
+            Input-model property with a boolean value that represent whether an item is disabled or enabled. 
+            This gives you granular control over each checkbox, and it has higher priority over the "is-disabled" attribute explained later.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: 
+        </p>     
+        <ul>
+            <li>
+                If <code>&lt;div isteven-multi-select ... disable-property="thisItemIsDisabled"&gt;&lt;/div&gt;</code>, then:
+                <ul>
+                    <li>thisItemIsDisabled === true, item is disabled. </li>
+                    <li>thisItemIsDisabled === false, item is enabled.</li>
+                </ul>
+            </li>
+        </ul>                
+            
+        <h5>orientation</h5>
+        <p>Orientation of the item list.</p>
+        <p>
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Available values</span>: "vertical" | "horizontal"<br />
+            <span class="inlineTitle">Default value</span>: "vertical"<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... orientation="vertical"&gt;&lt;/div&gt;</code>.
+        </p>  
+        
+        <h5>selection-mode</h5>
+        <p>Single or multiple selection. If not specified, the default will be "multiple".</p>
+        <p>
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Available values</span>: "single" | "multiple"<br />            
+            <span class="inlineTitle">Default value</span>: "multiple"<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... selection-mode="single"&gt;&lt;/div&gt;</code>.
+        </p>  
+        
+                                   
+        <h5>max-labels</h5>
+        <p>
+            Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: Integer-parseable string ( Such as "2", or "3" )<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: 
+            With the input-model above, 
+        </p>          
+        <ul>
+            <li><code>max-labels="1"</code> will display: "Bruce Wayne, ... (Total: 2)" on the button.</li>
+            <li><code>max-labels="0"</code> will display: "(Total: 2)" on the button.</li>
+        </ul>
+            
+        <h5>is-disabled</h5>
+        <p>
+            Will disable or enable all checkboxes except stated otherwise in "disable-property" above.
+            It's similar with ng-disabled, visit <a href="http://docs.angularjs.org/api/ng/directive/ngDisabled">http://docs.angularjs.org/api/ng/directive/ngDisabled</a> 
+            to learn more.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: $scope boolean expression, or string ( "true" or "false" )<br />
+            <span class="inlineTitle">Default value</span>: false or "false"<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... is-disabled="true"&gt;&lt;/div&gt;</code>.    
+        </p>
+            
+        <h5>directive-id</h5>
+        <p>
+            Name or id for your directive, to be attached to a <code>span</code> element (parent of the button elemnet).
+            Useful if you want to debug from within the directive code and you use more than one directive in one page. 
+            Example (from within the multi-select.js): <code>console.log( 'Currently active multi-select: ' + $scope.directiveId );</code>
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... directive-id="hello1"&gt;&lt;/div&gt;</code>.  
+        </p>
+        
+            
+        <h5>helper-elements</h5>
+        <p>
+            Define which helper buttons (Select all, none, reset, filter box) to be displayed.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: String. Separate multiple values with space. Order of values does not matter.<br />
+            <span class="inlineTitle">Available values</span>: Combinations of "all", "none", "reset", "filter", or empty string<br />            
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>:  
+            <ul>
+                <li>
+                    Display "Select All" button and the filter box: <code>&lt;div isteven-multi-select ... helper-elements="all filter"&gt;&lt;/div&gt;</code>
+                </li>
+                <li>
+                    Display none: empty string. <code>&lt;div isteven-multi-select ... helper-elements=""&gt;&lt;/div&gt;</code>. 
+                </li>
+                <li>If not specified, by default will display all.</li>
+            </ul>    
+        </p>
+                        
+        <h5>max-height</h5>
+        <p>
+            Set the maximum height of the selection item list area. 
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: Integer-parseable string or string which comply with CSS' height unit (such as "100", "100px") <br />
+            <span class="inlineTitle">Default value</span>: auto<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... max-height="250px"&gt;&lt;/div&gt;</code>.  
+        </p>                
+
+        <h5>min-search-length</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            Set the minimum characters required to trigger search action.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: Integer-parseable string ( Such as "3", or "5" ).<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... min-search-length="3"&gt;&lt;/div&gt;</code>.  
+        </p>    
+
+        <h5>search-property</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            Set which input-model properties to be searched. Previously, the directive will search from all
+            available object properties. Now, if this is specified, you can define which property to search.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... search-property="firstName"&gt;&lt;/div&gt;</code>.  
+        </p>     
+
+        <h5>translation</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            Use custom text on the helper elements. You can use different text or other languages. If you use it, 
+            you need to define ALL five of the labels here, or they will show "undefined".
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope object<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... translation="localLang"&gt;&lt;/div&gt;</code>.  
+        </p>            
+        <p>
+            In your controller:
+            <pre ><code>$scope.localLang = {
+    selectAll       : "Tick all",
+    selectNone      : "Tick none",
+    reset           : "Undo all"
+    search          : "Type here to search...",
+    nothingSelected : "Nothing is selected"         //default-label is deprecated and replaced with this.
+}</code></pre>
+        </p>
+            
+        <h5>on-open</h5>
+        <p>
+            A $scope function to call on multi-select open. You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-open="funcOpen()"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        <h5>on-close</h5>
+        <p>
+            A $scope function to call on multi-select close (be it by clicking the button or clicking outside the multi-select element). 
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-close="funcClose()"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        <h5>on-item-click</h5>
+        <p>
+            A $scope function to call when user click on an item. Triggered AFTER the item is clicked.            
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: Will pass a singular object of the clicked item<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-item-click="funcClick( data )"&gt;&lt;/div&gt;</code>.              
+        </p>        
+
+        <h5>on-select-all</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            A $scope function to call when "select all" button is clicked.
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-select-all="funcSelectAll()"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        <h5>on-select-none</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            A $scope function to call when "select none" button is clicked.
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-select-none="funcSelectNone()"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        <h5>on-reset</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            A $scope function to call when "reset" button is clicked.
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-reset="funcReset()"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        <h5>on-clear</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            A $scope function to call when the "x" button in filter field is clicked.
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-clear="funcClear()"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        <h5>on-search-change</h5> <span class="label label-warning">New! v3.0.0</span>
+        <p>
+            A $scope function to call when you type in the search field.
+            You need to define this function in your controller.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope function<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Parameter</span>: Will pass the string that you type and the result<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... on-filter-change="funcFilterChange( data )"&gt;&lt;/div&gt;</code>.              
+        </p>
+
+        </span>
+    </div>
+</div>
+<script>    
+    $(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
+</script>

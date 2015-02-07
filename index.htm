@@ -1,1250 +1,158 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp" id="ng-app">
+
+<html lang="en" ng-app="myApp" id="myApp">
 <head>
 
-    <title>AngularJS MultiSelect Directive | Angular multi select dropdown the easy way! </title>        
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">    
+
+    <title>AngularJs MultiSelect</title>
     
-    <style>
-        body {
-            font-family: 'Arial';
-            font-size: 14px;
-            background-color: #fff;            
-            line-height:1.4;            
-        }
-        #container {
-            margin: 0px auto; 
-            padding: 15px 50px;
-        }
-        pre {
-            word-wrap: break-word;   
-            margin: 0px;
-            margin-bottom: 14px;
-        }
-
-        code {            
-            background-color: #f6f6f6;
-            display: inline-block;
-            border: 1px solid #ccc !important;
-            padding: 0 2px 0 2px !important; 
-        }
-
-        pre code {
-            padding: 10px !important; 
-        }
-
-        h1 {
-            font-size: 3em;
-            padding: 0;
-            margin: 0;
-        }
-        h2 {
-            display: inline-block;
-            margin-top:35px;
-            margin-bottom: 15px;
-            width:100%;
-            height:28px;
-            border-bottom:1px solid #ccc;
-        }
-        h3 {
-            display: inline-block;
-            width: 100%;
-            margin-top: 25px;
-        }
-        .attrs  {
-            margin-bottom:10px;
-        }
-        .col {
-            display: inline-block;
-            float: left;
-            margin-right:15px;
-        }
-        .inlinefauxcode {           
-            font-family: monospace !important;
-            padding: 1px;
-            position:relative;
-            top:-2px;
-            border: 1px solid #ccc;
-            background-color: #F8F8F8;
-        }
-        .fauxcode {
-            border: 1px solid #ccc;
-            background-color: #F8F8F8;
-            padding: 10px !important;
-        }
-        div.fauxcode, .fauxcode td {
-            font-family: monospace !important;
-            padding-right:10px;
-            vertical-align: top;
-            white-space: nowrap;
-        }
-        .download {
-            border-radius:5px;
-            border:1px solid #ccc;
-            display:table-cell;
-            color:#333;
-            font-weight:bold;
-            font-size:17px;
-            height:30px;
-            line-height:25px;
-            text-decoration:none;
-            text-align:center;
-            vertical-align:middle;
-            position: relative;
-            -moz-border-colors: none;
-            background-color: #E6E6E6;
-            background-image: linear-gradient(#FAFAFA, #EAEAEA);
-            background-repeat: no-repeat;
-            border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-            border-image: none;
-            border-style: solid;
-            border-width: 1px;
-
-            padding:10px;
-        }
-        .download:hover {
-            background-color: #e6e6e6;
-            background-image: linear-gradient(#599bdc, #307bd3);   
-            border-width: 1px;
-            border-color: #518cc6 #518cc6 #2a65a0;
-            color: #fff;
-            text-shadow: 1px 1px 0px #333;
-            -webkit-filter: grayscale(0%);
-        }
-        .download img {            
-            height: 25px;
-            float: left;
-            padding-right:10px;
-        }       
-        .grey {
-            color: #999;
-        }
-    </style>   
-
-    <!-- css -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">    
-
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/simple-sidebar.css" >
+    <link rel="stylesheet" href="css/style.css">   
     <link rel="stylesheet" href="highlight/styles/github.css">
-    <link rel="stylesheet" href="angular-multi-select.css">                        
+    <link rel="stylesheet" href="css/isteven-multi-select.css">                        
 
-    <!-- JS -->
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">    
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:400,900|Roboto+Slab:400,700' type='text/css'>
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="js/libs/jquery.min.js"></script>    
+    <script src="js/libs/bootstrap.min.js"></script>    
     <script src="highlight/highlight.pack.js"></script>
-    <script src="angular.min.js"></script>    
-    <script src="angular-multi-select.js"></script>      
-    
+    <script src="js/libs/angular.min.js"></script>      
+    <script src="js/libs/angular-route.min.js"></script>
+    <script src="js/libs/isteven-multi-select.js"></script>        
+
+    <script src="js/app.js"></script>   
+    <script src="js/libs/helper.js"></script>    
+    <script src="js/controllers/demo-minimum.js"></script>        
+    <script src="js/controllers/demo-horizontal-layout.js"></script>        
+    <script src="js/controllers/demo-dynamic-update.js"></script>        
+    <script src="js/controllers/demo-disabling-enabling.js"></script>        
+    <script src="js/controllers/demo-grouping.js"></script>        
+    <script src="js/controllers/demo-callbacks.js"></script>        
+    <script src="js/controllers/demo-single-selection-mode.js"></script>        
+
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
 </head>
-<body ng-controller="main">
-    <div id="container">
-        <h1>AngularJS MultiSelect</h1>
-        <h4 style="position:relative;top:-20px">An AngularJS directive which creates a dropdown button with multiple or single selections. Fully configurable through element attributes and CSS.<br />Version: 2.0.1</h4>                        
-        <div
-            multi-select 
-            input-model="modernWebBrowsersDemo" 
-            button-label="icon name"        
-            item-label="icon name maker"        
-            tick-property="ticked"                            
-        >            
-        </div>
+
+<body>    
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand border-bottom">                    
+                    <a href="#/main">
+                        <h5>AngularJs MultiSelect &nbsp;&nbsp;<span class="fa fa-home"></span></h5>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/getting-started">Getting Started</a>
+                </li>
+                <li>
+                    <a href="#/configs-options">Config & Options</a>
+                </li>                
+                <li>
+                    Demo:                
+                </li>
+                    <li class="subMenu">
+                        <a href="#/demo-minimum">Minimum</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-horizontal-layout">Horizontal Layout</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-dynamic-update">Dynamic Update</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-disabling-enabling">Disabling / Enabling</a>
+                    </li>                        
+                    <li class="subMenu">
+                        <a href="#/demo-grouping">Grouping</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-callbacks">Callbacks</a>
+                    </li>                   
+                    <li class="subMenu">
+                        <a href="#/demo-single-selection-mode">Single Selection Mode</a>
+                    </li>                        
+                <li>
+                    <a href="#/breaking-changes">Breaking Changes</a>
+                </li>                    
+                <li>
+                    <a href="#/dependency-compatibility">Dependency & Compatibility</a>
+                </li>
+                <li>
+                    <a href="#/issues-bug-reporting">Issues & Bug Reporting</a>
+                </li>
+                <li>
+                    <a href="#/contributing">Contributing</a>
+                </li>                
+                <li>
+                    <a href="#/faq">FAQ</a>
+                </li>                       
                 
-        <br /><br />
+                <li>
+                    <a href="#/mit-license">MIT License</a>
+                </li>
+                <li>&nbsp;</li>
+                <li>                
+                    <a href="#/other-cool-stuffs">Other Cool Stuffs</a>
+                </li>                
+            </ul>                    
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-        <a href="https://github.com/isteven/angular-multi-select" target="_blank" class="download" onclick="ga( 'send', 'event', 'button', 'click' );">
-            <div class="fa fa-github fa-lg">
+        <!-- Page Content -->
+        <div id="page-content-wrapper">               
+            <div class="container-fluid removePadding" ng-view></div>
+            <div class="pull-right githubButtons">
+                <a href="https://github.com/isteven/angular-multi-select" target="_blank" class="download" onclick="ga( 'send', 'event', 'button', 'click' );">
+                    <span class="fa fa-github fa-lg">
+                    </span>
+                    &nbsp; View on Github
+                </a>
+                &nbsp;
+                <iframe src="https://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=star&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="21"></iframe>
+                <iframe src="https://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="21"></iframe>        
+                <iframe src="https://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true&v=2" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="21"></iframe>            
             </div>
-            &nbsp; View on Github
-        </a>                
-        <!--
-        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=follow&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="160" height="20"></iframe>
-        -->
-<h2>Features</h2>
-        <ul>
-            <li>Pure AngularJS. Can be easily combined with other Javascript libraries such as jQuery, Twitter Bootstrap, etc.</li>            
-            <li>Multiple or single selection types</li>
-            <li>Use HTML &amp; CSS in your button & checkbox labels</li>            
-            <li>Change/update input model on the fly</li>
-            <li>Unlimited nested grouping</li>                        
-            <li>Utilizes AngularJS filter</li>
-            <li>Responsive to some extent</li>
-            <li>Arrow key navigation support</li>
-            <li>Event callbacks available</li>            
-            <li>Reset selections to original state</li>
-            <li>Configurable, such as:
-                <ul>
-                    <li>Set orientation of checkboxes (vertical/horizontal)</li>
-                    <li>Enable / disable all or one of the checkboxes (granular control)</li>
-                    <li>Set maximum number of items to be displayed on the button label</li>
-                    <li>Set which helper elements to display</li>
-                    <li>Set default text when nothing is selected</li>
-                </ul>
-            </li>            
-        </ul> 
-
-        For the upcoming version:
-        <ul>
-            <li>AJAX support to populate input-model</li>            
-            <li>Most likely there will be changes on input-model's structure and behaviour (and maybe output-model as well). This is necessary to support the AJAX feature.
-            <li>Will remove "on-focus" and "on-blur" attribute.
-        </ul>
-<h2>Usage</h2>
-Include the required files
-<pre><code>&lt;link rel="stylesheet" href="angular-multi-select.css"&gt;
-...
-&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"&gt;&lt;/script&gt;
-&lt;script src="angular-multi-select.js"&gt;&lt;/script&gt;      
-...
-</code></pre>
-
-Load the multi-select directive into your AngularJS app, such as:
-<br />
-<pre><code>var myApp = angular.module('myApp', [ 'multi-select' ]);</code></pre>
-In your controller, prepare a <span class="inlinefauxcode">$scope</span> variable as the input-model<br /> 
-<pre><code>$scope.modernWebBrowsers = [
-    { icon: "&lt;img src=[..]/opera.png.. /&gt;",               name: "Opera",              maker: "(Opera Software)",        ticked: true  },
-    { icon: "&lt;img src=[..]/internet_explorer.png.. /&gt;",   name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
-    { icon: "&lt;img src=[..]/firefox-icon.png.. /&gt;",        name: "Firefox",            maker: "(Mozilla Foundation)",    ticked: true  },
-    { icon: "&lt;img src=[..]/safari_browser.png.. /&gt;",      name: "Safari",             maker: "(Apple)",                 ticked: false },
-    { icon: "&lt;img src=[..]/chrome.png.. /&gt;",              name: "Chrome",             maker: "(Google)",                ticked: true  }
-]; 
-</code></pre>
-
-<div class="col">
-In your view, set the directive as an attribute<br />
-<pre><code>&lt;div     
-    multi-select
-    input-model="modernWebBrowsers"
-    button-label="icon name"
-    item-label="icon name maker"
-    tick-property="ticked"
-&gt;
-&lt;/div&gt;
-</code></pre>
-</div>
-<div class="col">
-... or as an element, but be careful with browser compatibility.<br />
-<pre><code>&lt;multi-select    
-    input-model="modernWebBrowsers"    
-    button-label="icon name"
-    item-label="icon name maker"
-    tick-property="ticked"
-&gt;
-&lt;/multi-select&gt;
-</code></pre>
-</div>
-<div style="clear:both">   
-And that's it! You should now have dropdown button like the one you saw earlier on top of the page.
-<br /><br />
-</div>
-<div style="clear:both">   
-To get the selected items:
-<pre><code>angular.forEach( $scope.modernWebBrowsers, function( value, key ) {
-    if ( value.ticked === true ) {
-        /* do your stuff here */
-    }
-});
-</code></pre>
-</div>
-
-<h2>Attributes / Options</h2>
-        
-<div class="col">
-    Full spec
-<pre><code>&lt;div 
-    multi-select 
-    input-model="$scope.arrOfObjects"
-    output-model="$scope.arrOfObjects2"
-    button-label="property1 property2 ..."         
-    item-label="property1 property2 ..." 
-    tick-property="property3" 
-    disable-property="property4"
-    orientation="horizontal | vertical"
-    selection-mode="multiple | single"
-    max-labels="999"     
-    directive-id="..."
-    is-disabled="true | false"
-    helper-elements="all none reset filter"
-    default-label="..."
-    on-open="$scope.functionOpen( data )"
-    on-close="$scope.functionClose( data )"
-    on-item-click="$scope.functionClick( data )"
-&gt;
-&lt;/div&gt;
-</code></pre>
-</div>
-<div class="col">
-.. or ..
-<pre><code>&lt;multi-select 
-    ...
-&gt;
-&lt;/multi-select&gt;
-</code></pre>
-</div>
-<div style="clear:both">&nbsp;</div>
-        Below are the available attributes to configure the multi-select directive:
-        <ul>
-            <li class="attrs">
-                <strong>input-model (REQUIRED)</strong>
-                <br />$scope variable. Array of objects. 
-                <br />Example:
-                <br /><br />
-                <pre><code>$scope.inputList = [
-    { firstName: "Peter",    lastName: "Parker",     pic: "&lt;img src='[...]/peter.png  class='multiSelect'  /&gt;",   selected: false },
-    { firstName: "Mary",     lastName: "Jane",       pic: "&lt;img src='[...]/mary.png   class='multiSelect'  /&gt;",   selected: false },
-    { firstName: "Bruce",    lastName: "Wayne",      pic: "&lt;img src='[...]/bruce.png  class='multiSelect'  /&gt;",   selected: true  },
-    { firstName: "David",    lastName: "Banner",     pic: "&lt;img src='[...]/david.png  class='multiSelect'  /&gt;",   selected: false },
-    { firstName: "Natalia",  lastName: "Romanova",   pic: "&lt;img src='[...]/natalia.png class='multiSelect' /&gt;",   selected: false },
-    { firstName: "Clark",    lastName: "Kent",       pic: "&lt;img src='[...]/clark.png  class='multiSelect'  /&gt;",   selected: true  }
-];</code></pre><br />
-                <strong>! Important</strong>: <br >
-                <ul>
-                    <li>
-                        This directive updates the $scope variable (input-model) directly, therefore you cannot use the same $scope variable for multiple multi-select directives. 
-                        You need to copy the input variable to a new one and use it on the second multi-select, and so on.
-                    </li>
-                    <li>
-                        There might be some limitations on what HTML tags you can use (Use common sense. For example, flash animation most likely won't work on the button label). It's highly suggested that you don't use BUTTON and INPUT tags to prevent conflicts.                                        
-                    </li>
-                    <li>
-                        <strike>If you want to use HTML tags in your data, put <code>class="multiSelect"</code> on them, or else clicking these tags will not  
-                        select / deselect a checkbox.</strike> <br />Since version 2.0.0, <code>class="multiSelect"</code> is no longer required.                        
-                    </li>
-                </ul>
-            </li>
-        
-            <li class="attrs">
-                <strong>button-label (REQUIRED)</strong>
-                <br />input-model property that you want to display on the button. Separate multiple values by space. 
-                <br />Example: 
-                <code>button-label="firstName"</code>
-            </li>
-
-            <li class="attrs">
-                <strong>item-label (REQUIRED)</strong>
-                <br />input-model property that you want to display on the checkboxes. Separate multiple values by space. 
-                <br>Example: 
-                <code>item-label="firstName lastName"</code>
-            </li>        
-            <li class="attrs">
-                <strong>tick-property (REQUIRED)</strong>
-                <br />input-model property with a boolean value that represents whether a checkbox is ticked or not. 
-                <br />For example:
-                <ul>
-                    <li>
-                    <code>tick-property="selected"</code>
-                        <ul>
-                            <li>selected === true, checkbox is ticked. </li>
-                            <li>selected === false, checkbox is not ticked.</li>
-                        </ul>
-                    </li>
-                    <li>
-                    <code>tick-property="isOn"</code>
-                        <ul>
-                            <li>isOn === true, checkbox is ticked. </li>
-                            <li>isOn === false, checkbox is not ticked.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="attrs">
-                <strong>disable-property</strong>
-                <br />input-model property with a boolean value that represent whether a checkbox is disabled or enabled. 
-                <br />This gives you granular control over each checkbox, and it has higher priority over the "is-disabled" attribute explained later.
-                <br />Example:
-                <ul>
-                    <li>
-                    <code>disable-property="thisItemIsDisabled"</code>
-                        <ul>
-                            <li>thisItemIsDisabled === true, checkbox is disabled. </li>
-                            <li>thisItemIsDisabled === false, checkbox is enabled.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="attrs">
-                <strong>output-model</strong> 
-                <br />A $scope variable. Array of objects. 
-                <br />If specified, will list all the selected checkboxes.
-            </li>
-            <li class="attrs">
-                <strong>orientation ( "vertical" | "horizontal" )</strong>
-                <br />Orientation of the list of checkboxes. If not specified, the default will be "vertical".
-            </li>
-            <li class="attrs">
-                <strong>selection-mode ( "single" | "multiple" )</strong>
-                <br />Single or multiple selection. If not specified, the default will be "multiple".
-            </li>
-            
-            <li class="attrs">
-                <strong>max-labels</strong>
-                <br />Maximum number of items that will be displayed in the dropdown button. If not specified, will display all selected items. 
-                <br />Example: If we use the input-model <code>$scope.inputList</code> above, then 
-                <ul>
-                    <li><code>max-labels="1"</code> will display: "Bruce Wayne, ... (Total: 2)" on the button.</li>
-                    <li><code>max-labels="0"</code> will display: "(Total: 2)" on the button.</li>
-                </ul>
-            </li>
-            <li class="attrs">
-                <strong>is-disabled</strong>
-                <br />Expression to be evaluated. Will disable or enable all checkboxes except stated otherwise in "disable-property" above.
-                <br />If not specified, the default will be "false". 
-                <br />(Similar with ng-disabled, see <a href="http://docs.angularjs.org/api/ng/directive/ngDisabled">http://docs.angularjs.org/api/ng/directive/ngDisabled</a>)
-            </li>
-            <li class="attrs">
-                <strong>directive-id</strong>
-                <br />Name or id for your directive. Useful if you want to debug from within the directive code and you use more than one directive in one page. 
-                <br />Example (from within the multi-select.js): <code>console.log( 'Currently active multi-select: ' + $scope.directiveId );</code>
-            </li>
-            <li class="attrs">
-                <strong>helper-elements</strong>
-                <br />Define which helper buttons (Select all, none, reset, filter box) to be displayed.
-                <br />Possible values are:
-                <ul>
-                    <li>Display some: combinations of 'all', 'none', 'reset', 'filter'. Separate multiple values by space. Order of values does not matter.<br> Example; to show select 'All' button and the filter box: <code>helper-elements="all filter"</code></li>
-                    <li>Display none: To display none, just put empty string.
-                    <br>Example: <code class="inlinefauxcode">helper-elements=""</code>. 
-                    <li>If not specified, by default will display all.
-                </ul>                
-            </li>
-            <li class="attrs">
-                <strong>default-label</strong>
-                <br />Default text on the button when nothing is selected.
-                <br />If not specified, the default will be "None selected". 
-            </li>            
-            <li class="attrs">
-                <strong>max-height</strong>
-                <br />Set the maximum height of the selection item list area. 
-                <br />If not specified, the default will be auto.
-                <br />Example: <code>max-height="90px"</code>
-            </li>                        
-            <li class="attrs">
-                <strong>on-open</strong>
-                <br />A $scope function to call on multi-select open. 
-                <br />Will pass the multi-select element as the parameter.
-                <br />Example: <code>on-open="msOpen( data )"</code>
-                <br />Then specify the function in your controller: <code>$scope.msOpen = function( data ) { ... }</code>
-            </li>
-            <li class="attrs">
-                <strong>on-close</strong>
-                <br />A $scope function to call on multi-select close (be it by clicking the button or clicking outside the multi-select element). 
-                <br />Will pass the multi-select element as the parameter.
-                <br />Example: <code>on-close="msClose( data )"</code>
-                <br />Then specify the function in your controller: <code>$scope.msClose = function( data ) { ... }</code>
-            </li>
-            <li class="attrs">
-                <strong>on-item-click</strong>
-                <br />A $scope function to call when user click on an item. 
-                <br />Will pass the clicked item as an object.
-                <br />Example: <code>on-item-click="msClick( data )"</code>
-                <br />Then specify the function in your controller: <code>$scope.msClick = function( data ) { ... }</code>                
-            </li>                        
-            <li class="attrs grey" >
-                <strong>on-focus</strong> <i>(Deprecated)</i>
-                <br />A $scope function to call on multi-select button focus. 
-                <br />Example: <code>on-focus="msFocus()"</code>
-                <br />Then specify the function in your controller: <code>$scope.msFocus = function() { ... }</code>
-            </li>                                    
-            <li class="attrs grey">
-                <strong>on-blur</strong> <i>(Deprecated)</i>
-                <br />A $scope function to call on multi-select out-of-focus, like clicking somewhere outside the multi-select element. 
-                <br />Example: <code>on-blur="msBlur()"</code>
-                <br />Then specify the function in your controller: <code>$scope.msBlur = function() { ... }</code>
-                <br />Note: blur does not equal close.
-            </li>            
-        </ul>
-
-        <h2>Demo</h2>
-        Look at the <code>$scope</code> input-models to see the values getting updated as you select / deselect a checkbox.
-        <br /><br />Icons in the objects are actually HTML img tag ( <code>&lt;img src="full_path" ... /&gt;</code> ), shortened for simplicity. 
-        <h3>1) Minimum</h3>
-            <div
-                multi-select 
-                input-model="modernWebBrowsers" 
-                button-label="icon name"        
-                item-label="icon name maker"        
-                tick-property="ticked" 
-                >
-            </div>  
-            <br /><br />
-        <div class="col">            
-            code<br />    
-<pre class="col"><code>&lt;div
-    multi-select
-    input-model="modernWebBrowsers"
-    button-label="icon name"
-    item-label="icon name maker"
-    tick-property="ticked"
-&gt;
-&lt;/div&gt;</code></pre>
-</div>
-        <div class="col">
-            input-model<br />
-            <div class="fauxcode hljs xml">
-            $scope.modernWebBrowsers = [
-            <table>
-                <tr class="hljs-tag" ng-repeat="row in modernWebBrowsers" >
-                    <td>&nbsp;</td>
-                    <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
-                    <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
-                </tr>
-            </table>
-            ];
-            </div>
-        </div>
-        
-        
-        <br /><br />
-
-        <h3>2) Full</h3>
-            <div 
-                multi-select 
-                input-model="modernWebBrowsers2"
-                output-model="resultData"
-                button-label="icon name"         
-                item-label="icon name maker" 
-                tick-property="ticked" 
-                disable-property="checkboxDisabled"
-                orientation="horizontal"
-                selection-mode="multiple"
-                max-labels="2"     
-                directive-id="multiSelectFull"
-                is-disabled="false"
-                helper-elements="all none filter reset"
-                default-label="Please select one"
-                on-open="open( data )"
-                on-close="close( data )"
-                on-item-click="click( data )"
-                >
-            </div>
-            <br />*Open your console to see the multi-select event callbacks. Note that the events might be triggered differently across different browsers.<br /><br />
-        <div class="col">            
-            code <br />
-<pre class="col"><code>&lt;div 
-    multi-select 
-    input-model="modernWebBrowsers2"
-    output-model="resultData"
-    button-label="icon name"         
-    item-label="icon name maker" 
-    tick-property="ticked" 
-    disable-property="checkboxDisabled"
-    orientation="horizontal"
-    selection-mode="multiple"
-    max-labels="2"     
-    directive-id="multiSelectFull"
-    is-disabled="false"
-    helper-elements="all none filter reset"
-    default-label="Please select one"
-    on-open="open( data )"
-    on-close="close( data )"
-    on-item-click="click( data )"
-&gt;
-&lt;/div&gt;
-</code></pre>
-        </div>
-<div class="col">            
-            input-model<br />
-            <div class="fauxcode hljs xml">
-            $scope.modernWebBrowsers2 = [
-                <table>
-                <tr class="hljs-tag" ng-repeat="row in modernWebBrowsers2" >
-                    <td>&nbsp;</td>
-                    <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
-                    <td>}<span ng-if="$index < modernWebBrowsers2.length - 1">,</span></td>
-                </tr>
-            </table>
-            ];
-            </div>
-            <br />
-            output-model (Will list all with "ticked" === true) <br />
-             <div class="fauxcode hljs xml">
-            $scope.resultData = [
-            <table>
-                <tr class="hljs-tag" ng-repeat="row in resultData" >
-                    <td>&nbsp;</td>
-                    <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
-                    <td>}<span ng-if="$index < resultData.length - 1">,</span></td>
-                </tr>
-            </table>            
-            ];
-        </div>
-        </div>        
-        
-        <br />
-
-        <h3>3) Update input model on the fly</h3>
-            <div 
-                multi-select 
-                input-model="dynamicData"
-                button-label="icon name"         
-                item-label="icon name maker" 
-                tick-property="ticked" 
-                >
-            </div>
-            <br />
-            <button type="button" ng-click="switchSource( 'modernWebBrowsers' )" >Load modern browsers</button>    
-            <button type="button" ng-click="switchSource( 'oldWebBrowsers' )" >Load old browsers</button>      
-            <br />
-            <br />
-            * You can also update a single item. Something like.. <code>$scope.modernBrowsers[ 1 ].ticked = false</code> or <code>$scope.modernBrowsers[ 1 ].name = 'Hola!'</code>
-
-            <br /><br />
-        <div class="col">
-code           
-<pre><code>&lt;div 
-    multi-select 
-    input-model="dynamicData"
-    button-label="icon name"         
-    item-label="icon name maker" 
-    tick-property="ticked" 
-&gt;
-&lt;/div&gt;
-</pre></code>
-        </div>
-        
-        <div class="col">            
-            input-model <br />
-            <div class="fauxcode hljs xml">
-                $scope.dynamicData = [                                
-                <table>
-                    <tr class="hljs-tag" ng-repeat="row in dynamicData" >
-                        <td>&nbsp;</td>
-                        <td>{</td>
-                        <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                        <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                        <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                        <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
-                        <td>}<span ng-if="$index < dynamicData.length - 1">,</span></td>
-                    </tr>
-                </table>
-                ];
-            </div>
-        </div>
-        <h3>4) Enable / disable multi-select & granular control</h3>
-        
-        <div 
-            multi-select 
-            input-model="granWebBrowsers"
-            button-label="icon name"         
-            item-label="icon name maker" 
-            tick-property="ticked" 
-            disable-property="checkboxDisabled"
-            is-disabled="granDisabled"       
-            >
-        </div>      
-        <br />
-        <button type="button" ng-click="granDisabled = !granDisabled" >Enable / Disable</button>    
-        <span class="inlinefauxcode">$scope.granDisabled = {{granDisabled}}</span>
-        <br /><br />
-<div class="col">
-code
-<pre><code>&lt;div 
-    multi-select 
-    input-model="granWebBrowsers"
-    button-label="icon name"         
-    item-label="icon name maker" 
-    tick-property="ticked" 
-    disable-property="checkboxDisabled"
-    is-disabled="granDisabled"
-&gt;
-&lt;/div&gt;
-</pre></code>
-        </div>          
-        <div class="col">                                    
-            input-model <br />
-            * take note that checkboxes with "checkboxDisabled" === true will always be disabled regardless of the <code class="inlinefauxcode">$scope.granDisabled</code> value.
-            <br /><br />
-            <div class="fauxcode hljs xml">
-                $scope.granWebBrowsers = [   
-            <table>
-                <tr class="hljs-tag" ng-repeat="row in granWebBrowsers" >
-                    <td>&nbsp;</td>
-                    <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span>,</td>
-                    <td><span class="hljs-attribute">checkboxDisabled</span>: <span class="hljs-value">{{row.checkboxDisabled}}</span></td>                    
-                    <td>}<span ng-if="$index < granWebBrowsers.length - 1">,</span></td>
-                </tr>
-            </table>
-            ];
-        </div>
-    </div>
-
-        <h3>5) Single selection mode with no helper elements, just like a normal drop down menu.</h3>
-        <br />Even if you put multiple "ticked" === true, it will smartly tick only one item at a time.<br /><br />
-        <div 
-            multi-select 
-            input-model="singleWebBrowsers"
-            button-label="icon name"         
-            item-label="icon name maker" 
-            tick-property="ticked" 
-            selection-mode="single"                        
-            helper-elements=""
-            >
-        </div>
-        <br /><br />
-<div class="col">
-code         
-<pre><code>&lt;div 
-    multi-select 
-    input-model="singleWebBrowsers"
-    button-label="icon name"         
-    item-label="icon name maker" 
-    tick-property="ticked" 
-    selection-mode="single"
-    helper-elements=""
-&gt;
-&lt;/div&gt;
-</pre></code></div>  
-        <div class="col">            
-            input-model <br />
-            <div class="fauxcode hljs xml">
-                $scope.singleWebBrowsers = [   
-            <table>
-                <tr class="hljs-tag" ng-repeat="row in singleWebBrowsers" >
-                    <td>&nbsp;</td>
-                    <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
-                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
-                    <td>}<span ng-if="$index < singleWebBrowsers.length - 1">,</span></td>
-                </tr>
-            </table>
-            ];
-        </div>
-        </div>
-
-        <h3>6) Grouping</h3>        
-        Vertical (default) grouping:
-        <br />
-        <div 
-            multi-select 
-            input-model="webBrowsersGrouped"
-            button-label="icon name"         
-            item-label="icon name maker" 
-            tick-property="ticked"           
-            group-property="multiSelectGroup"
-            >
-        </div>
-
-        <br />Horizontal grouping:
-        <br />
-        <div 
-            multi-select 
-            input-model="webBrowsersGrouped2"
-            button-label="icon name"         
-            item-label="icon name maker" 
-            tick-property="ticked"            
-            orientation="horizontal"
-            group-property="multiSelectGroup"            
-            >
-        </div>
-
-        <br />In your multi-select code, set group markers by using attribute <code>group-property</code>. 
-        In your input-model, specify start and end points of a group using this group-property. <br />For example, to get the result above, you use:
-
-        <br /><br />
-<div class="col">
-code         
-<pre><code>&lt;div 
-    multi-select 
-    input-model="webBrowsersGrouped"
-    button-label="icon name"         
-    item-label="icon name maker" 
-    tick-property="ticked" 
-    orientation="vertical" &lt;!-- or horizontal --&gt;
-    group-property="multiSelectGroup"     
-&gt;
-&lt;/div&gt;
-</pre></code></div>
-        
-        <div style="clear:both"></div>       
-        <div class="col">            
-            input-model (For simplicity, input model below is static. The <code>ticked</code> property will not change)<br />
-            <pre><code>$scope.webBrowsersGrouped = [
-    {
-        name: '&lt;strong&gt;All Browsers&lt;/strong&gt;',
-        multiSelectGroup: true
-    },
-    {
-        name: '&lt;strong&gt;Modern Web Browsers&lt;/strong&gt;',
-        multiSelectGroup: true
-    },
-    { 
-        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" /&gt;',                         
-        name: 'Opera',              
-        maker: '(Opera Software)',        
-        ticked: true
-    },
-    { 
-        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" /&gt;',             
-        name: 'Internet Explorer',  
-        maker: '(Microsoft)',
-        ticked: false   
-    },
-    { 
-        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" /&gt;',         
-        name: 'Firefox',            
-        maker: '(Mozilla Foundation)',    
-        ticked: true    
-    },
-    { 
-        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" /&gt;',             
-        name: 'Safari',             
-        maker: '(Apple)',                 
-        ticked: false   
-    },
-    { 
-        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" /&gt;',  
-        name: 'Chrome',             
-        maker: '(Google)',                
-        ticked: true   
-    },
-    {
-        multiSelectGroup: false
-    },
-    {
-        name: '&lt;strong&gt;Classic Web Browsers&lt;/strong&gt;',
-        multiSelectGroup: true
-    },
-    { 
-        icon: '&lt;img  src="http://www.ucdmc.ucdavis.edu/apps/error/nojavascript/images/netscape_icon.jpg" /&gt;',      
-        name: 'Netscape Navigator', 
-        maker: '(Netscape Corporation)',  
-        ticked: true    
-    },
-    { 
-        icon: '&lt;img  src="http://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Amaya_logo_65x50.png/48px-Amaya_logo_65x50.png" /&gt;',             
-        name: 'Amaya',  
-        maker: '(Inria & W3C)',             
-        ticked: true   
-    },
-    {
-        icon: '&lt;img  src="http://upload.wikimedia.org/wikipedia/commons/8/8c/WorldWideWeb_Icon.png" /&gt;',
-        name: 'WorldWideWeb Nexus',
-        maker: '(Tim Berners-Lee)',
-        ticked: false
-    },
-    {
-        multiSelectGroup: false
-    },
-    {
-        multiSelectGroup: false
-    }
-];    
-</code></pre>
-Note on grouping:
-<ul>
-    <li>As you can see, grouping is just additonal rows in a your input model, marked with whatever <code>group-property</code> you set. </li>
-    <li>In your input model, set <code>group-property</code> to <code>true</code> to start / open a group. On above example we use <code>multiSelectGroup: true</code>.</li> 
-    <li>In your input model, set <code>group-property</code> to <code>false</code> to end / close a group. On above example we use <code>multiSelectGroup: false</code>. Don't forget to close your group. It's a common mistake.</li> 
-    <li><strong>! Important</strong>: Don't put <code>tick-property</code> in your group marker.    
-    <li>You don't need to put anything on the group end marker since it won't be displayed. As you can see, the <code>multiSelectGroup: false</code> above doesn't have any other data.</li>    
-    <li>You can use HTML tags on groups as usual.</li>    
-    <li>You can have unlimited nested grouping, as many as your layout permits.</li>    
-    <li>Clicking the group header will select/deselect all visible items under that particular group EXCEPT on single selection-mode. 
-</ul>    
         </div>        
 
-        <h2>Dependency</h2>
-        AngularJS v1.2.15. Other versions may or may not work. Please test first.
-
-        <h2>Browser Compatibility</h2>
-        Tested on:
-        <ul>
-            <li>Opera >= 12.16 (Yes, I love Opera browser! Download yours here: <a href="http://www.opera.com/">http://www.opera.com/</a>)</li>
-            <li><strike>IE8</strike> IE: At the moment I don't have access to IE9 and above, so please test first before you use this on production environment.</li>
-            <li>Firefox >= 27</li>
-            <li>Google Chrome >= 33</li>
-            <li>Might work on some mobile browsers. Please test first before you use this on production environment.</li>
-        </ul>
-
-        <h2>Bug Reporting</h2>
-        <ul>            
-            <li>Search in the issue section first. Somebody might have reported the same bug and/or asked similar question. If there's none, then please create a new issue in <a href="https://github.com/isteven/angular-multi-select/issues">https://github.com/isteven/angular-multi-select/issues</a>.</li>
-            <li>Try to reproduce the problem in JSFiddle or Plunker (or any other online JS collaboration tool), and include the URL in the issue you are creating.</li>
-        </ul>
-
-        <h2>Note</h2>
-        <ul>            
-            <li>This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.</li>
-            <li>Pardon some incorrect HTML highlighting in this document. Apparently highlight.js breaks when it sees on-open="function()" etc.</li>
-            <li>As for the moment, developments are on going, so I am not accepting pull requests. I will choose &  add them manually instead.</li>
-            <li>If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!</li>                    
-        </ul>        
-        
-        <h2>Licence</h2>
-        Released under the MIT license:
-        <div class="license">
-        <p>The MIT License (MIT)</p>
-
-        <p>Copyright (c) 2014 Ignatius Steven (https://github.com/isteven)</p>
-
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE</p>
-</div>
-        <h3>&nbsp;</h3>
+        <!-- /#page-content-wrapper -->
     </div>
+    <!-- /#wrapper -->
+    <script>
+        /*
+        $( document ).ready( function() {
+            $( '.sidebar-nav li' ).click( function( e ) {
+                console.log( e );
+                $( e.currentTarget ).addClass( 'menuActive' );
+                $( e.target ).addClass( 'menuActive' );
+                
+            });
+        });
+        */
+    </script>
 </body>
-<script>
-        // Load the multi-select module
-var myApp = angular.module('myApp', [ 'multi-select' ]);
-
-// Controller
-myApp.controller( 'main' , [ '$scope' , function ($scope) {               
-
-    $scope.resultData = [];
-    
-    // Modern web browsers
-    $scope.modernWebBrowsers = [
-        { 
-            icon: '<img src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
-            name: 'Opera',              
-            maker: '(Opera Software)',        
-            ticked: true    
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
-            name: 'Internet Explorer',  
-            maker: '(Microsoft)',
-            ticked: false   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
-            name: 'Firefox',            
-            maker: '(Mozilla Foundation)',    
-            ticked: true    
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
-            name: 'Safari',             
-            maker: '(Apple)',                 
-            ticked: false   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
-            name: 'Chrome',             
-            maker: '(Google)',                
-            ticked: true    }    
-    ];
-
-    // Modern web browsers with groups
-    $scope.webBrowsersGrouped = [
-        {
-            name: '<strong>All Browsers</strong>',
-            multiSelectGroup: true
-        },
-        {
-            name: '<strong>Modern Web Browsers</strong>',
-            multiSelectGroup: true
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
-            name: 'Opera',              
-            maker: '(Opera Software)',        
-            ticked: true
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
-            name: 'Internet Explorer',  
-            maker: '(Microsoft)',
-            ticked: false   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
-            name: 'Firefox',            
-            maker: '(Mozilla Foundation)',    
-            ticked: true    
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
-            name: 'Safari',             
-            maker: '(Apple)',                 
-            ticked: false   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
-            name: 'Chrome',             
-            maker: '(Google)',                
-            ticked: true   
-        },
-        {
-            multiSelectGroup: false
-        },
-        {
-            name: '<strong>Classic Web Browsers</strong>',
-            multiSelectGroup: true
-        },
-        { 
-            icon: '<img  src="http://www.ucdmc.ucdavis.edu/apps/error/nojavascript/images/netscape_icon.jpg" />',      
-            name: 'Netscape Navigator', 
-            maker: '(Netscape Corporation)',  
-            ticked: true    
-        },
-        { 
-            icon: '<img  src="http://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Amaya_logo_65x50.png/48px-Amaya_logo_65x50.png" />',             
-            name: 'Amaya',  
-            maker: '(Inria & W3C)',             
-            ticked: true   
-        },
-        {
-            icon: '<img  src="http://upload.wikimedia.org/wikipedia/commons/8/8c/WorldWideWeb_Icon.png" />',
-            name: 'WorldWideWeb Nexus',
-            maker: '(Tim Berners-Lee)',
-            ticked: false
-        },
-        {
-            multiSelectGroup: false
-        },
-        {
-            multiSelectGroup: false
-        }
-    ];    
-
-        // Modern web browsers with groups
-    $scope.webBrowsersGrouped2 = [
-        {
-            name: '<strong>All Browsers</strong>',
-            multiSelectGroup: true
-        },
-        {
-            name: '<strong>Modern Web Browsers</strong>',
-            multiSelectGroup: true
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
-            name: 'Opera',              
-            maker: '(Opera Software)',        
-            ticked: false
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
-            name: 'Internet Explorer',  
-            maker: '(Microsoft)',
-            ticked: true   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
-            name: 'Firefox',            
-            maker: '(Mozilla Foundation)',    
-            ticked: false    
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
-            name: 'Safari',             
-            maker: '(Apple)',                 
-            ticked: true   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
-            name: 'Chrome',             
-            maker: '(Google)',                
-            ticked: true   
-        },
-        {
-            multiSelectGroup: false
-        },
-        {
-            name: '<strong>Classic Web Browsers</strong>',
-            multiSelectGroup: true
-        },
-        { 
-            icon: '<img  src="http://www.ucdmc.ucdavis.edu/apps/error/nojavascript/images/netscape_icon.jpg" />',      
-            name: 'Netscape Navigator', 
-            maker: '(Netscape Corporation)',  
-            ticked: false    
-        },
-        { 
-            icon: '<img  src="http://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Amaya_logo_65x50.png/48px-Amaya_logo_65x50.png" />',             
-            name: 'Amaya',  
-            maker: '(Inria & W3C)',             
-            ticked: true   
-        },
-        {
-            icon: '<img  src="http://upload.wikimedia.org/wikipedia/commons/8/8c/WorldWideWeb_Icon.png" />',
-            name: 'WorldWideWeb Nexus',
-            maker: '(Tim Berners-Lee)',
-            ticked: true
-        },
-        {
-            multiSelectGroup: false
-        },
-        {
-            multiSelectGroup: false
-        }
-    ];    
-
-    $scope.modernWebBrowsers2       = angular.copy( $scope.modernWebBrowsers );
-    $scope.modernWebBrowsersDemo    = angular.copy( $scope.modernWebBrowsers );
-    
-    $scope.singleWebBrowsers = [
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
-            name: 'Opera',              
-            maker: '(Opera Software)',        
-            ticked: false
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
-            name: 'Internet Explorer',  
-            maker: '(Microsoft)',
-            ticked: false   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
-            name: 'Firefox',            
-            maker: '(Mozilla Foundation)',    
-            ticked: true    
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
-            name: 'Safari',             
-            maker: '(Apple)',                 
-            ticked: false   
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
-            name: 'Chrome',             
-            maker: '(Google)',                
-            ticked: false   
-        }    
-    ];
-
-
-    // Old web browsers
-    $scope.oldWebBrowsers = [
-        { 
-            icon: '<img  src="http://www.ucdmc.ucdavis.edu/apps/error/nojavascript/images/netscape_icon.jpg" />',      
-            name: 'Netscape Navigator', 
-            maker: '(Netscape Corporation)',  
-            ticked: true    
-        },
-        { 
-            icon: '<img  src="http://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Amaya_logo_65x50.png/48px-Amaya_logo_65x50.png" />',             
-            name: 'Amaya',  
-            maker: '(Inria & W3C)',             
-            ticked: true   
-        },
-        {
-            icon: '<img  src="http://upload.wikimedia.org/wikipedia/commons/8/8c/WorldWideWeb_Icon.png" />',
-            name: 'WorldWideWeb Nexus',
-            maker: '(Tim Berners-Lee)',
-            ticked: false
-        }
-    ];
-
-   // Demo of granular controls
-    $scope.granWebBrowsers = [
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
-            name: 'Opera',              
-            maker: '(Opera Software)',        
-            ticked: true,
-            checkboxDisabled: true
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" />',             
-            name: 'Internet Explorer',  
-            maker: '(Microsoft)',
-            ticked: false,
-            checkboxDisabled: true
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" />',         
-            name: 'Firefox',            
-            maker: '(Mozilla Foundation)',    
-            ticked: true,
-            checkboxDisabled: false
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" />',             
-            name: 'Safari',             
-            maker: '(Apple)',                 
-            ticked: false,   
-            checkboxDisabled: false
-        },
-        { 
-            icon: '<img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" />',  
-            name: 'Chrome',             
-            maker: '(Google)',                
-            ticked: true,   
-            checkboxDisabled: false    
-        }    
-    ];    
-
-    /////////////
-    //  Dynamic
-    /////////////    
-
-    $scope.granDisabled = false;
-
-    $scope.switchSource = function( data ) {
-        $scope.dynamicData = angular.copy( $scope[ data ] );
-    }
-
-    $scope.switchSource( 'modernWebBrowsers' );
-
-    $scope.removeHost = function( url ) {
-        if ( url ) {
-             var r = /[^/\\]+(?:jpg|gif|png)/gi;
-             return '[...]/' + url.match( r )[0] + '...';
-        }
-    }
-
-    $scope.open = function( data ) {
-        console.log( 'multi-select: on-open' , data );
-    }
-
-    $scope.close = function( data ) {
-        console.log( 'multi-select: on-close' , data );
-    }    
-
-    $scope.click= function( data ) {        
-        console.log( 'multi-select: on-click' , data );
-    }    
-
-}]);    
-
-hljs.initHighlightingOnLoad(); 
-
-
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-50075821-1', 'isteven.github.io');
-ga('send', 'pageview');
-
-</script>    
 </html>
-
 
