@@ -3,12 +3,14 @@
     "version"   : "v3.0.0",
     "main"      : [
         "isteven-multi-select.js",
-        "isteven-multi-select.css",
+        "isteven-multi-select.css"
     ],
     "ignore"    : [
         ".git",
         ".gitignore",
         "bower.json",
+        "CHANGELOG.md",
+        "package.json",
         "README.md",        
         "screenshot.png",
         "/doc"

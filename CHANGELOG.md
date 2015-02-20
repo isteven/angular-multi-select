@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### v3.0.0
 ##### Added / Updated
 - Customized text on helper elements
@@ -14,6 +15,8 @@
 - input-model is now static (not dynamically updated), hence why we need output-model. On the plus side, you now can re-use the input model where necessary.
 - default-label is deprecated. Custom text and translations can be done using the translation attribute.
 
+=======
+>>>>>>> 2ec1448096771715822b3329e9ef566d598a8f5d
 ### v2.0.2
 ##### Added / Updated
 - Bring back CSS into bower.json.
