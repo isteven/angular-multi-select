@@ -61,7 +61,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             groupProperty   : '@',
             searchProperty  : '@',  // 3.0.0 - OK
             maxHeight       : '@',            
-            lazyLoading     : '@',  // 3.0.0
 
             // callbacks
             onClear         : '&',  // 3.0.0 - OK
