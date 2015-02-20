@@ -1,3 +1,23 @@
+### v3.0.0
+##### Added / Updated
+- Customized text on helper elements
+- 5 new callbacks
+- You can now set minimum characters required to trigger the search functionality
+- You can now define which input-model properties to search from (previously, all input-model properties are searched)
+- On close, parent button will now receive focus.
+- Using proper semantics (well at least better than previous version).
+- Various small optimizations.
+
+##### Deprecated / Breaking Changes
+- File name and the directive name have been changed. I am really sorry for this, but this is the only workaround to prevent wrong language statistic in Github (they don''t count files whose name starts with "angular"). The repository name stays the same.
+- output-model is now required.
+- input-model is now static (not dynamically updated), hence why we need output-model. On the plus side, you now can re-use the input model where necessary.
+- default-label is deprecated. Custom text and translations can be done using the translation attribute.
+
+### v2.0.2
+##### Added / Updated
+- Bring back CSS into bower.json.
+
 ### v2.0.1
 ##### Added / Updated
 - <a href="https://github.com/isteven/angular-multi-select/issues/52">#52</a> Form tag is now properly closed
@@ -13,7 +33,7 @@
 - on-open and on-close callbacks will now pass the multi-select element (HTML) to the callback function.
 - max-height attribute. You can define the height of the selection items container.
 
-##### Removed / Deprecated:
+##### Deprecated / Breaking Changes
 - on-focus attribute is deprecated.
 - on-blur attribute is deprecated. Use on-close instead, as it will be triggered when user close a directive by clicking outside the directive.
 - IE8 will no longer be supported.

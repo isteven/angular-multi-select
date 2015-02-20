@@ -1,14 +1,16 @@
 {
     "name"      : "isteven-angular-multiselect",
-    "version"   : "v2.0.1",
+    "version"   : "v3.0.0",
     "main"      : [
-        "angular-multi-select.js"
+        "isteven-multi-select.js",
+        "isteven-multi-select.css",
     ],
     "ignore"    : [
         ".git",
         ".gitignore",
         "bower.json",
         "README.md",        
-        "screenshot.png"
+        "screenshot.png",
+        "/doc"
     ]
 }

@@ -1,7 +1,6 @@
 # AngularJS MultiSelect
 Pure AngularJS directive which creates a dropdown button with multiple or single selections. 
 Doesn't require jQuery and works well with other Javascript libraries. 
-Fully configurable through element attributes and CSS. 
 
 ![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
 
@@ -9,27 +8,27 @@ Fully configurable through element attributes and CSS.
 Go to http://isteven.github.io/angular-multi-select
 
 ### Current Version
-2.0.1
+3.0.0
 
 ### Change Log
-See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>
+See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>. 
+For those who's upgrading from version 2.x.x, do note that this version is not backward-compatible. Please read the manual
+thoroughly and update your code accordingly. 
 
 ### Bug Reporting
-- Search in the issue section first. Somebody might have reported the same bug and/or asked similar question. If there's none, then please create a new issue.
-- Try to reproduce the problem in JSFiddle or Plunker (or any other online JS collaboration tool), and include the URL in the issue you are creating.
-
-
-### Note
-- This directive is a practical solution, not a performance champion. It will not win any code efficiency competition.
-- As for the moment, developments are on going, so I am not accepting pull requests. I will choose &  add them manually instead.
-- If you like / use this directive in your awesome projects, star this repo. It's a huge motivation for me. Would also love to hear from you if you use it in an open source project. Thanks!
+Please follow these steps:
+1. READ THE MANUAL AGAIN. You might have missed something. This includes the MINIMUM ANGULARJS VERSION and the SUPPORTED BROWSERS.
+2. The next step is to search in Github's issue section first. There might already be an answer for similar issue. Do check both open and closed issues.
+3. If there's no previous issue found, then please create a new issue in https://github.com/isteven/angular-multi-select/issues.
+4. Please replicate the problem in JSFiddle or Plunker (or any other online JS collaboration tool), and include the URL in the issue you are creating.
+5. When you're done, please close the issue you've created.
 
 ### Licence
 Released under the MIT license:
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Ignatius Steven (https://github.com/isteven)
+Copyright (c) 2014-2015 Ignatius Steven (https://github.com/isteven)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
