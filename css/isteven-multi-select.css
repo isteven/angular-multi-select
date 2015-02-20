@@ -120,8 +120,8 @@
     float: right;
 }
 
-.multiSelect .helperButton + .helperButton:not(:last-child) {
-    margin-right: 4px;
+.multiSelect .helperButton:not( .reset ) {
+    margin-right: 4px;    
 }
 
 /* clear button */

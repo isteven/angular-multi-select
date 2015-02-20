@@ -33,7 +33,7 @@
 
 'use strict'
 
-angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect' , [ '$sce', '$timeout', function ( $sce, $timeout ) {
+angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect' , [ '$sce', '$timeout', '$templateCache', function ( $sce, $timeout, $templateCache ) {
     return {
         restrict: 
             'AE',
@@ -77,7 +77,79 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             translation     : '='   // 3.0.0 - OK
         },
 
-        templateUrl: 'ims-template.htm',
+        template: 
+            '<span class="multiSelect inlineBlock" id={{directiveId}}>' +
+                '<button type="button"' +
+                    'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
+                    'ng-bind-html="varButtonLabel">' +
+                '</button>' +
+                '<div class="checkboxLayer">' +
+
+                    '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+                        '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+
+                            '<button type="button" class="helperButton"' +
+                                'ng-if="!isDisabled && displayHelper( \'all\' )"' +
+                                'ng-click="select( \'all\', $event );"' +
+                                'ng-bind-html="lang.selectAll">' +
+                            '</button>'+
+
+                            '<button type="button" class="helperButton"' +
+                                'ng-if="!isDisabled && displayHelper( \'none\' )"' +
+                                'ng-click="select( \'none\', $event );"' +
+                                'ng-bind-html="lang.selectNone">' +
+                            '</button>'+
+
+                            '<button type="button" class="helperButton reset"' +
+                                'ng-if="!isDisabled && displayHelper( \'reset\' )"' +
+                                'ng-click="select( \'reset\', $event );"' +
+                                'ng-bind-html="lang.reset">'+
+                            '</button>' +
+                        '</div>' +
+
+                        '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">'+
+                                                    
+                            '<input placeholder="{{lang.search}}" type="text"' +
+                                'ng-click="select( \'filter\', $event )" '+
+                                'ng-model="inputLabel.labelFilter" '+
+                                'ng-change="searchChanged()" class="inputFilter"'+
+                                '/>'+
+            
+                            '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
+                        '</div> '+
+                    '</div> '+
+            
+                    '<div class="checkBoxContainer">'+
+                        '<div '+
+                            'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
+                            'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
+                            'ng-click="syncItems( item, $event, $index );" '+
+                            'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
+            
+                            '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
+                            
+                        '</div>  '+
+            
+                        '<div class="acol">'+
+
+                            '<label>'+                                
+                                '<input class="checkbox focusable" type="checkbox" '+
+                                    'ng-disabled="itemIsDisabled( item )" '+
+                                    'ng-checked="item[ tickProperty ]" '+
+                                    'ng-click="syncItems( item, $event, $index )" />'+
+
+                                '<span '+
+                                    'ng-class="{disabled:itemIsDisabled( item )}" '+
+                                    'ng-bind-html="writeLabel( item, \'itemLabel\' )">'+
+                                '</span>'+
+                            '</label>'+
+                        '</div>'+
+            
+                        '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true">✔</span>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+        '</span>',                    
 
         link: function ( $scope, element, attrs ) {                       
 
@@ -228,11 +300,22 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // List all the input elements.
             // This function will be called everytime the filter is updated. Not good for performance, but oh well..
-            $scope.getFormElements = function() {                     
+            $scope.getFormElements = function() {                                     
                 formElements = [];
-                for ( var i = 0; i < element[ 0 ].getElementsByTagName( 'FORM' )[ 0 ].elements.length ; i++ ) { 
-                    formElements.push( element[ 0 ].getElementsByTagName( 'FORM' )[ 0 ].elements[ i ] );
-                }
+                // Get helper - select & reset buttons
+                var selectButtons = element.children().children().next().children().children()[ 0 ].getElementsByTagName( 'button' );
+                // Get helper - search
+                var inputField = element.children().children().next().children().children().next()[ 0 ].getElementsByTagName( 'input' );
+                // Get helper - clear button
+                var clearButton = element.children().children().next().children().children().next()[ 0 ].getElementsByTagName( 'button' );
+                // Get checkboxes
+                var checkboxes = element.children().children().next().children().next()[ 0 ].getElementsByTagName( 'input' );
+                // Push them into global array formElements[] 
+                for ( var i = 0; i < selectButtons.length ; i++ )   { formElements.push( selectButtons[ i ] ); }
+                for ( var i = 0; i < inputField.length ; i++ )      { formElements.push( inputField[ i ] ); }
+                for ( var i = 0; i < clearButton.length ; i++ )     { formElements.push( clearButton[ i ] ); }
+                for ( var i = 0; i < checkboxes.length ; i++ )      { formElements.push( checkboxes[ i ] ); }
+                
             }            
 
             // check if an item has $scope.groupProperty (be it true or false)
@@ -585,8 +668,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 
                 // We grab the button
                 var clickedEl = element.children()[0];
-                // We grab the input listener
-                var inputFilter = element[ 0 ].querySelector( '.inputFilter' );
 
                 // Just to make sure.. had a bug where key events were recorded twice
                 angular.element( document ).off( 'click', $scope.externalClickListener );
@@ -594,23 +675,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                 // clear filter
                 $scope.inputLabel.labelFilter = '';                
-                $scope.updateFilter();                
-
-                // close if ESC key is pressed.
-                if ( e.keyCode === 27 ) {
-                    angular.element( checkBoxLayer ).removeClass( 'show' );                    
-                    angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
-                    angular.element( document ).off( 'click', $scope.externalClickListener );
-                    angular.element( document ).off( 'keydown', $scope.keyboardListener );    
-                    // angular.element( inputFilter ).off( 'change', ngChangeListener );
-
-                    // clear the focused element;
-                    $scope.removeFocusStyle( $scope.tabIndex );
-
-                    // close callback
-                    $scope.onClose();
-                    return true;
-                }                                
+                $scope.updateFilter();                                
 
                 // The idea below was taken from another multi-select directive - https://github.com/amitava82/angular-multiselect 
                 // His version is awesome if you need a more simple multi-select approach.                                
@@ -622,7 +687,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).off( 'click', $scope.externalClickListener );
                     angular.element( document ).off( 'keydown', $scope.keyboardListener );                                    
-                    // angular.element( inputFilter ).off( 'change', ngChangeListener );
 
                     // clear the focused element;
                     $scope.removeFocusStyle( $scope.tabIndex );
@@ -631,6 +695,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     $timeout( function() {
                         $scope.onClose();
                     }, 0 );
+
+                    // set focus on button again
+                    element.children().children()[ 0 ].focus();
                 } 
                 // open
                 else                 
@@ -643,7 +710,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     // Attach change event listener on the input filter. 
                     // We need this because ng-change is apparently not an event listener.                    
-                    // angular.element( inputFilter ).on( 'change', ngChangeListener );                    
                     angular.element( document ).on( 'click', $scope.externalClickListener );
                     angular.element( document ).on( 'keydown', $scope.keyboardListener );  
 
@@ -663,7 +729,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     
                     // focus on the filter element on open. 
                     if ( element[ 0 ].querySelector( '.inputFilter' ) ) {                        
-                        element[ 0 ].querySelector( '.inputFilter' ).focus();                        
+                        element[ 0 ].querySelector( '.inputFilter' ).focus();    
                         $scope.tabIndex = $scope.tabIndex + helperItemsLength - 2;
                     }
                     // if there's no filter then just focus on the first checkbox item
@@ -695,6 +761,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 $timeout( function() {
                     $scope.onClose();
                 }, 0 );
+
+                // set focus on button again
+                element.children().children()[ 0 ].focus();
             }
    
             // select All / select None / reset buttons
@@ -787,16 +856,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.keyboardListener = function( e ) { 
                 
                 var key = e.keyCode ? e.keyCode : e.which;      
-                var isNavigationKey = false;                                
-                var actEl = document.activeElement;        
+                var isNavigationKey = false;                                                
 
                 // ESC key (close)
                 if ( key === 27 ) {
+                    e.preventDefault();                   
                     $scope.toggleCheckboxes( e );
                 }                    
                 
                 // next element ( tab, down & right key )                    
                 else if ( key === 40 || key === 39 || ( !e.shiftKey && key == 9 ) ) {                    
+                    
                     isNavigationKey = true;
                     prevTabIndex = $scope.tabIndex; 
                     $scope.tabIndex++;                         
@@ -809,7 +879,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         if ( $scope.tabIndex > formElements.length - 1 ) {
                             $scope.tabIndex = 0;                            
                         }                                                                                    
-                    }
+                    }                                
                 }
                 
                 // prev element ( shift+tab, up & left key )
@@ -829,13 +899,14 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     }                                 
                 }                    
 
-                if ( isNavigationKey === true ) {                     
+                if ( isNavigationKey === true ) {                                         
 
+                    
                     e.preventDefault();
-                    e.stopPropagation();                    
 
                     // set focus on the checkbox
-                    formElements[ $scope.tabIndex ].focus();                                    
+                    formElements[ $scope.tabIndex ].focus();    
+                    var actEl = document.activeElement;  
                     
                     if ( actEl.type.toUpperCase() === 'CHECKBOX' ) {                                                   
                         $scope.setFocusStyle( $scope.tabIndex );
@@ -852,7 +923,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             }
 
             // set (add) CSS style on selected row
-            $scope.setFocusStyle = function( tabIndex ) {                
+            $scope.setFocusStyle = function( tabIndex ) {                                
                 angular.element( formElements[ tabIndex ] ).parent().parent().parent().addClass( 'multiSelectFocus' );                        
             }
 
