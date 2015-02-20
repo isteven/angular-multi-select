@@ -1,11 +1,13 @@
 ### v3.0.0
 ##### Added / Updated
+- Support for AngularJs version 1.3.x (v3.0.0 also supports AngularJs 1.2.x, but beware of the breaking changes)
 - Customized text on helper elements
 - 5 new callbacks
 - You can now set minimum characters required to trigger the search functionality
 - You can now define which input-model properties to search from (previously, all input-model properties are searched)
 - On close, parent button will now receive focus.
 - Using proper semantics (well at least better than previous version).
+- Limited support on promise objects.
 - Various small optimizations.
 
 ##### Deprecated / Breaking Changes
