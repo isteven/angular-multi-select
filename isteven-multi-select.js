@@ -299,7 +299,11 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // List all the input elements.
             // This function will be called everytime the filter is updated. Not good for performance, but oh well..
-            $scope.getFormElements = function() {                                     
+            $scope.getFormElements = function() {
+                if (!element.children().children().next().children().children().next()[ 0 ]) {
+                  return; // filter leaves an empty list
+                }
+
                 formElements = [];
                 // Get helper - select & reset buttons
                 var selectButtons = element.children().children().next().children().children()[ 0 ].getElementsByTagName( 'button' );
