@@ -75,7 +75,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // i18n
             translation     : '='   // 3.0.0 - OK
         },
-		templateUrl: 'isteven-multi-select.html',
+		templateUrl: 'isteven-multi-select.htm',
                             
 
         link: function ( $scope, element, attrs ) {                       
@@ -970,80 +970,82 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             });                                   
         }
     }
-}]).run(['$templateCache', function($templateCache){
-	var template = 
-            '<span class="multiSelect inlineBlock" id={{directiveId}}>' +
-                '<button type="button"' +
-                    'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
-                    'ng-bind-html="varButtonLabel">' +
-                '</button>' +
-                '<div class="checkboxLayer">' +
+}]).run( [ '$templateCache' , function( $templateCache ) {
+    var template = 
+        '<span class="multiSelect inlineBlock" id={{directiveId}}>' +
+            '<button type="button"' +
+                'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
+                'ng-bind-html="varButtonLabel">' +
+            '</button>' +
+            '<div class="checkboxLayer">' +
 
-                    '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-                        '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+                '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+                    '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
 
-                            '<button type="button" class="helperButton"' +
-                                'ng-if="!isDisabled && displayHelper( \'all\' )"' +
-                                'ng-click="select( \'all\', $event );"' +
-                                'ng-bind-html="lang.selectAll">' +
-                            '</button>'+
+                        '<button type="button" class="helperButton"' +
+                            'ng-if="!isDisabled && displayHelper( \'all\' )"' +
+                            'ng-click="select( \'all\', $event );"' +
+                            'ng-bind-html="lang.selectAll">' +
+                        '</button>'+
 
-                            '<button type="button" class="helperButton"' +
-                                'ng-if="!isDisabled && displayHelper( \'none\' )"' +
-                                'ng-click="select( \'none\', $event );"' +
-                                'ng-bind-html="lang.selectNone">' +
-                            '</button>'+
+                        '<button type="button" class="helperButton"' +
+                            'ng-if="!isDisabled && displayHelper( \'none\' )"' +
+                            'ng-click="select( \'none\', $event );"' +
+                            'ng-bind-html="lang.selectNone">' +
+                        '</button>'+
 
-                            '<button type="button" class="helperButton reset"' +
-                                'ng-if="!isDisabled && displayHelper( \'reset\' )"' +
-                                'ng-click="select( \'reset\', $event );"' +
-                                'ng-bind-html="lang.reset">'+
-                            '</button>' +
-                        '</div>' +
+                        '<button type="button" class="helperButton reset"' +
+                            'ng-if="!isDisabled && displayHelper( \'reset\' )"' +
+                            'ng-click="select( \'reset\', $event );"' +
+                            'ng-bind-html="lang.reset">'+
+                        '</button>' +
+                    '</div>' +
 
-                        '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">'+
-                                                    
-                            '<input placeholder="{{lang.search}}" type="text"' +
-                                'ng-click="select( \'filter\', $event )" '+
-                                'ng-model="inputLabel.labelFilter" '+
-                                'ng-change="searchChanged()" class="inputFilter"'+
-                                '/>'+
-            
-                            '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
-                        '</div> '+
+                    '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">'+
+                                                
+                        '<input placeholder="{{lang.search}}" type="text"' +
+                            'ng-click="select( \'filter\', $event )" '+
+                            'ng-model="inputLabel.labelFilter" '+
+                            'ng-change="searchChanged()" class="inputFilter"'+
+                            '/>'+
+        
+                        '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
                     '</div> '+
-            
-                    '<div class="checkBoxContainer">'+
-                        '<div '+
-                            'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
-                            'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
-                            'ng-click="syncItems( item, $event, $index );" '+
-                            'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
-            
-                            '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
-                            
-                        '</div>  '+
-            
-                        '<div class="acol">'+
+                '</div> '+
+        
+                '<div class="checkBoxContainer">'+
+                    '<div '+
+                        'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
+                        'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
+                        'ng-click="syncItems( item, $event, $index );" '+
+                        'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
+        
+                        '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
+                        
+                    '</div>  '+
+        
+                    '<div class="acol">'+
 
-                            '<label>'+                                
-                                '<input class="checkbox focusable" type="checkbox" '+
-                                    'ng-disabled="itemIsDisabled( item )" '+
-                                    'ng-checked="item[ tickProperty ]" '+
-                                    'ng-click="syncItems( item, $event, $index )" />'+
+                        '<label>'+                                
+                            '<input class="checkbox focusable" type="checkbox" '+
+                                'ng-disabled="itemIsDisabled( item )" '+
+                                'ng-checked="item[ tickProperty ]" '+
+                                'ng-click="syncItems( item, $event, $index )" />'+
 
-                                '<span '+
-                                    'ng-class="{disabled:itemIsDisabled( item )}" '+
-                                    'ng-bind-html="writeLabel( item, \'itemLabel\' )">'+
-                                '</span>'+
-                            '</label>'+
-                        '</div>'+
-            
-                        '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true">✔</span>'+
+                            '<span '+
+                                'ng-class="{disabled:itemIsDisabled( item )}" '+
+                                'ng-bind-html="writeLabel( item, \'itemLabel\' )">'+
+                            '</span>'+
+                        '</label>'+
                     '</div>'+
+        
+                    '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true">✔</span>'+
                 '</div>'+
             '</div>'+
-        '</span>';
-	$templateCache.put('isteven-multi-select.html', template);
-  }]); ;
+        '</div>'+
+    '</span>';
+
+	$templateCache.put( 'isteven-multi-select.htm' , template );
+
+}]); 
 
