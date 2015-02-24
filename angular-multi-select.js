@@ -55,7 +55,6 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       orientation: '@',
       selectionMode: '@',
       searchKey: '@',
-      disableDone: '@',
 
       // settings based on input model property
       tickProperty: '@',
@@ -79,19 +78,18 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
       '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
       '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
-      '<button type="button" ng-click="select( \'done\',  $event );"   class="helperButton helperButtonDone" ng-if="!isDisabled && displayHelper( \'done\' )" style="float:right">&nbsp;&nbsp;Done&nbsp;&nbsp;</button>' +
       '</div>' +
       '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
       '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" data-ng-model-options="{debounce: 300}" ng-model="inputLabel.labelFilter" ng-change="throttledUpdateFilter();$scope.getFormElements();" class="inputFilter" />' +
       '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
       '</div>' +
       '</div>' +
-      '<div class="checkBoxContainer" data-subfilter="filteredModel" style="{{setHeight();}}">' +
+      '<div class="checkBoxContainer" data-subfilter="filteredModel" ng-style="{max-height:setHeight()}" style="overflow-y:scroll">' +
       '<div ng-repeat="item in subFilteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
       'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
       'ng-click="syncItems( item, $event, $index );"' +
       'ng-mouseleave="removeFocusStyle( tabIndex );"' +
-      'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px)">' +
+      'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px);" ng-style="{\'-ms-transform\':transformFixIE(item.displayIndex)}">' +
       '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +
       '<div class="acol">' +
       '<label>' +
@@ -150,10 +148,15 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
         };
       };
 
+      $scope.transformFixIE = function(displayIndex) {
+        console.log("transforming");
+        return 'translate(0,' + (displayIndex * 31) + 'px)';
+      };
+
       // If user specify a height, call this function
       $scope.setHeight = function() {
         if (typeof $scope.maxHeight !== 'undefined') {
-          return 'max-height: ' + $scope.maxHeight + '; overflow-y:scroll';
+          return $scope.maxHeight;
         }
       };
 
@@ -294,9 +297,6 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
         }
 
         else {
-          if (elementString.toUpperCase() === 'DONE') {
-            return $scope.disableDone !== 'true';
-          }
           if (typeof attrs.helperElements === 'undefined') {
             return true;
           }
@@ -618,9 +618,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
           $scope.removeFocusStyle($scope.tabIndex);
 
           // close callback
-          $timeout(function() {
-            $scope.onClose({ data: $scope.outputModel });
-          });
+          $scope.onClose({ data: element });
           return true;
         }
 
@@ -638,9 +636,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
           $scope.removeFocusStyle($scope.tabIndex);
 
           // close callback
-          $timeout(function() {
-            $scope.onClose({ data: $scope.outputModel });
-          });
+          $scope.onClose({ data: element });
         }
         // open
         else {
@@ -697,7 +693,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
         // close callback
         $timeout(function() {
-          $scope.onClose({ data: $scope.outputModel });
+          $scope.onClose({ data: element });
         }, 0);
       };
 
@@ -715,7 +711,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
         return null;
       };
 
-      // select All / select None / reset / done buttons
+      // select All / select None / reset buttons
       $scope.select = function(type, e) {
         helperIndex = helperItems.indexOf(e.target);
         $scope.tabIndex = helperIndex;
@@ -752,9 +748,6 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
             break;
           case 'FILTER':
             $scope.tabIndex = helperItems.length - 1;
-            break;
-          case 'DONE':
-            $scope.toggleCheckboxes(e);
             break;
           default:
         }
@@ -1063,7 +1056,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
   return {
     restrict: 'A',
     transclude:true,
-    template:'<div style="height:{{containerHeight}}px;overflow:hidden;position:relative" ng-transclude></div>',
+    template:'<div ng-style="{\'height\':containerHeight+\'px\'}" style="overflow:hidden;position:relative" ng-transclude=""></div>',
     scope:{
       subfilter:'='
     },
