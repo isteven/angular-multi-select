@@ -86,12 +86,12 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
       '</div>' +
       '</div>' +
-      '<div class="checkBoxContainer" data-subfilter="filteredModel" style="{{setHeight();}}">' +
+      '<div class="checkBoxContainer" data-subfilter="filteredModel" ng-style="{max-height:setHeight()}" style="overflow-y:scroll">' +
       '<div ng-repeat="item in subFilteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
       'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
       'ng-click="syncItems( item, $event, $index );"' +
       'ng-mouseleave="removeFocusStyle( tabIndex );"' +
-      'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px)">' +
+      'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px);" ng-style="{\'-ms-transform\':transformFixIE(item.displayIndex)}">' +
       '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +
       '<div class="acol">' +
       '<label>' +
@@ -150,10 +150,15 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
         };
       };
 
+      $scope.transformFixIE = function(displayIndex) {
+        console.log("transforming");
+        return 'translate(0,' + (displayIndex * 31) + 'px)';
+      };
+
       // If user specify a height, call this function
       $scope.setHeight = function() {
         if (typeof $scope.maxHeight !== 'undefined') {
-          return 'max-height: ' + $scope.maxHeight + '; overflow-y:scroll';
+          return $scope.maxHeight;
         }
       };
 
@@ -1063,7 +1068,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
   return {
     restrict: 'A',
     transclude:true,
-    template:'<div style="height:{{containerHeight}}px;overflow:hidden;position:relative" ng-transclude></div>',
+    template:'<div ng-style="{\'height\':containerHeight+\'px\'}" style="overflow:hidden;position:relative" ng-transclude=""></div>',
     scope:{
       subfilter:'='
     },
