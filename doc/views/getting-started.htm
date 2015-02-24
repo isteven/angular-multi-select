@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Getting Started</h3>
+
+        <h5>Include the required files</h5>
+
+        <p>First things first:</p>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html ng-app="myApp" id="myApp"&gt;
+    &lt;head&gt;
+        ...
+        &lt;link rel="stylesheet" href="isteven-multi-select.css"&gt;
+        ...
+        &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"&gt;&lt;/script&gt;
+        &lt;script src="isteven-multi-select.js"&gt;&lt;/script&gt;      
+        ...
+    &lt;head&gt;</code></pre>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <h5>Initiate your AngularJs app & load the module</h5>
+
+        <p>
+            If you learn AngularJs from AngularJs' website, you should be familiar with this <code>app.js</code> 
+            file, in which you initiate your AngularJs app. So let's put our directive module there and load it, such as:
+        </p>
+        
+        <pre><code>var myApp = angular.module( "myApp", [ "isteven-multi-select" ]);</code></pre>
+            
+        <h5>In your controller</h5>
+
+        <p>
+            In your controller, define a <code>$scope</code> variable as the input-model. This is our "ng-model",             
+            so to speak.             
+        </p>
+        <p>
+            <span class="label label-primary">Note</span> The input-model has to be a one-dimensional (flat), array of objects.
+        </p>
+        
+        <pre><code>$scope.modernBrowsers = [
+    { icon: "&lt;img src=[..]/opera.png.. /&gt;",               name: "Opera",              maker: "(Opera Software)",        ticked: true  },
+    { icon: "&lt;img src=[..]/internet_explorer.png.. /&gt;",   name: "Internet Explorer",  maker: "(Microsoft)",             ticked: false },
+    { icon: "&lt;img src=[..]/firefox-icon.png.. /&gt;",        name: "Firefox",            maker: "(Mozilla Foundation)",    ticked: true  },
+    { icon: "&lt;img src=[..]/safari_browser.png.. /&gt;",      name: "Safari",             maker: "(Apple)",                 ticked: false },
+    { icon: "&lt;img src=[..]/chrome.png.. /&gt;",              name: "Chrome",             maker: "(Google)",                ticked: true  }
+]; </code></pre>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">           
+        <h5>In your view</h5>
+        <p>Let's now define the directive with a minimum required configuration options.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-5">        
+        <p>As an attribute:</p>
+
+        <pre><code>&lt;div     
+    isteven-multi-select
+    input-model="modernBrowsers"
+    output-model="outputBrowsers"
+    button-label="icon name"
+    item-label="icon name maker"
+    tick-property="ticked"
+&gt;
+&lt;/div&gt;</code></pre> 
+
+    </div>    
+
+    <div class="col-sm-7">
+
+        <p>... or as an element, but be careful with browser compatibility.</p>
+
+        <pre><code>&lt;isteven-multi-select    
+    input-model="modernBrowsers"    
+    output-model="outputBrowsers"
+    button-label="icon name"
+    item-label="icon name maker"
+    tick-property="ticked"
+&gt;
+&lt;/isteven-multi-select&gt;</code></pre>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>By now you should now have dropdown button like the one you saw earlier on the front page.</p>
+
+        <h5>Getting the selected items</h5>
+
+        <p>
+        This should be obvious, but I got this question a lot, so:
+<pre><code>angular.forEach( $scope.outputBrowsers, function( value, key ) {    
+    /* do your stuff here */    
+});</code></pre>
+</p>
+
+<p>That's it! Go to the <a href="#/configs-options">Configs & Options</a> section to read more</p>
+    </div>        
+</div>
+
+<script>    
+    $(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
+</script>

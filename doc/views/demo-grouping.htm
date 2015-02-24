@@ -1,0 +1,204 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Demo > Grouping</h3> 
+
+        <p>Vertical grouping</p>
+        <div 
+            isteven-multi-select 
+            input-model="webBrowsersGrouped"
+            output-model="outputBrowsers1"
+            button-label="icon name"         
+            item-label="icon name maker" 
+            tick-property="ticked"           
+            group-property="msGroup"
+            >
+        </div>
+
+        <br />
+        <p>Horizontal grouping (just add <code>orientation="horizontal"</code>).</p>        
+        <div 
+            isteven-multi-select 
+            input-model="webBrowsersGrouped"
+            output-model="outputBrowsers2"
+            button-label="icon name"         
+            item-label="icon name maker" 
+            tick-property="ticked"            
+            orientation="horizontal"
+            group-property="msGroup"            
+            >
+        </div>
+        
+        <h5>Grouping is just additional rows in your input-model</h5>
+        <p>
+            First, in your directive declaration, set a grouping marker using the <code>group-property</code>, 
+            let's say <code>group-property="msGroup"</code>. This is our group marker.
+Now, in your controller, grouping is made by enclosing some rows of your input-model array with 
+            this <code>msGroup</code> attribute.
+            <ul>
+                <li><code>msGroup: true</code> will start a group, and</li>
+                <li><code>msGroup: false</code> will end a group</li>
+            </ul>
+            Example:
+        </p>
+            <pre><code>$scope.data = [
+    {   name: 'People', msGroup: true       },  // Start a group labled 'People'
+    {   name: 'Person A', selected: false   },      // Person A. 
+    {   name: 'Person B', selected: false   },      // Person B
+    {   msGroup: false }                        // Close 'People' group
+];</code></pre>
+
+        <p>
+            The directive will take care of indentation of grouped items. It supports nested grouping, as deep as your layout permits. 
+            You can use HTML tags on groups as usual. Clicking the group header will select/deselect 
+            all visible items under that particular group EXCEPT on single selection-mode.                                    
+        </p>
+        <p>
+            Below are the codes to create the vertical multi-select above:
+        </p>        
+        <div role="tabpanel">
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a data-target="#view" aria-controls="home" role="tab" data-toggle="tab">View</a></li>
+            <li role="presentation"><a data-target="#controller" aria-controls="profile" role="tab" data-toggle="tab">Controller</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="view">
+                <p>Define your directive:</p>
+                <pre><code>&lt;div
+    isteven-multi-select
+    input-model="webBrowsersGrouped"
+    output-model="outputBrowsers"
+    button-label="icon name"
+    item-label="icon name maker"
+    tick-property="ticked"
+    ...
+    group-property="msGroup"
+&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="controller">
+                <p>Define your input-model:</p>
+                <pre><code>$scope.webBrowsersGrouped = [
+    {
+        name: '&lt;strong&gt;All Browsers&lt;/strong&gt;',
+        msGroup: true
+    },
+    {
+        name: '&lt;strong&gt;Modern Web Browsers&lt;/strong&gt;',
+        msGroup: true
+    },
+    { 
+        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" /&gt;',                         
+        name: 'Opera',              
+        maker: '(Opera Software)',        
+        ticked: true
+    },
+    { 
+        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32/internet_explorer.png" /&gt;',             
+        name: 'Internet Explorer',  
+        maker: '(Microsoft)',
+        ticked: false   
+    },
+    { 
+        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/humano2/32x32/apps/firefox-icon.png" /&gt;',         
+        name: 'Firefox',            
+        maker: '(Mozilla Foundation)',    
+        ticked: true    
+    },
+    { 
+        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/fatcow/32x32/safari_browser.png" /&gt;',             
+        name: 'Safari',             
+        maker: '(Apple)',                 
+        ticked: false   
+    },
+    { 
+        icon: '&lt;img  src="https://cdn1.iconfinder.com/data/icons/google_jfk_icons_by_carlosjj/32/chrome.png" /&gt;',  
+        name: 'Chrome',             
+        maker: '(Google)',                
+        ticked: true   
+    },
+    {
+        msGroup: false
+    },
+    {
+        name: '&lt;strong&gt;Classic Web Browsers&lt;/strong&gt;',
+        msGroup: true
+    },
+    { 
+        icon: '&lt;img  src="http://www.ucdmc.ucdavis.edu/apps/error/nojavascript/images/netscape_icon.jpg" /&gt;',      
+        name: 'Netscape Navigator', 
+        maker: '(Netscape Corporation)',  
+        ticked: true    
+    },
+    { 
+        icon: '&lt;img  src="http://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Amaya_logo_65x50.png/48px-Amaya_logo_65x50.png" /&gt;',             
+        name: 'Amaya',  
+        maker: '(Inria & W3C)',             
+        ticked: true   
+    },
+    {
+        icon: '&lt;img  src="http://upload.wikimedia.org/wikipedia/commons/8/8c/WorldWideWeb_Icon.png" /&gt;',
+        name: 'WorldWideWeb Nexus',
+        maker: '(Tim Berners-Lee)',
+        ticked: false
+    },
+    {
+        msGroup: false
+    },
+    {
+        msGroup: false
+    }
+];</pre></code>
+            
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">              
+        <h5>Output model</h5>
+        <p>
+            Look at the <code>output-model</code> below to see the values getting updated 
+            as you select / deselect an item in the directive. Icons in the objects are actually full HTML <code>img</code> tag, shortened for simplicity. 
+        </p>
+        <div class="fauxCode hljs xml">
+            $scope.outputBrowsers1 = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in outputBrowsers1" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < outputBrowsers1.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>                
+
+        <h5>Things to remember</h5>        
+        <p><span class="label label-danger">Important</span> Your input-model is still a flat, one-dimensional array of objects.</p>        
+        <p><span class="label label-danger">Important</span> Don't put <code>tick-property</code> in your group marker.</p>        
+        <p><span class="label label-danger">Important</span> Group markers won't be included in the output-model.</p>        
+        <p><span class="label label-primary">Note</span> You search the item label, not the group label.</p>        
+
+        <h5>Learn more</h5>
+        </p>
+            Open the <code>/docs/js/controllers/demo-grouping.js</code>, as well as this view 
+            <code>docs/views/demo-grouping.htm</code>to learn the code directly.
+        </p>
+    </div>        
+</div>
+
+<script>    
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });      
+    });
+</script>

@@ -1,0 +1,45 @@
+<div class="row">    
+    <div class="col-sm-12">
+        <h3 class="pageHeading">Frequently Asked Questions</h3>
+
+        <p>
+            People asked me a lot of questions regarding the decisions behind the directive's design. Why this? why not that? 
+            So here are some of the explanations:
+        </p>
+        
+        <h5>The models - why do they have to be array of objects? Why aren't you using ng-options like most solutions?</h5>
+        <p>    
+            I believe that an element is simply an embodiment of the data it contains. Something like "form will follow function"
+            idea. In this case, I believe an array of object is the best data structure to use. With array of objects, 
+            you know how your element looks like, which data are checked / disabled, etc, just by looking at it.  
+        </p>
+
+        <h5>... and why can't we use multi-dimensional input-model?</h5>
+        <p>
+            There's no doubt that I can add more codes to process multi-dimensional array into a flat array, 
+            but that will add more complexities into the directive. Do me a favour - flatten the multi-dimensional 
+            array into a flat array in your controller before you pass it into the input-model. Another reason is 
+            that at the moment, AngularJs' <code>ng-repeat</code> has no standard way of looping over multi-dimensional 
+            array. There are some hacks available, but again the extra complexities are not worth it.
+        </p>
+
+        <h5>Why output-model is still an array of objects, even when there's only one item?</h5>
+        <p>
+            So that you don't need to write different logic to process the output data. Once an array, always an array (At least in multiple selection mode - 
+            things might change in the single selection mode. I'll see how it goes along the way).
+        </p>
+
+        <h5>It's very slow with 99999 selection items. It also shows memory leak symptoms.</h5>
+        <p>
+            This directive is a practical solution, not a performance champion. It will not win any coding competition.
+            Anyway, rest assured that I always try to optimize the code with every iteration. 
+        </p>
+
+        <h5>The directive is great, but it's not the "Angular way" (or whatever way).</h5>
+        <p>
+            Unfortunately this is a trade-off in order to achieve some of the functionalities. 
+            My noob skill, as well as lack of proper development time is also a factor. 
+        </p>
+    </div>
+</div>
+

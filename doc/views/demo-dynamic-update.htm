@@ -1,0 +1,160 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Demo > Dynamic Update</h3>
+
+        <p>
+            The directive listens to changes on their input <code>$scope</code> variable. 
+            This is how you programatically update the directive - by changing the input model - and it will
+            refresh accordingly. 
+        </p>
+        <br />
+        <div 
+            isteven-multi-select 
+            input-model="dynamicData"
+            output-model="outputBrowsers"
+            button-label="icon name"         
+            item-label="icon name maker" 
+            tick-property="ticked" 
+            >
+        </div>       
+        <h5>Update input-model</h5>
+        <p>
+            Click one of the buttons below to load different data into it.
+        </p>        
+        <p>
+            <button type="button" class="btn btn-success btn-xs" ng-click="switchSource( 'modernBrowsers' )" >Load modern browsers</button>    
+            <button type="button" class="btn btn-primary btn-xs" ng-click="switchSource( 'oldBrowsers' )" >Load old browsers</button>      
+        </p>        
+        <h5>Update singular data</h5>
+        <p>
+            You can also update a single item. Operations like these are totally valid:
+            <ul>
+                <li><code>$scope.modernBrowsers[ 1 ].ticked = false</code>, or</li>
+                <li><code>$scope.modernBrowsers[ 1 ].name = 'Hola!'</code></li>
+            </ul>
+            For example, click this button below to change the name of the first chosen browser, into 'Hello World'.
+        </p>        
+        <p>
+            <button type="button" class="btn btn-warning btn-xs" ng-click="dynamicData[ 0 ].name = 'Hello World'" >Update singular data</button>    
+        </p>                   
+        <br />
+        <div role="tabpanel">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a data-target="#view" aria-controls="home" role="tab" data-toggle="tab">View</a></li>
+                <li role="presentation"><a data-target="#controller" aria-controls="profile" role="tab" data-toggle="tab">Controller</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="view">
+                    <p>Define your directive:</p>
+                    <pre><code>&lt;div
+    isteven-multi-select
+    input-model="dynamicData"
+    output-model="outputBrowsers"
+    button-label="icon name"
+    item-label="icon name maker"
+    tick-property="ticked"
+&gt;
+&lt;/div&gt;
+...
+&lt;!-- The buttons to do data operation --&gt;
+&lt;button type="button" class="btn btn-success btn-xs" ng-click="switchSource( 'modernBrowsers' )" >Load modern browsers&lt;/button&gt;
+&lt;button type="button" class="btn btn-primary btn-xs" ng-click="switchSource( 'oldBrowsers' )" >Load old browsers&lt;/button&gt;
+&lt;button type="button" class="btn btn-warning btn-xs" ng-click="dynamicData[ 0 ].name = 'Hello World!'" >Update singular data&lt;/button&gt;</code></pre>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="controller">
+                    <p>Define your input-model:</p>
+                    <div class="fauxCode hljs xml">
+                        $scope.modernBrowsers = [
+                        <table>
+                            <tr class="hljs-tag" ng-repeat="row in dynamicData" >
+                                <td>&nbsp;</td>
+                                <td>{</td>
+                                <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                                <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                                <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                                <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                                <td>}<span ng-if="$index < modernBrowsers.length - 1">,</span></td>
+                            </tr>
+                        </table>
+                        ];
+                    </div>
+
+                    <div class="fauxCode hljs xml">
+                        $scope.oldBrowsers = [
+                        <table>
+                            <tr class="hljs-tag" ng-repeat="row in oldBrowsers" >
+                                <td>&nbsp;</td>
+                                <td>{</td>
+                                <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                                <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                                <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                                <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                                <td>}<span ng-if="$index < oldBrowsers.length - 1">,</span></td>
+                            </tr>
+                        </table>
+                        ];
+                    </div>                    
+
+                    <p>
+                        Some extra codes here; <code>$scope.swithcSource()</code> is a function where we switch 
+                        the <code>$scope.dynamicData</code> content with modern or old browsers.
+                    </p>
+                    <pre><code>// This will be our input model
+$scope.dynamicData = [];
+
+// Just a function to switch the model on button click.
+$scope.switchSource = function( data ) {
+    $scope.dynamicData = angular.copy( $scope[ data ] );    
+}
+
+// Initially we'll use the modern browsers
+$scope.switchSource( 'modernBrowsers' );</code></pre>                    
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">              
+        <h5>Output model</h5>
+        <p>
+            Look at the <code>output-model</code> below to see the values getting updated 
+            as you select / deselect an item in the directive. Icons in the objects are actually full HTML <code>img</code> tag, shortened for simplicity. 
+        </p>
+        <div class="fauxCode hljs xml">
+            $scope.outputBrowsers = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in outputBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>                
+                <h5>Learn more</h5>
+        </p>
+            Open the <code>/docs/js/controllers/demo-dynamic-update.js</code>, as well as this view 
+            <code>docs/views/demo-dynamic-update.htm</code>to learn the code directly.
+        </p>
+
+    </div>        
+</div>
+
+<script>    
+    $(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
+</script>
