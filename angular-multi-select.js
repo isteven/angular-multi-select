@@ -151,7 +151,6 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       };
 
       $scope.transformFixIE = function(displayIndex) {
-        console.log("transforming");
         return 'translate(0,' + (displayIndex * 31) + 'px)';
       };
 
