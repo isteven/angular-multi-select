@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="myApp" id="myApp">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">    
+
+    <title>AngularJs MultiSelect</title>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/simple-sidebar.css" >
+    <link rel="stylesheet" href="css/style.css">   
+    <link rel="stylesheet" href="highlight/styles/github.css">
+    <link rel="stylesheet" href="css/isteven-multi-select.css">                        
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">    
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:400,900|Roboto+Slab:400,700' type='text/css'>    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="js/libs/jquery.min.js"></script>    
+    <script src="js/libs/bootstrap.min.js"></script>    
+    <script src="highlight/highlight.pack.js"></script>
+    <script src="js/libs/angular.min.js"></script>      
+    <script src="js/libs/angular-route.min.js"></script>
+    <script src="js/libs/isteven-multi-select.js"></script>  
+    <script src="js/libs/paypal-button.min.js"></script>      
+
+    <script src="js/app.js"></script>   
+    <script src="js/libs/helper.js"></script>    
+    <script src="js/controllers/demo-minimum.js"></script>        
+    <script src="js/controllers/demo-horizontal-layout.js"></script>        
+    <script src="js/controllers/demo-dynamic-update.js"></script>        
+    <script src="js/controllers/demo-disabling-enabling.js"></script>        
+    <script src="js/controllers/demo-grouping.js"></script>        
+    <script src="js/controllers/demo-callbacks.js"></script>        
+    <script src="js/controllers/demo-single-selection-mode.js"></script>        
+
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+</head>
+
+<body>    
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand border-bottom">                    
+                    <a href="#/main">
+                        <h5>AngularJs MultiSelect &nbsp;&nbsp;<span class="fa fa-home"></span></h5>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/getting-started">Getting Started</a>
+                </li>
+                <li>
+                    <a href="#/configs-options">Configuration & Options</a>
+                </li>                
+                <li>
+                    Demo:                
+                </li>
+                    <li class="subMenu">
+                        <a href="#/demo-minimum">Minimum</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-horizontal-layout">Horizontal Layout</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-dynamic-update">Dynamic Update</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-disabling-enabling">Disabling / Enabling</a>
+                    </li>                        
+                    <li class="subMenu">
+                        <a href="#/demo-grouping">Grouping</a>
+                    </li>
+                    <li class="subMenu">
+                        <a href="#/demo-callbacks">Callbacks</a>
+                    </li>                   
+                    <li class="subMenu">
+                        <a href="#/demo-single-selection-mode">Single Selection Mode</a>
+                    </li>                        
+                <li>
+                    <a href="#/breaking-changes">Breaking Changes</a>
+                </li>                    
+                <li>
+                    <a href="#/dependency-compatibility">Dependency & Compatibility</a>
+                </li>
+                <li>
+                    <a href="#/issues-bug-reporting">Issues & Bug Reporting</a>
+                </li>
+                <li>
+                    <a href="#/contributing">Contributing</a>
+                </li>                
+                <li>
+                    <a href="#/faq">FAQ</a>
+                </li>                       
+                
+                <li>
+                    <a href="#/mit-license">MIT License</a>
+                </li>
+                <li>&nbsp;</li>
+                <li>                
+                    <a href="#/other-cool-stuffs">Other Cool Stuffs</a>
+                </li>                
+            </ul>                    
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">               
+            <div class="container-fluid removePadding" ng-view></div>
+            <div class="pull-right githubButtons">
+                <a href="https://github.com/isteven/angular-multi-select" target="_blank" class="download" onclick="ga( 'send', 'event', 'button', 'click' );">
+                    <span class="fa fa-github fa-lg">
+                    </span>
+                    &nbsp; View on Github
+                </a>
+                &nbsp;
+                <iframe src="https://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=star&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="21"></iframe>
+                <iframe src="https://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="21"></iframe>        
+                <iframe src="https://ghbtns.com/github-btn.html?user=isteven&repo=angular-multi-select&type=watch&count=true&v=2" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="21"></iframe>            
+            </div>
+        </div>        
+
+    </div>
+    <!-- /#wrapper -->
+</body>
+</html>
+

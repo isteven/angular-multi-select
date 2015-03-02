@@ -1,0 +1,117 @@
+<div class="row">    
+    <div class="col-sm-12">
+        <h3 class="pageHeading">AngularJs MultiSelect</h3>            
+    </div>
+</div>
+<div class="row">    
+    <div class="col-sm-12">    
+        <p>            
+            Pure AngularJS directive which creates a dropdown button with multiple or single selections. 
+            Doesn't require jQuery and works well with other Javascript libraries. 
+        </p>                
+        <br />
+        <div
+            isteven-multi-select 
+            input-model="modernBrowsers" 
+            output-model="anyOutput"
+            button-label="icon name"        
+            item-label="icon name maker"        
+            tick-property="ticked"              
+            helper-elements="all none"
+            directive-id="testMain"
+            is-disabled="disabled"
+            also-disable-button="true"
+        >        
+        </div>        
+        <h5>Features</h5>
+        <ul>
+            <li>
+                Pure AngularJS. Can be easily combined with other Javascript libraries such as jQuery, Twitter Bootstrap, etc
+                <br />(With slight adjustments where necessary).
+            </li>            
+            <li>Multiple or single selection types</li>
+            <li>Use HTML &amp; CSS in your button & checkbox labels</li>            
+            <li>Unlimited nested grouping</li>                              
+            <li>Keyboard navigation support</li>
+            <li>Event callbacks available</li>                        
+            <li>Configurable</li>
+            <li>i18n. Easily translated to different languages.</li>
+        </ul>        
+
+        <h5>Current version</h5>
+        <p>3.0.0</p>
+
+        <h5>Changelog</h5>
+        <p>
+            See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md" target="_blank">CHANGELOG.md</a>. 
+            For those who's upgrading from version 2.x.x, do note that this version is not backward-compatible. Please read this manual
+            thoroughly and update your code accordingly. Read the <a href="#/breaking-changes">breaking changes</a> to know more.
+        </p>
+        <h5>If you like this directive</h5>
+        <p>
+            Do consider "purchasing" it - basically making a donation. I am moving away from my full-time job soon, 
+            and your support will greatly help me to keep this project alive. I use the "Buy Now" button instead 
+            of usual "Donate" button because of PayPal's restriction. They now only allow registered charities 
+            to use the "Donate" button.
+        </p>    
+        <!--
+        <p>
+            <a href="https://github.com/isteven/angular-multi-select" target="_blank" class="download" onclick="ga( 'send', 'event', 'button', 'click' );">
+                <span class="fa fa-github fa-lg">
+                </span>
+                &nbsp; View on Github
+            </a>         
+        </p>
+        -->
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div style="display: inline-block;float: left; width: 140px;">
+            <strong style="float: left; padding-top:5px;">$5&nbsp;</strong>            
+            <script async="async" src="js/libs/paypal-button.min.js?merchant=K2MZQDX6JG8H6" 
+                data-button="buynow" 
+                data-name="iSteven's AngularJs MultiSelect" 
+                data-quantity="1" 
+                data-amount="5" 
+                data-currency="USD" 
+                data-shipping="0" 
+                data-tax="0"
+            ></script>
+        </div>
+        <div style="display: inline-block;">
+            <strong style="float: left; padding-top:5px;">$10&nbsp;</strong>
+            <script async="async" src="js/libs/paypal-button.min.js?merchant=K2MZQDX6JG8H6" 
+                data-button="buynow" 
+                data-name="iSteven's AngularJs MultiSelect" 
+                data-quantity="1" 
+                data-amount="10" 
+                data-currency="USD" 
+                data-shipping="0" 
+                data-tax="0"
+            ></script>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">    
+        <h5>About this documentation</h5>
+        <p>
+            If you download the complete package, this web-based documentation can be found in the <code>/docs</code> folder of the master branch. 
+            It's an AngularJs app itself, so it is suggested that you run it under a web server, such as your localhost.
+        </p>
+    </div>
+</div>
+<!--
+<a href="https://github.com/isteven/angular-multi-select">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
+-->    
+<script>    
+    $(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
+</script>

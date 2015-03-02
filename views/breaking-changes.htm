@@ -1,0 +1,27 @@
+<div class="row">    
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Breaking Changes</h3>
+
+        <p>Below are the breaking changes since previous version:</p>
+        
+        <ol>
+            <li>
+                File name and the directive name have been changed. I am really sorry for this, but this is the only workaround 
+                to prevent wrong language statistic in Github (they don't count files whose name starts with "angular"). The repository name stays the same.
+            </li>            
+            <li>
+                <code>output-model</code> is now required.
+            </li>
+            <li>
+                <code>input-model</code> is now static (not dynamically updated), hence why we need output-model. On the plus side, you now can 
+                re-use the input model where necessary.
+            </li>
+            <li>
+                <code>default-label</code> is deprecated. Custom text and translations can be done using the <code>translation</code> attribute.
+            </li>
+        </ol>
+            
+    </div>
+</div>
+

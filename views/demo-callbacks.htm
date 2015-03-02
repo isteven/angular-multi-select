@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Demo > Callbacks</h3>        
+
+        <p>
+            The directive provides 8 (eight) callbacks. Open your browser's console to see the output.
+        </p>
+        
+        <br />
+
+        <div 
+            isteven-multi-select 
+            input-model="modernBrowsers"
+            output-model="outputBrowsers"
+            button-label="icon name"         
+            item-label="icon name maker" 
+            tick-property="ticked"     
+            on-open="fOpen()"                
+            on-close="fClose()"
+            on-item-click="fClick( data )"
+            on-select-all="fSelectAll()"
+            on-select-none="fSelectNone()"
+            on-reset="fReset()"
+            on-clear="fClear()"
+            on-search-change="fSearchChange( data )"
+        ></div>
+
+
+        <p>&nbsp;</p>
+
+        <div role="tabpanel">
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a data-target="#view" aria-controls="home" role="tab" data-toggle="tab">View</a></li>
+            <li role="presentation"><a data-target="#controller" aria-controls="profile" role="tab" data-toggle="tab">Controller</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="view">
+                <p>Define your directive:</p>
+                <pre><code>&lt;div
+    isteven-multi-select 
+    input-model="modernBrowsers"
+    output-model="outputBrowsers"
+    button-label="icon name"         
+    item-label="icon name maker" 
+    tick-property="ticked"     
+    ...
+    on-open="fOpen()"                
+    on-close="fClose()"
+    on-item-click="fClick( data )"
+    on-select-all="fSelectAll()"
+    on-select-none="fSelectNone()"
+    on-reset="fReset()"
+    on-clear="fClear()"
+    on-search-change="fSearchChange( data )"
+&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="controller">
+                <p>Define your input-model:</p>
+        <div class="fauxCode hljs xml">
+            $scope.modernBrowsers = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in modernBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>  
+
+        <p>Define your callback functions:</p>
+        <pre><code>$scope.fOpen = function() {
+    console.log( 'On-open' );
+}
+
+$scope.fClose = function() {
+    console.log( 'On-close' );
+}    
+
+$scope.fClick = function( data ) {           
+    console.log( 'On-item-click' );        
+    console.log( 'On-item-click - data:' );        
+    console.log( data );
+}    
+
+$scope.fSelectAll = function() {
+    console.log( 'On-select-all' );
+}
+
+$scope.fSelectNone = function() {
+    console.log( 'On-select-none' );
+}
+
+$scope.fReset = function() {
+    console.log( 'On-reset' );
+}        
+
+$scope.fClear = function() {
+    console.log( 'On-clear' );
+}
+
+$scope.fSearchChange = function( data ) {
+    console.log( 'On-search-change' );
+    console.log( 'On-search-change - keyword: ' + data.keyword );
+    console.log( 'On-search-change - result: ' );
+    console.log( data.result );
+}</code></pre>            
+    </div>
+          </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">              
+        <h5>Output model</h5>
+        <p>
+            Look at the <code>output-model</code> below to see the values getting updated 
+            as you select / deselect an item in the directive. Icons in the objects are actually full HTML <code>img</code> tag, shortened for simplicity. 
+        </p>
+        <div class="fauxCode hljs xml">
+            $scope.outputBrowsers = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in outputBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < outputBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>                
+
+        <h5>Learn more</h5>
+        </p>
+            Open the <code>/docs/js/controllers/demo-callbacks.js</code>, as well as this view 
+            <code>docs/views/demo-callbacks.htm</code>to learn the code directly.
+        </p>
+
+    </div>        
+</div>
+
+<script>    
+    $(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
+</script>
