@@ -70,33 +70,33 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
     },
 
     template: '<span class="multiSelect inlineBlock">' +
-      '<button type="button" class="button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton();" ng-bind-html="varButtonLabel">' +
+      '<button type="button" class="button multiSelectButton" ng-click="::toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton();" ng-bind-html="varButtonLabel">' +
       '</button>' +
       '<div class="checkboxLayer">' +
       '<form>' +
       '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
       '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-      '<button type="button" ng-click="select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-      '<button type="button" ng-click="select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
-      '<button type="button" ng-click="select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
-      '<button type="button" ng-click="select( \'done\',  $event );"   class="helperButton helperButtonDone" ng-if="!isDisabled && displayHelper( \'done\' )" style="float:right">&nbsp;&nbsp;Done&nbsp;&nbsp;</button>' +
+      '<button type="button" ng-click="::select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
+      '<button type="button" ng-click="::select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; Select None</button>' +
+      '<button type="button" ng-click="::select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
+      '<button type="button" ng-click="::select( \'done\',  $event );"   class="helperButton helperButtonDone" ng-if="!isDisabled && displayHelper( \'done\' )" style="float:right">&nbsp;&nbsp;Done&nbsp;&nbsp;</button>' +
       '</div>' +
-      '<div class="line" style="position:relative" ng-if="displayHelper( \'filter\' )">' +
-      '<input placeholder="Search..." type="text" ng-click="select( \'filter\', $event )" data-ng-model-options="{debounce: 300}" ng-model="inputLabel.labelFilter" ng-change="throttledUpdateFilter();$scope.getFormElements();" class="inputFilter" />' +
-      '<button type="button" class="clearButton" ng-click="inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
+      '<div class="line" style="position:relative" ng-if="::displayHelper( \'filter\' )">' +
+      '<input placeholder="Search..." type="text" ng-click="::select( \'filter\', $event )" data-ng-model-options="{debounce: 300}" ng-model="inputLabel.labelFilter" ng-change="::throttledUpdateFilter();$scope.getFormElements();" class="inputFilter" />' +
+      '<button type="button" class="clearButton" ng-click="::inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
       '</div>' +
       '</div>' +
-      '<div class="checkBoxContainer" data-subfilter="filteredModel" ng-style="{\'max-height\':setHeight()}" style="overflow-y:scroll">' +
+      '<div class="checkBoxContainer" data-subfilter="::filteredModel" ng-style="{\'max-height\':setHeight()}" style="overflow-y:scroll">' +
       '<div ng-repeat="item in subFilteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
       'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
-      'ng-click="syncItems( item, $event, $index );"' +
-      'ng-mouseleave="removeFocusStyle( tabIndex );"' +
+      'ng-click="::syncItems( item, $event, $index );"' +
+      'ng-mouseleave="::removeFocusStyle( tabIndex );"' +
       'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px);" ng-style="{\'-ms-transform\':transformFixIE(item.displayIndex)}">' +
       '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +
       '<div class="acol">' +
       '<label>' +
-      '<input class="checkbox focusable" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="syncItems( item, $event, $index )" />' +
-      '<span ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="writeLabel( item, \'itemLabel\' )"></span>' +
+      '<input class="checkbox focusable" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="::syncItems( item, $event, $index )" />' +
+      '<span ng-class="::{disabled:itemIsDisabled( item )}" ng-bind-html="::writeLabel( item, \'itemLabel\' )"></span>' +
       '</label>' +
       '</div>' +
       '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
