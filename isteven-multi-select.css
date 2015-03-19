@@ -101,6 +101,27 @@
     padding: 8px 8px 0px 8px;    
 }
 
+.helperButton:before {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.helperButton.selectAll:before {
+  content: '\2713';
+}
+
+.helperButton.selectNone:before {
+  content: '\00D7';
+}
+
+.helperButton.reset:before {
+  content: '\21B6';
+}
+
+.clearButton:before {
+  content: '\00D7';
+}
+
 /* helper buttons (select all, none, reset); */
 .multiSelect .helperButton {
     display: inline;
