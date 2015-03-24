@@ -227,6 +227,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // Depending on the size of filtered mode, might not good for performance, but oh well..
             $scope.getFormElements = function() {                                     
                 formElements = [];
+
                 var 
                     selectButtons   = [],
                     inputField      = [],
@@ -235,14 +236,20 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 
                 // If available, then get select all, select none, and reset buttons
                 if ( $scope.helperStatus.all || $scope.helperStatus.none || $scope.helperStatus.reset ) {                                                       
-                    selectButtons = element.children().children().next().children().children()[ 0 ].getElementsByTagName( 'button' );
+                    selectButtons = element.children().children().next().children().children()[ 0 ].getElementsByTagName( 'button' );                    
+                    // If available, then get the search box and the clear button
+                    if ( $scope.helperStatus.filter ) {                                            
+                        // Get helper - search and clear button. 
+                        inputField =    element.children().children().next().children().children().next()[ 0 ].getElementsByTagName( 'input' );                    
+                        clearButton =   element.children().children().next().children().children().next()[ 0 ].getElementsByTagName( 'button' );                        
+                    }
                 }
-
-                // If available, then get the search box and the clear button
-                if ( $scope.helperStatus.filter ) {                    
-                    // Get helper - search and clear button. 
-                    inputField =    element.children().children().next().children().children().next()[ 0 ].getElementsByTagName( 'input' );                    
-                    clearButton =   element.children().children().next().children().children().next()[ 0 ].getElementsByTagName( 'button' );
+                else {
+                    if ( $scope.helperStatus.filter ) {   
+                        // Get helper - search and clear button. 
+                        inputField =    element.children().children().next().children().children()[ 0 ].getElementsByTagName( 'input' );                    
+                        clearButton =   element.children().children().next().children().children()[ 0 ].getElementsByTagName( 'button' );
+                    }
                 }
                
                 // Get checkboxes
@@ -254,10 +261,10 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 }
 
                 // Push them into global array formElements[] 
-                for ( var i = 0; i < selectButtons.length ; i++ )   { formElements.push( selectButtons[ i ] ); }
-                for ( var i = 0; i < inputField.length ; i++ )      { formElements.push( inputField[ i ] ); }
-                for ( var i = 0; i < clearButton.length ; i++ )     { formElements.push( clearButton[ i ] ); }
-                for ( var i = 0; i < checkboxes.length ; i++ )      { formElements.push( checkboxes[ i ] ); }                                
+                for ( var i = 0; i < selectButtons.length ; i++ )   { formElements.push( selectButtons[ i ] );  }
+                for ( var i = 0; i < inputField.length ; i++ )      { formElements.push( inputField[ i ] );     }
+                for ( var i = 0; i < clearButton.length ; i++ )     { formElements.push( clearButton[ i ] );    }
+                for ( var i = 0; i < checkboxes.length ; i++ )      { formElements.push( checkboxes[ i ] );     }                                
             }            
 
             // check if an item has attrs.groupProperty (be it true or false)
@@ -462,20 +469,46 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // update $scope.outputModel
             $scope.refreshOutputModel = function() {            
                 
-                $scope.outputModel = [];
-                angular.forEach( $scope.inputModel, function( value, key ) {                    
-                    if ( typeof value !== 'undefined' ) {                   
-                        if ( typeof value[ attrs.groupProperty ] === 'undefined' ) {
-                            if ( value[ $scope.tickProperty ] === true ) {
-                                // selectedItems.push( value );                               
-                                var temp = angular.copy( value );
-                                var index = $scope.outputModel.push( temp );                                
-                                delete $scope.outputModel[ index - 1 ][ $scope.indexProperty ];
-                                delete $scope.outputModel[ index - 1 ][ $scope.spacingProperty ];      
-                            }
+                $scope.outputModel  = [];
+                var 
+                    outputProps     = [],
+                    tempObj         = {};
+
+                // v4.0.0
+                if ( typeof attrs.outputProperties !== 'undefined' ) {                    
+                    outputProps = attrs.outputProperties.split(' ');                
+                    angular.forEach( $scope.inputModel, function( value, key ) {                    
+                        if ( 
+                            typeof value !== 'undefined' 
+                            && typeof value[ attrs.groupProperty ] === 'undefined' 
+                            && value[ $scope.tickProperty ] === true 
+                        ) {
+                            tempObj         = {};
+                            angular.forEach( value, function( value1, key1 ) {                                
+                                if ( outputProps.indexOf( key1 ) > -1 ) {                                                                         
+                                    tempObj[ key1 ] = value1;                                    
+                                }
+                            });
+                            var index = $scope.outputModel.push( tempObj );                                                               
+                            delete $scope.outputModel[ index - 1 ][ $scope.indexProperty ];
+                            delete $scope.outputModel[ index - 1 ][ $scope.spacingProperty ];                                      
                         }
-                    }
-                });                                
+                    });         
+                }
+                else {
+                    angular.forEach( $scope.inputModel, function( value, key ) {                    
+                        if ( 
+                            typeof value !== 'undefined' 
+                            && typeof value[ attrs.groupProperty ] === 'undefined' 
+                            && value[ $scope.tickProperty ] === true 
+                        ) {
+                            var temp = angular.copy( value );
+                            var index = $scope.outputModel.push( temp );                                                               
+                            delete $scope.outputModel[ index - 1 ][ $scope.indexProperty ];
+                            delete $scope.outputModel[ index - 1 ][ $scope.spacingProperty ];                                      
+                        }
+                    });         
+                }
             }
 
             // refresh button label
@@ -503,8 +536,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         $scope.more = false;
                     }                
                     
-                    angular.forEach( $scope.outputModel, function( value, key ) {
-                        if ( typeof value !== 'undefined' ) {                        
+                    angular.forEach( $scope.inputModel, function( value, key ) {
+                        if ( typeof value !== 'undefined' && value[ attrs.tickProperty ] === true ) {                        
                             if ( ctr < tempMaxLabels ) {                            
                                 $scope.varButtonLabel += ( $scope.varButtonLabel.length > 0 ? '</div>, <div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel( value, 'buttonLabel' );
                             }
@@ -975,9 +1008,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
     }
 }]).run( [ '$templateCache' , function( $templateCache ) {
     var template = 
-        '<span class="multiSelect inlineBlock" id="{{directiveId}}">' +
+        '<span class="multiSelect inlineBlock">' +
             // main button
-            '<button type="button"' +
+            '<button id="{{directiveId}}" type="button"' +                
                 'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
                 'ng-bind-html="varButtonLabel"' +
                 'ng-disabled="disable-button"' +
