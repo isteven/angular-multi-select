@@ -66,6 +66,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       // callbacks
       onClose: '&',
       onItemClick: '&',
+      onSelectAllClick: '&',
       onOpen: '&'
     },
 
@@ -732,6 +733,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
                   value[ $scope.tickProperty ] = true;
                 }
               }
+              $scope.onSelectAllClick();
             });
             break;
           case 'NONE':
