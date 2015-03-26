@@ -173,6 +173,10 @@
     color: #999;    
     background-color: #f4f4f4;    
 }
+.multiSelect .helperButton:disabled {
+    color: #ccc;    
+    border: 1px solid #ddd;
+}
 
 .multiSelect .clearButton:focus,
 .multiSelect .helperButton:focus,

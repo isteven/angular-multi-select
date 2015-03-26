@@ -647,7 +647,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     angular.element( document ).on( 'keydown', $scope.keyboardListener );  
 
                     // to get the initial tab index, depending on how many helper elements we have. 
-                    // priority is to always focus it on the input filter 
+                    // priority is to always focus it on the input filter                                                                
                     $scope.getFormElements();
                     $scope.tabIndex = 0;
 
@@ -664,15 +664,21 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     if ( element[ 0 ].querySelector( '.inputFilter' ) ) {                        
                         element[ 0 ].querySelector( '.inputFilter' ).focus();    
                         $scope.tabIndex = $scope.tabIndex + helperItemsLength - 2;
+                        // blur button in vain
+                        angular.element( element ).children()[ 0 ].blur();
                     }
                     // if there's no filter then just focus on the first checkbox item
-                    else {                                      
-                        $scope.tabIndex = $scope.tabIndex + helperItemsLength;
-                        if ( $scope.inputModel.length > 0 ) {
-                            formElements[ $scope.tabIndex ].focus();
-                            $scope.setFocusStyle( $scope.tabIndex );
+                    else {                  
+                        if ( !$scope.isDisabled ) {                        
+                            $scope.tabIndex = $scope.tabIndex + helperItemsLength;
+                            if ( $scope.inputModel.length > 0 ) {
+                                formElements[ $scope.tabIndex ].focus();
+                                $scope.setFocusStyle( $scope.tabIndex );
+                                // blur button in vain
+                                angular.element( element ).children()[ 0 ].blur();
+                            }                            
                         }
-                    }                       
+                    }                          
 
                     // open callback
                     $scope.onOpen();
@@ -791,15 +797,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // navigate using up and down arrow
             $scope.keyboardListener = function( e ) { 
-
+                
                 var key = e.keyCode ? e.keyCode : e.which;      
                 var isNavigationKey = false;                                                
 
                 // ESC key (close)
                 if ( key === 27 ) {
                     e.preventDefault();                   
+                    e.stopPropagation();
                     $scope.toggleCheckboxes( e );
                 }                    
+                
                 
                 // next element ( tab, down & right key )                    
                 else if ( key === 40 || key === 39 || ( !e.shiftKey && key == 9 ) ) {                    
@@ -811,14 +819,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         $scope.tabIndex = 0;
                         prevTabIndex = formElements.length - 1; 
                     }                                                            
-                    while ( formElements[ $scope.tabIndex ].disabled === true ) {                                                                        
+                    while ( formElements[ $scope.tabIndex ].disabled === true ) {
                         $scope.tabIndex++;
                         if ( $scope.tabIndex > formElements.length - 1 ) {
                             $scope.tabIndex = 0;                            
                         }                                                                                    
+                        if ( $scope.tabIndex === prevTabIndex ) {
+                            break;
+                        }
                     }              
                 }
-                
+                  
                 // prev element ( shift+tab, up & left key )
                 else if ( key === 38 || key === 37 || ( e.shiftKey && key == 9 ) ) { 
                     isNavigationKey = true;
@@ -828,19 +839,22 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         $scope.tabIndex = formElements.length - 1;
                         prevTabIndex = 0;
                     }                                         
-                    while ( formElements[ $scope.tabIndex ].disabled === true ) {
+                    while ( formElements[ $scope.tabIndex ].disabled === true ) {                        
                         $scope.tabIndex--;
+                        if ( $scope.tabIndex === prevTabIndex ) {
+                            break;
+                        }                                            
                         if ( $scope.tabIndex < 0 ) {
                             $scope.tabIndex = formElements.length - 1;
-                        }                                                                 
-                    }                                 
+                        }                             
+                    }                                                     
                 }                    
 
                 if ( isNavigationKey === true ) {                                         
                     
                     e.preventDefault();
 
-                    // set focus on the checkbox
+                    // set focus on the checkbox                    
                     formElements[ $scope.tabIndex ].focus();    
                     var actEl = document.activeElement;                     
                     
@@ -990,20 +1004,26 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.$watch( 'isDisabled' , function( newVal ) {         
                 $scope.isDisabled = newVal;                               
             });            
-
-            // this is for touch enabled devices. We don't want to hide checkboxes on scroll. 
-            angular.element( document ).on( 'touchstart', function( e ) { 
-                $scope.$apply( function() {
-                    scrolled = false;
-                }); 
-            });
             
-            // also for touch enabled devices
-            angular.element( document ).on( 'touchmove', function( e ) { 
-                $scope.$apply( function() {
-                    scrolled = true;                
-                });
-            });                                   
+            // this is for touch enabled devices. We don't want to hide checkboxes on scroll. 
+            var onTouchStart = function( e ) { 
+            	$scope.$apply( function() {
+            		$scope.scrolled = false;
+            	}); 
+            };
+            angular.element( document ).bind( 'touchstart', onTouchStart);
+            var onTouchMove = function( e ) { 
+            	$scope.$apply( function() {
+            		$scope.scrolled = true;                
+            	});
+            };
+            angular.element( document ).bind( 'touchmove', onTouchMove);            
+
+            // unbind document events to prevent memory leaks
+            $scope.$on( '$destroy', function () {
+			    angular.element( document ).unbind( 'touchstart', onTouchStart);
+            	angular.element( document ).unbind( 'touchmove', onTouchMove);
+            });
         }
     }
 }]).run( [ '$templateCache' , function( $templateCache ) {
@@ -1024,19 +1044,22 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     '<div class="line" ng-if="helperStatus.all || helperStatus.none || helperStatus.reset ">' +
                         // select all
                         '<button type="button" class="helperButton"' +
-                            'ng-if="!isDisabled && helperStatus.all"' +
+                            'ng-disabled="isDisabled"' + 
+                            'ng-if="helperStatus.all"' +
                             'ng-click="select( \'all\', $event );"' +
                             'ng-bind-html="lang.selectAll">' +
                         '</button>'+
                         // select none
                         '<button type="button" class="helperButton"' +
-                            'ng-if="!isDisabled && helperStatus.none"' +
+                            'ng-disabled="isDisabled"' + 
+                            'ng-if="helperStatus.none"' +
                             'ng-click="select( \'none\', $event );"' +
                             'ng-bind-html="lang.selectNone">' +
                         '</button>'+
                         // reset
                         '<button type="button" class="helperButton reset"' +
-                            'ng-if="!isDisabled && helperStatus.reset"' +
+                            'ng-disabled="isDisabled"' + 
+                            'ng-if="helperStatus.reset"' +
                             'ng-click="select( \'reset\', $event );"' +
                             'ng-bind-html="lang.reset">'+
                         '</button>' +
@@ -1083,7 +1106,5 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             '</div>'+
         '</div>'+
     '</span>';
-
 	$templateCache.put( 'isteven-multi-select.htm' , template );
-
 }]); 
