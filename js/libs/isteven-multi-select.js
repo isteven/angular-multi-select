@@ -63,8 +63,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
         
         /* 
          * The rest are attributes. They don't need to be parsed / binded, so we can safely access them by value.
-         * - buttonLabel, directiveId, helperElements, isDisabled, itemLabel, maxLabels, orientation, selectionMode, minSearchLength,
-         *   tickProperty, disableProperty, groupProperty, searchProperty, maxHeight
+         * - buttonLabel, directiveId, helperElements, itemLabel, maxLabels, orientation, selectionMode, minSearchLength,
+         *   tickProperty, disableProperty, groupProperty, searchProperty, maxHeight, outputProperties
          */
                                                          
          templateUrl: 
@@ -525,7 +525,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 else {                
                     var tempMaxLabels = $scope.outputModel.length;
                     if ( typeof attrs.maxLabels !== 'undefined' && attrs.maxLabels !== '' ) {
-                        tempMaxLabels = $scope.maxLabels;
+                        tempMaxLabels = attrs.maxLabels;
                     }
 
                     // if max amount of labels displayed..
@@ -890,6 +890,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
              *********************
              *********************/
 
+            // attrs to $scope - attrs-$scope - attrs - $scope
             // Copy some properties that will be used on the template. They need to be in the $scope.
             $scope.groupProperty    = attrs.groupProperty;   
             $scope.tickProperty     = attrs.tickProperty;
