@@ -3,6 +3,16 @@
 
         <h3 class="pageHeading">Breaking Changes</h3>
 
+        <p>Below are the breaking changes since v3.x.x</p>
+        <ol>
+            <li>
+                <code>input-model</code> <strike>is now static (not dynamically updated), hence why we need output-model. On the plus side, you now can 
+                re-use the input model where necessary.</strike> Sorry, it's now back like version 2.x.x. As for now it's the only way to allow dynamic 
+                update into the input-model. If you need to re-use the input model, copy them into a new variable.
+            </li>
+
+        </ol>
+
         <p>Below are the breaking changes since v2.x.x</p>
         
         <ol>
@@ -14,9 +24,8 @@
                 <code>output-model</code> is now required.
             </li>
             <li>
-                <code>input-model</code> <strike>is now static (not dynamically updated), hence why we need output-model. On the plus side, you now can 
-                re-use the input model where necessary.</strike> Sorry, it's now back like version 2.x.x. As for now it's the only way to allow dynamic 
-                update into the input-model. If you need to re-use the input model, copy them into a new variable.
+                <code>input-model</code> is now static (not dynamically updated), hence why we need output-model. On the plus side, you now can 
+                re-use the input model where necessary.
             </li>
             <li>
                 <code>default-label</code> is deprecated. Custom text and translations can be done using the <code>translation</code> attribute.
