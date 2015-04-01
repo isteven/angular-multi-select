@@ -1,7 +1,5 @@
 myApp.controller( 'demoMinimum' , [ '$scope' , function ($scope) {               
 
-    $scope.disabled = true;
-
     $scope.modernBrowsers = [
         { 
             icon: '<img src="https://cdn1.iconfinder.com/data/icons/fatcow/32/opera.png" />',                         
