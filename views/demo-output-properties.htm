@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Demo > Output Properties</h3>        
+
+        <p>
+            You can choose which properties you want to have in your output-model.
+        </p>
+        
+        <br />
+        <div
+            isteven-multi-select 
+            input-model="modernBrowsers" 
+            output-model="outputBrowsers"
+            button-label="icon name"        
+            item-label="icon name maker"        
+            tick-property="ticked"  
+            output-properties="name ticked"
+            >
+        </div>  
+
+        <p>&nbsp;</p>
+
+        <div role="tabpanel">
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a data-target="#view" aria-controls="home" role="tab" data-toggle="tab">View</a></li>
+            <li role="presentation"><a data-target="#controller" aria-controls="profile" role="tab" data-toggle="tab">Controller</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="view">
+                <p>Define your directive:</p>
+                <pre><code>&lt;div
+    isteven-multi-select
+    input-model="modernBrowsers"
+    output-model="outputBrowsers"
+    button-label="icon name"
+    item-label="icon name maker"
+    tick-property="ticked"
+    ...
+    output-properties="name ticked"
+&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="controller">
+                <p>Define your input-model:</p>
+        <div class="fauxCode hljs xml">
+            $scope.modernBrowsers = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in modernBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">"{{removeHost(row.icon)}}"</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">"{{row.name}}"</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">"{{row.maker}}"</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>  
+            </div>
+          </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">              
+        <h5>Output model</h5>
+        <p>
+            Look at the <code>output-model</code> below to see the values getting updated 
+            as you select / deselect an item in the directive. Icons in the objects are actually full HTML <code>img</code> tag, shortened for simplicity. 
+        </p>
+        <div class="fauxCode hljs xml">
+            $scope.outputBrowsers = [
+            <table>
+                <tr class="hljs-tag" ng-repeat="row in outputBrowsers" >
+                    <td>&nbsp;</td>
+                    <td>{</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">"{{row.name}}"</span>,</td>
+                    <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
+                    <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
+                </tr>
+            </table>
+            ];
+        </div>                
+    </div>        
+</div>
+
+<script>    
+    $(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
+</script>
