@@ -171,9 +171,9 @@ Now, in your controller, grouping is made by enclosing some rows of your input-m
                 <tr class="hljs-tag" ng-repeat="row in outputBrowsers1" >
                     <td>&nbsp;</td>
                     <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">"{{removeHost(row.icon)}}"</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">"{{row.name}}"</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">"{{row.maker}}"</span>,</td>
                     <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
                     <td>}<span ng-if="$index < outputBrowsers1.length - 1">,</span></td>
                 </tr>

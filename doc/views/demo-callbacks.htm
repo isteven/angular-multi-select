@@ -68,9 +68,9 @@
                 <tr class="hljs-tag" ng-repeat="row in modernBrowsers" >
                     <td>&nbsp;</td>
                     <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">"{{removeHost(row.icon)}}"</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">"{{row.name}}"</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">"{{row.maker}}"</span>,</td>
                     <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
                     <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
                 </tr>
@@ -135,9 +135,9 @@ $scope.fSearchChange = function( data ) {
                 <tr class="hljs-tag" ng-repeat="row in outputBrowsers" >
                     <td>&nbsp;</td>
                     <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">{{removeHost(row.icon)}}</span>,</td>
-                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">{{row.name}}</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">{{row.maker}}</span>,</td>
+                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">"{{removeHost(row.icon)}}"</span>,</td>
+                    <td><span class="hljs-attribute">name</span>: <span class="hljs-value">"{{row.name}}"</span>,</td>
+                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">"{{row.maker}}</span>,</td>
                     <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
                     <td>}<span ng-if="$index < outputBrowsers.length - 1">,</span></td>
                 </tr>

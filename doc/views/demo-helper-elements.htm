@@ -1,31 +1,23 @@
 <div class="row">
     <div class="col-sm-12">
 
-        <h3 class="pageHeading">Demo > Single Selection Mode</h3>        
+        <h3 class="pageHeading">Demo > Helper Elements</h3>        
 
-        <p>            
-            By default, single selection mode will only show reset button and the search field. 
-            In the example below, all helper elements are hidden - it now looks like a normal drop down menu.            
-        </p>
         <p>
-            Go to <a href="#/configs-options">configs & options</a> section and find "helper-elements" to learn how to hide the helper elements.
+            You can define which helper elements to be displayed by using attribute <code>helper-elements</code>, such as:            
         </p>
-        
-        <br />
         <div
             isteven-multi-select 
             input-model="modernBrowsers" 
             output-model="outputBrowsers"
             button-label="icon name"        
             item-label="icon name maker"        
-            tick-property="ticked"                            
-            selection-mode="single"
-            helper-elements=""
+            tick-property="ticked"  
+            helper-elements="all filter"
             >
-        </div>  
-
+        </div>          
+        
         <p>&nbsp;</p>
-
         <div role="tabpanel">
 
           <!-- Nav tabs -->
@@ -46,7 +38,7 @@
     item-label="icon name maker"
     tick-property="ticked"
     ...
-    selection-mode="single"
+    helper-elements="all filter"
 &gt;
 &lt;/div&gt;</code></pre>
             </div>
@@ -96,6 +88,22 @@
             </table>
             ];
         </div>                
+
+        <h5>Other examples</h5>
+        <p>
+            The attribute accepts a combination of "all none filter reset", in space separated string. Example:
+            <ul>
+                <li><code>helper-elements="filter"</code>: will display the search (filter) field only</li>
+                <li><code>helper-elements="all none"</code>: will display the "Select all" and "Select none" buttons</li>
+                <li><code>helper-elements=""</code>: will display no helper elements at all</li>
+            </ul>            
+        </p>
+        <br />
+        <p>
+            <span class="label label-primary">Note</span> 
+            When the directive is disabled (using <code>is-disabled</code> property), the helper elements will be disabled except the filter field. 
+            The purpose is to allow you to search and see the selection state even when the directive is disabled.
+        </p>
     </div>        
 </div>
 

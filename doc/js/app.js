@@ -44,6 +44,16 @@ var myApp = angular.module( 'myApp' , [
         controller: 'demoGrouping'
     });        
 
+    $routeProvider.when( '/demo-output-properties' , {
+        templateUrl: 'views/demo-output-properties.htm', 
+        controller: 'demoMinimum'
+    });        
+
+    $routeProvider.when( '/demo-helper-elements' , {
+        templateUrl: 'views/demo-helper-elements.htm', 
+        controller: 'demoMinimum'
+    });            
+
     $routeProvider.when( '/demo-callbacks' , {
         templateUrl: 'views/demo-callbacks.htm', 
         controller: 'demoCallbacks'

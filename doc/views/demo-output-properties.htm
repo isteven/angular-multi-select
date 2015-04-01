@@ -1,14 +1,10 @@
 <div class="row">
     <div class="col-sm-12">
 
-        <h3 class="pageHeading">Demo > Single Selection Mode</h3>        
+        <h3 class="pageHeading">Demo > Output Properties</h3>        
 
-        <p>            
-            By default, single selection mode will only show reset button and the search field. 
-            In the example below, all helper elements are hidden - it now looks like a normal drop down menu.            
-        </p>
         <p>
-            Go to <a href="#/configs-options">configs & options</a> section and find "helper-elements" to learn how to hide the helper elements.
+            You can choose which properties you want to have in your output-model.
         </p>
         
         <br />
@@ -18,9 +14,8 @@
             output-model="outputBrowsers"
             button-label="icon name"        
             item-label="icon name maker"        
-            tick-property="ticked"                            
-            selection-mode="single"
-            helper-elements=""
+            tick-property="ticked"  
+            output-properties="name ticked"
             >
         </div>  
 
@@ -46,7 +41,7 @@
     item-label="icon name maker"
     tick-property="ticked"
     ...
-    selection-mode="single"
+    output-properties="name ticked"
 &gt;
 &lt;/div&gt;</code></pre>
             </div>
@@ -87,9 +82,7 @@
                 <tr class="hljs-tag" ng-repeat="row in outputBrowsers" >
                     <td>&nbsp;</td>
                     <td>{</td>
-                    <td><span class="hljs-attribute">icon</span>: <span class="hljs-value">"{{removeHost(row.icon)}}"</span>,</td>
                     <td><span class="hljs-attribute">name</span>: <span class="hljs-value">"{{row.name}}"</span>,</td>
-                    <td><span class="hljs-attribute">maker</span>: <span class="hljs-value">"{{row.maker}}"</span>,</td>
                     <td><span class="hljs-attribute">ticked</span>: <span class="hljs-value">{{row.ticked}}</span></td>
                     <td>}<span ng-if="$index < modernWebBrowsers.length - 1">,</span></td>
                 </tr>

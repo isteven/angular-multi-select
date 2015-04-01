@@ -1,3 +1,13 @@
+### v4.0.0
+##### Added / Updated
+- You can now customize output-model properties that you need, instead of having all data.
+- <a href="https://github.com/isteven/angular-multi-select/issues/201">#201</a> (and other related issues) DOM bug is now fixed.
+- <a href="https://github.com/isteven/angular-multi-select/issues/205">#205</a> (and other related issues) CSS bug is now fixed.
+- <a href="https://github.com/isteven/angular-multi-select/issues/207">#207</a> (and other related issues) You can now update the directive by modifying the input-model as usual.
+
+##### Deprecated / Breaking Changes
+- input-model behaviour is now back like v2.x.x. If you don't re-use your input-model, you should be safe. 
+
 ### v3.0.0
 ##### Added / Updated
 - Support for AngularJs version 1.3.x (v3.0.0 also supports AngularJs 1.2.x, but beware of the breaking changes)
