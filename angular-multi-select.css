@@ -1,4 +1,4 @@
-/* 
+/*
  * Don't modify things marked with ! - unless you know what you're doing
  */
 
@@ -264,7 +264,10 @@
 /* checkboxes currently disabled */
 .multiSelect .disabled,
 .multiSelect .disabled:hover,
-.multiSelect .disabled label input:hover ~ span {
+.multiSelect .disabled label input ~ span,
+.multiSelect .disabled label input:hover ~ span,
+.multiSelect .disabled span:hover
+{
     color: #c4c4c4 !important;
     cursor: not-allowed !important;
 }

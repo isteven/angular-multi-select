@@ -62,6 +62,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       disableProperty: '@',
       groupProperty: '@',
       maxHeight: '@',
+      maxSelectedItems: '=',
 
       // callbacks
       onClose: '&',
@@ -97,7 +98,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       '<div class="acol">' +
       '<label>' +
       '<input class="checkbox focusable" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="::syncItems( item, $event, $index )" />' +
-      '<span ng-class="::{disabled:itemIsDisabled( item )}" ng-bind-html="::writeLabel( item, \'itemLabel\' )"></span>' +
+      '<span ng-class="{disabled:itemIsDisabled( item )}" ng-bind-html="::writeLabel( item, \'itemLabel\' )"></span>' +
       '</label>' +
       '</div>' +
       '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
@@ -920,6 +921,16 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
               $scope.onItemClick({ data: $scope.clickedItem });
               $scope.clickedItem = null;
             }, 0);
+          }
+
+          if ($scope.maxSelectedItems) {
+            var shouldDisableItem = $scope.selectedItems && $scope.selectedItems.length >= $scope.maxSelectedItems;
+
+            angular.forEach($scope.inputModel, function(item) {
+              if (!item[$scope.tickProperty]) {
+                item[$scope.disableProperty] = shouldDisableItem;
+              }
+            });
           }
         }
       }, true);
