@@ -600,7 +600,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 var clickedEl = element.children()[0];
 
                 // Just to make sure.. had a bug where key events were recorded twice
-                angular.element( document ).off( 'click, touchstart', $scope.externalClickListener );
+                angular.element( document ).off( 'click touchstart', $scope.externalClickListener );
                 angular.element( document ).off( 'keydown', $scope.keyboardListener );        
 
                 // The idea below was taken from another multi-select directive - https://github.com/amitava82/angular-multiselect 
@@ -611,7 +611,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     angular.element( checkBoxLayer ).removeClass( 'show' );                    
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
-                    angular.element( document ).off( 'click, touchstart', $scope.externalClickListener );
+                    angular.element( document ).off( 'click touchstart', $scope.externalClickListener );
                     angular.element( document ).off( 'keydown', $scope.keyboardListener );                                    
 
                     // clear the focused element;
@@ -643,7 +643,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     // Attach change event listener on the input filter. 
                     // We need this because ng-change is apparently not an event listener.                    
-                    angular.element( document ).on( 'click, touchstart', $scope.externalClickListener );
+                    angular.element( document ).on( 'click touchstart', $scope.externalClickListener );
                     angular.element( document ).on( 'keydown', $scope.keyboardListener );  
 
                     // to get the initial tab index, depending on how many helper elements we have. 
@@ -697,7 +697,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                 angular.element( checkBoxLayer.previousSibling ).removeClass( 'buttonClicked' );                    
                 angular.element( checkBoxLayer ).removeClass( 'show' );
-                angular.element( document ).off( 'click, touchstart', $scope.externalClickListener ); 
+                angular.element( document ).off( 'click touchstart', $scope.externalClickListener ); 
                 angular.element( document ).off( 'keydown', $scope.keyboardListener );                
                 
                 // close callback                
