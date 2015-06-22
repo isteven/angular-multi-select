@@ -516,14 +516,21 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.refreshButton = function() {
 
                 $scope.varButtonLabel   = '';                
-                var ctr                 = 0;                  
+                var ctr                 = 0;
+                var itemCount           = 0;
+
+                angular.forEach($scope.inputModel, function(value, key) {
+                    if (typeof value !== 'undefined' && typeof value[attrs.tickProperty] !== 'undefined') {
+                        itemCount++;
+                    }
+                });
 
                 // refresh button label...
                 if ( $scope.outputModel.length === 0 ) {
                     // https://github.com/isteven/angular-multi-select/pull/19                    
                     $scope.varButtonLabel = $scope.lang.nothingSelected;
                 }
-                else if ($scope.showAllSelected && $scope.outputModel.length === $scope.inputModel.length) {
+                else if ( $scope.showAllSelected && $scope.outputModel.length === itemCount ) {
                     $scope.varButtonLabel = $scope.lang.allSelected;
                 }
                 else {                
