@@ -46,6 +46,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // settings based on attribute
             isDisabled      : '=',
+            showAllSelected : '=',
 
             // callbacks
             onClear         : '&',  
@@ -522,6 +523,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     // https://github.com/isteven/angular-multi-select/pull/19                    
                     $scope.varButtonLabel = $scope.lang.nothingSelected;
                 }
+                else if ($scope.showAllSelected && $scope.outputModel.length === $scope.inputModel.length) {
+                    $scope.varButtonLabel = $scope.lang.allSelected;
+                }
                 else {                
                     var tempMaxLabels = $scope.outputModel.length;
                     if ( typeof attrs.maxLabels !== 'undefined' && attrs.maxLabels !== '' ) {
@@ -948,21 +952,26 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // this one is for the selected items
             $scope.icon.tickMark   = '&#10003;';    // a tick icon 
 
+            var translation = { // default strings
+                selectAll: 'Select All',
+                selectNone: 'Select None',
+                reset: 'Reset',
+                search: 'Search...',
+                nothingSelected: 'None Selected',
+                allSelected: "All Selected"
+            };
+
+            if ( typeof attrs.translation !== 'undefined' )
+                angular.extend( translation, $scope.translation );
+
             // configurable button labels                       
-            if ( typeof attrs.translation !== 'undefined' ) {
-                $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;' + $scope.translation.selectAll );
-                $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;' + $scope.translation.selectNone );
-                $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;' + $scope.translation.reset );
-                $scope.lang.search          = $scope.translation.search;                
-                $scope.lang.nothingSelected = $sce.trustAsHtml( $scope.translation.nothingSelected );                
-            }
-            else {
-                $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;Select All' );                
-                $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;Select None' );
-                $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;Reset' );
-                $scope.lang.search          = 'Search...';
-                $scope.lang.nothingSelected = 'None Selected';                
-            }
+            $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;' + translation.selectAll );
+            $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;' + translation.selectNone );
+            $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;' + translation.reset );
+            $scope.lang.search          = translation.search;                
+            $scope.lang.nothingSelected = $sce.trustAsHtml( translation.nothingSelected );                
+            $scope.lang.allSelected     = $sce.trustAsHtml( translation.allSelected );
+
             $scope.icon.tickMark = $sce.trustAsHtml( $scope.icon.tickMark );
                 
             // min length of keyword to trigger the filter function

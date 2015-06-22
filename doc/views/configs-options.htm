@@ -257,7 +257,7 @@
         <h5>translation</h5> <span class="label label-warning">New! v3.0.0</span>
         <p>
             Use custom text on the helper elements. You can use different text or other languages. If you use it, 
-            you need to define ALL five of the labels here, or they will show "undefined".
+            you only need to define labels you want to override the default value for.
         </p>
         <p>        
             <span class="inlineTitle">Type</span>: $scope object<br />
@@ -274,7 +274,18 @@
     nothingSelected : "Nothing is selected"         //default-label is deprecated and replaced with this.
 }</code></pre>
         </p>
-            
+        
+        <h5>show-all-selected</h5>
+        <p>
+            If set to true, the button will show "All Selected" (or the string you defined in the translation) whenever all elements of the inputModel are selected.
+            If set to false, all elements will be explicitly listed.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: $scope boolean expression<br />
+            <span class="inlineTitle">Default value</span>: false<br />
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... show-all-selected="true"&gt;&lt;/div&gt;</code>.
+        </p>
+
         <h5>on-open</h5>
         <p>
             A $scope function to call on multi-select open. You need to define this function in your controller.
