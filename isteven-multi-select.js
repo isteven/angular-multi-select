@@ -965,7 +965,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 reset: 'Reset',
                 search: 'Search...',
                 nothingSelected: 'None Selected',
-                allSelected: "All Selected"
+                allSelected: 'All Selected'
             };
 
             if ( typeof attrs.translation !== 'undefined' )
