@@ -46,6 +46,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // settings based on attribute
             isDisabled      : '=',
+            itemLabel       : '&',
+            buttonLabel     : '&',
+            groupLabel      : '&',
 
             // callbacks
             onClear         : '&',  
@@ -63,7 +66,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
         
         /* 
          * The rest are attributes. They don't need to be parsed / binded, so we can safely access them by value.
-         * - buttonLabel, directiveId, helperElements, itemLabel, maxLabels, orientation, selectionMode, minSearchLength,
+         * - directiveId, helperElements, maxLabels, orientation, selectionMode, minSearchLength,
          *   tickProperty, disableProperty, groupProperty, searchProperty, maxHeight, outputProperties
          */
                                                          
@@ -575,23 +578,22 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             }
 
             // A simple function to parse the item label settings. Used on the buttons and checkbox labels.
-            $scope.writeLabel = function( item, type ) {
-                
-                // type is either 'itemLabel' or 'buttonLabel'
-                var temp    = attrs[ type ].split( ' ' );                    
-                var label   = '';                
+            $scope.writeLabel = function ( item, type ) {
 
-                angular.forEach( temp, function( value, key ) {                    
-                    item[ value ] && ( label += '&nbsp;' + value.split( '.' ).reduce( function( prev, current ) {
-                        return prev[ current ]; 
-                    }, item ));        
-                });
-                
-                if ( type.toUpperCase() === 'BUTTONLABEL' ) {                    
+                var label;
+                if ( type.toUpperCase() === 'BUTTONLABEL' ) {
+                    label = $scope.buttonLabel( item );
                     return label;
                 }
+
+                if ( attrs.groupProperty !== 'undefined' && typeof item[ attrs.groupProperty ] !== 'undefined' ) {
+                    label = $scope.groupLabel( item );
+                }
+                else {
+                    label = $scope.itemLabel( item );
+                }
                 return $sce.trustAsHtml( label );
-            }                                
+            }
 
             // UI operations to show/hide checkboxes based on click event..
             $scope.toggleCheckboxes = function( e ) {                                    
@@ -666,19 +668,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         $scope.tabIndex = $scope.tabIndex + helperItemsLength - 2;
                         // blur button in vain
                         angular.element( element ).children()[ 0 ].blur();
-                    }
-                    // if there's no filter then just focus on the first checkbox item
-                    else {                  
-                        if ( !$scope.isDisabled ) {                        
-                            $scope.tabIndex = $scope.tabIndex + helperItemsLength;
-                            if ( $scope.inputModel.length > 0 ) {
-                                formElements[ $scope.tabIndex ].focus();
-                                $scope.setFocusStyle( $scope.tabIndex );
-                                // blur button in vain
-                                angular.element( element ).children()[ 0 ].blur();
-                            }                            
-                        }
-                    }                          
+                    }                
 
                     // open callback
                     $scope.onOpen();
