@@ -666,19 +666,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         $scope.tabIndex = $scope.tabIndex + helperItemsLength - 2;
                         // blur button in vain
                         angular.element( element ).children()[ 0 ].blur();
-                    }
-                    // if there's no filter then just focus on the first checkbox item
-                    else {                  
-                        if ( !$scope.isDisabled ) {                        
-                            $scope.tabIndex = $scope.tabIndex + helperItemsLength;
-                            if ( $scope.inputModel.length > 0 ) {
-                                formElements[ $scope.tabIndex ].focus();
-                                $scope.setFocusStyle( $scope.tabIndex );
-                                // blur button in vain
-                                angular.element( element ).children()[ 0 ].blur();
-                            }                            
-                        }
-                    }                          
+                    }                
 
                     // open callback
                     $scope.onOpen();
