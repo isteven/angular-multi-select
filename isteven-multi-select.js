@@ -583,16 +583,19 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 var label;
                 if ( type.toUpperCase() === 'BUTTONLABEL' ) {
                     label = $scope.buttonLabel( item );
-                    return label;
                 }
-
-                if ( attrs.groupProperty !== 'undefined' && typeof item[ attrs.groupProperty ] !== 'undefined' ) {
+                else if ( attrs.groupProperty !== 'undefined' && typeof item[ attrs.groupProperty ] !== 'undefined' ) {
                     label = $scope.groupLabel( item );
                 }
                 else {
                     label = $scope.itemLabel( item );
                 }
-                return $sce.trustAsHtml( label );
+
+                if ( angular.isArray( label ) ) {
+                    label = label.join( "&nbsp;" );
+                }
+
+                return type.toUpperCase() === 'BUTTONLABEL' ? label : $sce.trustAsHtml( label );
             }
 
             // UI operations to show/hide checkboxes based on click event..
