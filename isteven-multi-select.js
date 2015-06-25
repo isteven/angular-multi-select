@@ -592,7 +592,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 }
 
                 if ( angular.isArray( label ) ) {
-                    label = label.join( "&nbsp;" );
+                    label = label.filter(function( value ) { return value; }).join( "&nbsp;" );
                 }
 
                 return type.toUpperCase() === 'BUTTONLABEL' ? label : $sce.trustAsHtml( label );
