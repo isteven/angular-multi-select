@@ -127,7 +127,7 @@
     float: right;
 }
 
-.multiSelect .helperButton:not( .reset ) {
+.multiSelect .helperButton:not(.reset) {
     margin-right: 4px;    
 }
 
