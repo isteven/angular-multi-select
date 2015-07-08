@@ -37,12 +37,13 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
     return {
         restrict: 
             'AE',
+        require: "ngModel",
 
         scope: 
         {   
             // models
             inputModel      : '=',
-            outputModel     : '=',
+            outputModel     :'=ngModel',
 
             // settings based on attribute
             isDisabled      : '=',
@@ -70,7 +71,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
          templateUrl: 
             'isteven-multi-select.htm',                            
 
-        link: function ( $scope, element, attrs ) {                       
+        link: function ( $scope, element, attrs, ngModelCtrl ) {                       
 
             $scope.backUp           = [];
             $scope.varButtonLabel   = '';               
@@ -100,6 +101,23 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 vMinSearchLength    = 0,
                 clickedItem         = null                
 
+            //Simple required validation
+            
+            if (attrs.$attr.required === "required") {
+                ngModelCtrl.$formatters.unshift(function (viewValue) {
+                    console.log(viewValue);
+                    if (viewValue && viewValue.length > 0) {
+                        console.log("valid");
+                        ngModelCtrl.$setValidity('missing-select-value', true);
+                        return true;
+                    } else {
+
+                        console.log("invalid");
+                        ngModelCtrl.$setValidity('missing-select-value', false);
+                        return false;
+                    }
+                });
+            }
             // v3.0.0
             // clear button clicked
             $scope.clearClicked = function( e ) {                
@@ -622,6 +640,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     // close callback
                     $timeout( function() {
+                    	element.blur(); //Fire blur event, so validators can see we are done editing
                         $scope.onClose();
                     }, 0 );
 
@@ -702,6 +721,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 
                 // close callback                
                 $timeout( function() {
+                	element.blur(); //Fire blur event, so validators can see we are done editing
                     $scope.onClose();
                 }, 0 );
 
