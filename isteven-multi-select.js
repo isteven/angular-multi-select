@@ -921,7 +921,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // set max-height property if provided
             if ( typeof attrs.maxHeight !== 'undefined' ) {                
                 var layer = element.children().children().children()[0];
-                angular.element( layer ).attr( "style", "height:" + attrs.maxHeight + "; overflow-y:scroll;" );                                
+                angular.element( layer ).attr( "style", "max-height:" + attrs.maxHeight + "; overflow-y:scroll;" );                                
             }
 
             // some flags for easier checking            
