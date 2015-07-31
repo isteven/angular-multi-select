@@ -99,7 +99,6 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);    
     min-width:278px;
-    display: none !important;    
 }
 
 /* container of helper elements */
