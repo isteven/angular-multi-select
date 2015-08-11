@@ -440,6 +440,25 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
         // single item click
         else {
 
+          clickElement(index, e);
+
+        }
+
+        $scope.clickedItem = angular.copy(item);
+
+        // We update the index here
+        prevTabIndex = $scope.tabIndex;
+        $scope.tabIndex = ng_repeat_index + helperItemsLength;
+
+        // Set focus on the hidden checkbox
+        e.target.focus();
+
+        // set & remove CSS style
+        $scope.removeFocusStyle(prevTabIndex);
+        $scope.setFocusStyle($scope.tabIndex);
+      };
+
+      function clickElement(index, e){
           // If it's single selection mode
           if (attrs.selectionMode && $scope.selectionMode.toUpperCase() === 'SINGLE') {
 
@@ -455,30 +474,15 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
             $scope.filteredModel[ index ][ $scope.tickProperty ] = true;
 
             $scope.toggleCheckboxes(e);
-          }
-
-          // Multiple
+         }
+           // Multiple
           else {
             $scope.filteredModel[ index ][ $scope.tickProperty ] = !$scope.filteredModel[ index ][ $scope.tickProperty ];
           }
 
-          // we refresh input model as well
-          inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ];
-          $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];
-        }
-
-        $scope.clickedItem = angular.copy(item);
-
-        // We update the index here
-        prevTabIndex = $scope.tabIndex;
-        $scope.tabIndex = ng_repeat_index + helperItemsLength;
-
-        // Set focus on the hidden checkbox
-        e.target.focus();
-
-        // set & remove CSS style
-        $scope.removeFocusStyle(prevTabIndex);
-        $scope.setFocusStyle($scope.tabIndex);
+        // we refresh input model as well
+        inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ];
+        $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];
       };
 
       // update $scope.selectedItems
@@ -847,6 +851,18 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
               }
             }
           }
+
+        // Hack to allow 'Enter' key to select and close dropdown in single-select.
+        else if(key === 13){
+
+          var offset = 0;
+          if (element[ 0 ].querySelector('.inputFilter')) {
+            offset = 2;
+          }
+          clickElement($scope.tabIndex - helperItemsLength - offset, e);
+
+        }
+
 
         // Hack to allow arrow keys inside the inputFilter (search) input.
         if (/inputFilter/.test(e.currentTarget.activeElement.className)) {
