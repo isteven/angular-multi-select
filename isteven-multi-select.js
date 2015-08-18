@@ -122,7 +122,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 $scope.updateFilter();
             }
 
-            $scope.updateFilter = function()
+            $scope.updateFilter = function(inputModelChanged)
             {      
                 // we check by looping from end of input-model
                 $scope.filteredModel = [];
@@ -211,13 +211,15 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                             }
                         });
 
-                        $scope.onSearchChange({ 
-                            data: 
-                            {
-                                keyword: $scope.inputLabel.labelFilter, 
-                                result: filterObj 
-                            } 
-                        });
+			if (!inputModelChanged) {
+	                        $scope.onSearchChange({ 
+	                            data: 
+	                            {
+	                                keyword: $scope.inputLabel.labelFilter, 
+	                                result: filterObj 
+	                            } 
+	                        });
+			}
                     }
                 },0);
             };
@@ -993,7 +995,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.$watch( 'inputModel' , function( newVal ) {  
                 if ( newVal ) {
                     $scope.backUp = angular.copy( $scope.inputModel );    
-                    $scope.updateFilter();
+                    $scope.updateFilter(true);
                     $scope.prepareGrouping();
                     $scope.prepareIndex();                                                              
                     $scope.refreshOutputModel();                
