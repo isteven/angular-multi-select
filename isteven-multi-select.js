@@ -1017,6 +1017,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
                 'ng-bind-html="varButtonLabel"' +
                 'ng-disabled="isDisabled"' +
+                'ng-class="{\'disabled\' : isDisabled}"' +
             '>' +
             '</button>' +
             // overlay layer
