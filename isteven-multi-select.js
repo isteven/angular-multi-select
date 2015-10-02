@@ -1069,7 +1069,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     '<div class="line" style="position:relative" ng-if="helperStatus.filter">'+
                         // textfield
                         '<input placeholder="{{lang.search}}" type="text"' +
-                            'ng-click="select( \'filter\', $event )$event.stopPropagation()"'+
+                            'ng-click="select( \'filter\', $event );$event.stopPropagation()"'+
                             'ng-model="inputLabel.labelFilter" '+
                             'ng-change="searchChanged()" class="inputFilter"'+
                             '/>'+
