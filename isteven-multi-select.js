@@ -665,7 +665,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     // focus on the filter element on open.
                     if (input) {
-                      input.focus();
+                      //input.focus();
                         $scope.tabIndex = $scope.tabIndex + helperItemsLength - 2;
                         // blur button in vain
                         angular.element( element ).children()[ 0 ].blur();
