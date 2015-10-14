@@ -644,7 +644,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     // Attach change event listener on the input filter.
                     // We need this because ng-change is apparently not an event listener.
-                    angular.element( document ).on( 'click', $scope.externalClickListener );
+                    angular.element( document ).on( 'click touchstart', $scope.externalClickListener );
                     angular.element( document ).on( 'keydown', $scope.keyboardListener );
 
                     // to get the initial tab index, depending on how many helper elements we have.
