@@ -71,6 +71,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             'isteven-multi-select.htm',
 
         link: function ( $scope, element, attrs ) {
+            //angular.element('window').onClick();
 
             $scope.backUp           = [];
             $scope.varButtonLabel   = '';
@@ -660,9 +661,11 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         helperItemsLength = helperItems.length + helperContainer.getElementsByTagName( 'INPUT' ).length;
                     }
 
+                    var input =  element[ 0 ].querySelector( '.inputFilter' );
+
                     // focus on the filter element on open.
-                    if ( element[ 0 ].querySelector( '.inputFilter' ) ) {
-                        element[ 0 ].querySelector( '.inputFilter' ).focus();
+                    if (input) {
+                      input.focus();
                         $scope.tabIndex = $scope.tabIndex + helperItemsLength - 2;
                         // blur button in vain
                         angular.element( element ).children()[ 0 ].blur();
@@ -1069,7 +1072,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     '<div class="line" style="position:relative" ng-if="helperStatus.filter">'+
                         // textfield
                         '<input placeholder="{{lang.search}}" type="text"' +
-                            'ng-focus="select( \'filter\', $event );$event.stopPropagation()"'+
+                            'ng-focus="select( \'filter\', $event )"'+
                             'ng-model="inputLabel.labelFilter" '+
                             'ng-change="searchChanged()" class="inputFilter"'+
                             '/>'+
@@ -1083,6 +1086,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
                         'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
                         'ng-click="syncItems( item, $event, $index );" '+
+                        'ng-model-options="{ updateOn: \'default blur\', debounce: { default: 300, blur: 0 } }"' +
                         'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
                         // this is the spacing for grouped items
                         '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
