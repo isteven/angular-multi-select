@@ -601,6 +601,8 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
       // UI operations to show/hide checkboxes based on click event..
       $scope.toggleCheckboxes = function(e) {
+        
+        $scope.$emit('multiSelectChange');
 
         // We grab the checkboxLayer
         $scope.checkBoxLayer = element.children()[1];
@@ -951,6 +953,8 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
           $scope.refreshOutputModel();
           $scope.refreshButton();
         }
+        
+        $scope.$emit('multiSelectChange');
       });
 
       // watch for changes in directive state (disabled or enabled)
@@ -986,6 +990,8 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
           return -1;
         };
       }
+      
+      $scope.$emit('multiSelectChange');
     }
   };
 }]).directive('subfilter', ['$sce', '$timeout', '$log', function($sce, $timeout, $log) {
