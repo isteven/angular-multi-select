@@ -111,6 +111,10 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
     '</span>',
 
     link: function($scope, element, attrs) {
+      
+      $scope.$on('$destroy', function() {
+        $scope.$emit('multiSelectChange');
+      });
 
       $scope.backUp = [];
       $scope.varButtonLabel = '';
