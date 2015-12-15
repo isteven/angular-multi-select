@@ -16,6 +16,7 @@
     orientation="horizontal | vertical"
     selection-mode="multiple | single"
     max-labels="999"     
+    show-counter="true"
     directive-id="..."
     is-disabled="true | false"
     helper-elements="all none reset filter"
@@ -177,7 +178,16 @@
             <li><code>max-labels="1"</code> will display: "Bruce Wayne, ... (2)" on the button.</li>
             <li><code>max-labels="0"</code> will display: "(2)" on the button.</li>
         </ul>
-            
+
+        <h5>show-counter</h5>
+        <p>
+            To show the counter in the dropdown button if there are more items than allowed by max-labels.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: Boolean-parseable string ("true" or "false")<br />
+            <span class="inlineTitle">Default value</span>: "true"<br />
+        </p>
+
         <h5>is-disabled</h5>
         <p>
             Will disable or enable all checkboxes except stated otherwise in "disable-property" above.
