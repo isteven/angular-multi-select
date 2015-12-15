@@ -16,7 +16,8 @@
     orientation="horizontal | vertical"
     selection-mode="multiple | single"
     max-labels="999"     
-    show-counter="true"
+    show-counter="true | false"
+    more-text="string"
     directive-id="..."
     is-disabled="true | false"
     helper-elements="all none reset filter"
@@ -186,6 +187,16 @@
         <p>
             <span class="inlineTitle">Type</span>: Boolean-parseable string ("true" or "false")<br />
             <span class="inlineTitle">Default value</span>: "true"<br />
+        </p>
+
+        <h5>more-text</h5>
+        <p>
+            Text to show after the items in the dropdown button if there are
+            more items than allowed by max-labels.
+        </p>
+        <p>
+            <span class="inlineTitle">Type</span>: String<br />
+            <span class="inlineTitle">Default value</span>: ", ..."<br />
         </p>
 
         <h5>is-disabled</h5>
