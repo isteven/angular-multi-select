@@ -897,6 +897,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.groupProperty    = attrs.groupProperty;   
             $scope.tickProperty     = attrs.tickProperty;
             $scope.directiveId      = attrs.directiveId;
+            $scope.hiddenProperty   = attrs.hiddenProperty;
             
             // Unfortunately I need to add these grouping properties into the input model
             var tempStr = genRandomString( 5 );
@@ -1064,7 +1065,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 '<div class="checkBoxContainer">'+
                     '<div '+
                         'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
-                        'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
+                        'ng-class="{hidden: item[hiddenProperty], selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
                         'ng-click="syncItems( item, $event, $index );" '+
                         'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
                         // this is the spacing for grouped items
