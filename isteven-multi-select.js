@@ -1074,7 +1074,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                             'ng-change="searchChanged()" class="inputFilter"'+
                             '/>'+
                         // clear button
-                        '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
+                        '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >&times;</button> '+
                     '</div> '+
                 '</div> '+
                 // selection items
