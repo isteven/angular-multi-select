@@ -126,9 +126,9 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       $scope.formElements = [];
       $scope.tabIndex = 0;
       $scope.clickedItem = null;
-      prevTabIndex = 0;
-      helperItems = [];
-      helperItemsLength = 0;
+      var prevTabIndex = 0;
+      var helperItems = [];
+      var helperItemsLength = 0;
 
       $scope.clearButtonText = $scope.clearButtonText || "Select None";
 
