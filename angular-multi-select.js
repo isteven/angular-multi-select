@@ -519,7 +519,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       // refresh button label
       $scope.refreshButton = function(newVal) {
         $scope.varButtonLabel = '';
-        ctr = 0;
+        var ctr = 0;
 
         // refresh button label...
         if ($scope.selectedItems.length === 0) {
@@ -781,14 +781,14 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       };
 
       // just to create a random variable name
-      genRandomString = function(length) {
+      function genRandomString(length) {
         var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         var temp = '';
         for (var i = 0; i < length; i++) {
           temp += possible.charAt(Math.floor(Math.random() * possible.length));
         }
         return temp;
-      };
+      }
 
       // count leading spaces
       $scope.prepareGrouping = function() {
@@ -806,7 +806,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
       // prepare original index
       $scope.prepareIndex = function() {
-        ctr = 0;
+        var ctr = 0;
         angular.forEach($scope.filteredModel, function(value, key) {
           value[ $scope.indexProperty ] = ctr;
           ctr++;
