@@ -1,14 +1,17 @@
 {
-    "name"      : "neustar-angular-multiselect",
-    "version"   : "v2.0.22",
-    "main"      : [
-        "angular-multi-select.js",
-        "angular-multi-select.css"
-    ],
-    "ignore"    : [
-        ".git",
-        ".gitignore",
-        "README.md",
-        "screenshot.png"
-    ]
+  "name": "neustar-angular-multiselect",
+  "version": "v2.0.22",
+  "main": [
+    "angular-multi-select.js",
+    "angular-multi-select.css"
+  ],
+  "ignore": [
+    ".git",
+    ".gitignore",
+    "README.md",
+    "screenshot.png"
+  ],
+  "dependencies": {
+    "lodash": "3.10.1"
+  }
 }
