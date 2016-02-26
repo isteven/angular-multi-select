@@ -39,7 +39,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
     scope: {
       // models
-      inputModel: '@',
+      inputModel: '=',
       outputModel: '=',
 
       // settings based on attribute
@@ -137,7 +137,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       var helperItemsLength = 0;
       $scope.clearButtonText = $scope.clearButtonText || 'Select None';
 
-      $scope.inputModel = $scope.$eval(attrs.inputModel);
+      //$scope.inputModel = $scope.$eval(attrs.inputModel);
       function throttle(fn, threshhold, scope) {
         threshhold = threshhold || 250;
         var last;
@@ -938,9 +938,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
       // watch2 for changes in input model as a whole
       // this on updates the multi-select when a user load a whole new input-model. We also update the $scope.backUp variable
-      // $scope.$watch('inputModel', function(newVal) {
-
-      attrs.$observe('inputModel', function(newVal){
+      $scope.$watch('inputModel', function(newVal) {
         if (newVal) {
           $scope.inputModel = $scope.$eval(newVal);
           if ($scope.deepCopyDisabled) {
