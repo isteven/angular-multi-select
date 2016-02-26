@@ -39,7 +39,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
     scope: {
       // models
-      inputModel: '=',
+      inputModel: '@',
       outputModel: '=',
 
       // settings based on attribute
@@ -78,25 +78,25 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
     '</button>' +
     '<div class="checkboxLayer">' +
     '<form>' +
-    '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-    '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
-    '<button type="button" ng-click="::select( \'all\',   $event );"    class="helperButton" ng-if="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
-    '<button type="button" ng-click="::select( \'none\',  $event );"   class="helperButton" ng-if="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; {{clearButtonText}}</button>' +
-    '<button type="button" ng-click="::select( \'reset\', $event );"  class="helperButton" ng-if="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
-    '<button type="button" ng-click="::select( \'done\',  $event );"   class="helperButton helperButtonDone" ng-if="!isDisabled && displayHelper( \'done\' )" style="float:right">&nbsp;&nbsp;Done&nbsp;&nbsp;</button>' +
+    '<div class="helperContainer" ng-show="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+    '<div class="line" ng-show="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
+    '<button type="button" ng-click="::select( \'all\',   $event );"    class="helperButton" ng-show="!isDisabled && displayHelper( \'all\' )">   &#10003;&nbsp; Select All</button> ' +
+    '<button type="button" ng-click="::select( \'none\',  $event );"   class="helperButton" ng-show="!isDisabled && displayHelper( \'none\' )">  &times;&nbsp; {{clearButtonText}}</button>' +
+    '<button type="button" ng-click="::select( \'reset\', $event );"  class="helperButton" ng-show="!isDisabled && displayHelper( \'reset\' )" style="float:right">&#8630;&nbsp; Reset</button>' +
+    '<button type="button" ng-click="::select( \'done\',  $event );"   class="helperButton helperButtonDone" ng-show="!isDisabled && displayHelper( \'done\' )" style="float:right">&nbsp;&nbsp;Done&nbsp;&nbsp;</button>' +
     '</div>' +
-    '<div class="line" style="position:relative" ng-if="::displayHelper( \'filter\' )">' +
+    '<div class="line" style="position:relative" ng-show="::displayHelper( \'filter\' )">' +
     '<input placeholder="Search..." type="text" ng-click="::select( \'filter\', $event )" data-ng-model-options="{debounce: 300}" ng-model="inputLabel.labelFilter" ng-change="::throttledUpdateFilter();$scope.getFormElements();" class="inputFilter" />' +
     '<button type="button" class="clearButton" ng-click="::inputLabel.labelFilter=\'\';updateFilter();prepareGrouping();prepareIndex();select( \'clear\', $event )">&times;</button> ' +
     '</div>' +
     '</div>' +
     '<div class="checkBoxContainer" data-subfilter="::filteredModel" ng-style="{\'max-height\':setHeight()}" style="overflow-y:scroll">' +
-    '<div ng-repeat="item in subFilteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
+    '<div ng-repeat="item in subFilteredModel track by $index  | filter:removeGroupEndMarker" class="multiSelectItem"' +
     'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
     'ng-click="::syncItems( item, $event, $index );"' +
     'ng-mouseleave="::removeFocusStyle( tabIndex );"' +
     'style="position:absolute;top:0;transform:translate(0,{{item.displayIndex*31}}px);-webkit-transform:translate(0,{{item.displayIndex*31}}px);" ng-style="{\'-ms-transform\':transformFixIE(item.displayIndex)}">' +
-    '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +
+    '<div class="acol" ng-show="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">&nbsp;</div>' +
     '<div class="acol">' +
     '<label>' +
     '<input class="checkbox focusable" type="checkbox" ng-disabled="itemIsDisabled( item )" ng-checked="item[ tickProperty ]" ng-click="::syncItems( item, $event, $index )" />' +
@@ -104,7 +104,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
     '</label>' +
     '</div>' +
     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-    '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true">&#10004;</span>' +
+    '<span class="tickMark" ng-show="item[ groupProperty ] !== true && item[ tickProperty ] === true">&#10004;</span>' +
     '</div>' +
     '</div>' +
     '</form>' +
@@ -135,9 +135,9 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       var prevTabIndex = 0;
       var helperItems = [];
       var helperItemsLength = 0;
-
       $scope.clearButtonText = $scope.clearButtonText || 'Select None';
 
+      $scope.inputModel = $scope.$eval(attrs.inputModel);
       function throttle(fn, threshhold, scope) {
         threshhold = threshhold || 250;
         var last;
@@ -910,6 +910,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
       // watch1, for changes in input model property
       // updates multi-select when user select/deselect a single checkbox programatically
       // https://github.com/isteven/angular-multi-select/issues/8
+
       $scope.$watch('inputModel', function(newVal) {
 
         if (newVal) {
@@ -937,9 +938,11 @@ angular.module('multi-select', ['ng']).directive('multiSelect', [ '$sce', '$time
 
       // watch2 for changes in input model as a whole
       // this on updates the multi-select when a user load a whole new input-model. We also update the $scope.backUp variable
-      $scope.$watch('inputModel', function(newVal) {
+      // $scope.$watch('inputModel', function(newVal) {
 
+      attrs.$observe('inputModel', function(newVal){
         if (newVal) {
+          $scope.inputModel = $scope.$eval(newVal);
           if ($scope.deepCopyDisabled) {
             $scope.backUp = _.clone($scope.inputModel);
           } else {
