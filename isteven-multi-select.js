@@ -58,7 +58,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             onSelectNone    : '&',  
 
             // i18n
-            translation     : '='   
+            translation     : '=',
+            defaultLabel : '='
         },
         
         /* 
@@ -518,7 +519,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 var ctr                 = 0;                  
 
                 // refresh button label...
-                if ( $scope.outputModel.length === 0 ) {
+                if(typeof $scope.defaultLabel != 'undefined'){
+                    $scope.varButtonLabel = $scope.defaultLabel;
+                }else  if ( $scope.outputModel.length === 0 ) {
                     // https://github.com/isteven/angular-multi-select/pull/19                    
                     $scope.varButtonLabel = $scope.lang.nothingSelected;
                 }
