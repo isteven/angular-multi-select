@@ -10,6 +10,10 @@ Go to http://isteven.github.io/angular-multi-select
 ### Current Version
 4.0.0
 
+### Differences from original project
+
+    The possibility of working with ng-repeat independently for each selector generated
+
 ### Change Log
 See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGELOG.md">CHANGELOG.md</a>. 
 For those who's upgrading from version 2.x.x, do note that this version is not backward-compatible. Please read the manual
