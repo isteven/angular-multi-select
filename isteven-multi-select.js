@@ -79,7 +79,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.orientationH     = false;
             $scope.orientationV     = true;
             $scope.filteredModel    = [];
-            $scope.inputLabel       = { labelFilter: '' };                        
+            $scope.inputLabel       = { labelFilter: '' };
             $scope.tabIndex         = 0;            
             $scope.lang             = {};
             $scope.helperStatus     = {
@@ -948,20 +948,18 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // this one is for the selected items
             $scope.icon.tickMark   = '&#10003;';    // a tick icon 
 
-            // configurable button labels                       
-            if ( typeof attrs.translation !== 'undefined' ) {
-                $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;' + $scope.translation.selectAll );
-                $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;' + $scope.translation.selectNone );
-                $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;' + $scope.translation.reset );
-                $scope.lang.search          = $scope.translation.search;                
-                $scope.lang.nothingSelected = $sce.trustAsHtml( $scope.translation.nothingSelected );                
+            // configurable button labels
+
+            $scope.lang = {
+                'selectAll'       : $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;Select All' ),
+                'selectNone'      : $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;Select None' ),
+                'reset'           : $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;Reset' ),
+                'search'          : 'Search...',
+                'nothingSelected' : 'None Selected'
             }
-            else {
-                $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;Select All' );                
-                $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;Select None' );
-                $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;Reset' );
-                $scope.lang.search          = 'Search...';
-                $scope.lang.nothingSelected = 'None Selected';                
+
+            if ( typeof $scope.translation === 'object' ) {
+                angular.extend($scope.lang, $scope.translation);            
             }
             $scope.icon.tickMark = $sce.trustAsHtml( $scope.icon.tickMark );
                 
@@ -1008,22 +1006,22 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             
             // this is for touch enabled devices. We don't want to hide checkboxes on scroll. 
             var onTouchStart = function( e ) { 
-            	$scope.$apply( function() {
-            		$scope.scrolled = false;
-            	}); 
+                $scope.$apply( function() {
+                    $scope.scrolled = false;
+                }); 
             };
             angular.element( document ).bind( 'touchstart', onTouchStart);
             var onTouchMove = function( e ) { 
-            	$scope.$apply( function() {
-            		$scope.scrolled = true;                
-            	});
+                $scope.$apply( function() {
+                    $scope.scrolled = true;                
+                });
             };
             angular.element( document ).bind( 'touchmove', onTouchMove);            
 
             // unbind document events to prevent memory leaks
             $scope.$on( '$destroy', function () {
-			    angular.element( document ).unbind( 'touchstart', onTouchStart);
-            	angular.element( document ).unbind( 'touchmove', onTouchMove);
+                angular.element( document ).unbind( 'touchstart', onTouchStart);
+                angular.element( document ).unbind( 'touchmove', onTouchMove);
             });
         }
     }
@@ -1107,5 +1105,5 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             '</div>'+
         '</div>'+
     '</span>';
-	$templateCache.put( 'isteven-multi-select.htm' , template );
+    $templateCache.put( 'isteven-multi-select.htm' , template );
 }]); 
