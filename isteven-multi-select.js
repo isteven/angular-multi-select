@@ -741,7 +741,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         $scope.onSelectNone();                        
                         break;
                     case 'RESET':            
-                        angular.forEach( $scope.filteredModel, function( value, key ) {                            
+                        angular.forEach( $scope.inputModel, function( value, key ) {
                             if ( typeof value[ attrs.groupProperty ] === 'undefined' && typeof value !== 'undefined' && value[ attrs.disableProperty ] !== true ) {                        
                                 var temp = value[ $scope.indexProperty ];                                
                                 value[ $scope.tickProperty ] = $scope.backUp[ temp ][ $scope.tickProperty ];
