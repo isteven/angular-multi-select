@@ -72,7 +72,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
         link: function ( $scope, element, attrs ) {                       
 
-            $scope.backUp           = [];
             $scope.varButtonLabel   = '';               
             $scope.spacingProperty  = '';
             $scope.indexProperty    = '';                        
@@ -744,7 +743,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         angular.forEach( $scope.inputModel, function( value, key ) {
                             if ( typeof value[ attrs.groupProperty ] === 'undefined' && typeof value !== 'undefined' && value[ attrs.disableProperty ] !== true ) {                        
                                 var temp = value[ $scope.indexProperty ];                                
-                                value[ $scope.tickProperty ] = $scope.backUp[ temp ][ $scope.tickProperty ];
+                                value[ $scope.tickProperty ] = false;
                             }
                         });               
                         $scope.refreshOutputModel();                                    
@@ -989,10 +988,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             }, true );
             
             // watch2 for changes in input model as a whole
-            // this on updates the multi-select when a user load a whole new input-model. We also update the $scope.backUp variable
+            // this on updates the multi-select when a user load a whole new input-model.
             $scope.$watch( 'inputModel' , function( newVal ) {  
                 if ( newVal ) {
-                    $scope.backUp = angular.copy( $scope.inputModel );    
                     $scope.updateFilter();
                     $scope.prepareGrouping();
                     $scope.prepareIndex();                                                              
