@@ -550,6 +550,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         if (tempMaxLabels > 0) {
                             $scope.varButtonLabel += ', ... ';
                         }
+			else if ( typeof attrs.noLabelsLabel !== 'undefined' && attrs.noLabelsLabel !== '' ) {
+				$scope.varButtonLabel += attrs.noLabelsLabel + ' ';
+			}
                         $scope.varButtonLabel += '(' + $scope.outputModel.length + ')';                        
                     }
                 }
