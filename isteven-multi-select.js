@@ -57,7 +57,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             onSelectAll     : '&',  
             onSelectNone    : '&',  
 
-            // i18n
+            // i18n and visual customization
+            customIcon      : '=',
             translation     : '='   
         },
         
@@ -940,29 +941,54 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 $scope.helperStatus[ 'none' ] = false;
             }
 
-            // helper button icons.. I guess you can use html tag here if you want to. 
-            $scope.icon        = {};            
-            $scope.icon.selectAll  = '&#10003;';    // a tick icon
-            $scope.icon.selectNone = '&times;';     // x icon
-            $scope.icon.reset      = '&#8630;';     // undo icon            
-            // this one is for the selected items
-            $scope.icon.tickMark   = '&#10003;';    // a tick icon 
+            
+            $scope.icon = {};
+            
+            if ( typeof attrs.customIcon !== 'undefined' ) {
+                $scope.icon.selectAll       = $scope.customIcon.selectAll;
+                $scope.icon.selectNone      = $scope.customIcon.selectNone;
+                $scope.icon.reset           = $scope.customIcon.reset;
+                $scope.icon.tickMark        = $scope.customIcon.tickMark;
+            }
+            else {
+                $scope.icon.selectAll       = '&#10003;';    // a tick icon
+                $scope.icon.selectNone      = '&times;';     // x icon
+                $scope.icon.reset           = '&#8630;';     // undo icon
+                $scope.icon.tickMark        = '&#10003;';    // a tick icon (used for selected items)
+            }
+            
+            function rightPadWithDoubleNbsp(text) {
+                if (!!text) {
+                    // In future major versions (or whenever breaking changes are allowed) these
+                    // hardcoded spaces might be replaced by a proper css approach for the spacing
+                    // it's supposed to create. in this version the hard coded double nbsp is kept
+                    // for backwards compatability.
+                    //
+                    // If text is *anything* at all (e.g. it's set to a default) the text gets 
+                    // padded:
+                    return text + '&nbsp;&nbsp;';
+                }
+                
+                // Falsy values, most notably empty strings, should not get padded:
+                return "";
+            }
 
             // configurable button labels                       
             if ( typeof attrs.translation !== 'undefined' ) {
-                $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;' + $scope.translation.selectAll );
-                $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;' + $scope.translation.selectNone );
-                $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;' + $scope.translation.reset );
+                $scope.lang.selectAll       = $sce.trustAsHtml( rightPadWithDoubleNbsp($scope.icon.selectAll)  + $scope.translation.selectAll );
+                $scope.lang.selectNone      = $sce.trustAsHtml( rightPadWithDoubleNbsp($scope.icon.selectNone) + $scope.translation.selectNone );
+                $scope.lang.reset           = $sce.trustAsHtml( rightPadWithDoubleNbsp($scope.icon.reset)      + $scope.translation.reset );
                 $scope.lang.search          = $scope.translation.search;                
                 $scope.lang.nothingSelected = $sce.trustAsHtml( $scope.translation.nothingSelected );                
             }
             else {
-                $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;Select All' );                
-                $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;Select None' );
-                $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;Reset' );
+                $scope.lang.selectAll       = $sce.trustAsHtml( rightPadWithDoubleNbsp($scope.icon.selectAll)  + 'Select All' );                
+                $scope.lang.selectNone      = $sce.trustAsHtml( rightPadWithDoubleNbsp($scope.icon.selectNone) + 'Select None' );
+                $scope.lang.reset           = $sce.trustAsHtml( rightPadWithDoubleNbsp($scope.icon.reset)      + 'Reset' );
                 $scope.lang.search          = 'Search...';
                 $scope.lang.nothingSelected = 'None Selected';                
             }
+            
             $scope.icon.tickMark = $sce.trustAsHtml( $scope.icon.tickMark );
                 
             // min length of keyword to trigger the filter function
