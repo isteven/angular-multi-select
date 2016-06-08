@@ -5,13 +5,16 @@
         "isteven-multi-select.js",
         "isteven-multi-select.css"
     ],
+    "dependencies": {
+        "ngInfiniteScroll": "1.2.2"
+    },
     "ignore"    : [
         ".git",
         ".gitignore",
         "bower.json",
         "CHANGELOG.md",
         "package.json",
-        "README.md",        
+        "README.md",
         "screenshot.png",
         "/doc"
     ]
