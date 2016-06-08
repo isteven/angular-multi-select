@@ -469,7 +469,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // update $scope.outputModel
             $scope.refreshOutputModel = function() {            
                 
-                $scope.outputModel  = [];
+                while($scope.outputModel.length) $scope.outputModel.pop();
+
                 var 
                     outputProps     = [],
                     tempObj         = {};
