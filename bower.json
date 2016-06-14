@@ -6,7 +6,7 @@
         "isteven-multi-select.css"
     ],
     "dependencies": {
-        "ngInfiniteScroll": "1.2.2"
+        "ngInfiniteScroll": "1.2.0"
     },
     "ignore"    : [
         ".git",
