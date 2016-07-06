@@ -33,6 +33,13 @@
 
 'use strict'
 
+/**
+ * Applause changes include:
+ *   - Infinite scroll capabilities to avoid the loading delay and page height resize (https://github.com/sroze/ngInfiniteScroll)
+ *   - Support for "selectedOnly" checkbox filter (also works with text in search box filter)
+ *   - Uses ng-if instead of ng-show in default template
+ */
+
 angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( 'istevenMultiSelect' , [ '$sce', '$timeout', '$templateCache', function ( $sce, $timeout, $templateCache ) {
     return {
         restrict:
@@ -86,8 +93,10 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                 all     : true,
                 none    : true,
                 reset   : true,
-                filter  : true
+                filter  : true,
+                selectedOnly: true
             };
+            $scope.selectedOnly     = false;
 
             var
               prevTabIndex        = 0,
@@ -145,36 +154,40 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                     var gotData = false;
                     if ( typeof $scope.inputModel[ i ][ attrs.groupProperty ] === 'undefined' ) {
 
-                        // If we set the search-key attribute, we use this loop.
-                        if ( typeof attrs.searchProperty !== 'undefined' && attrs.searchProperty !== '' ) {
+                        // Filter out non-selected options if selectedOnly filter is in place
+                        if (!$scope.selectedOnly || $scope.inputModel[ i ][ $scope.tickProperty ]) {
 
-                            for (var key in $scope.inputModel[ i ]  ) {
-                                if (
-                                  typeof $scope.inputModel[ i ][ key ] !== 'boolean'
-                                  && String( $scope.inputModel[ i ][ key ] ).toUpperCase().indexOf( $scope.inputLabel.labelFilter.toUpperCase() ) >= 0
-                                  && attrs.searchProperty.indexOf( key ) > -1
-                                ) {
-                                    gotData = true;
-                                    break;
+                            // If we set the search-key attribute, we use this loop.
+                            if (typeof attrs.searchProperty !== 'undefined' && attrs.searchProperty !== '') {
+
+                                for (var key in $scope.inputModel[ i ]) {
+                                    if (
+                                        typeof $scope.inputModel[ i ][ key ] !== 'boolean'
+                                        && String($scope.inputModel[ i ][ key ]).toUpperCase().indexOf($scope.inputLabel.labelFilter.toUpperCase()) >= 0
+                                        && attrs.searchProperty.indexOf(key) > -1
+                                        ) {
+                                        gotData = true;
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        // if there's no search-key attribute, we use this one. Much better on performance.
-                        else {
-                            for ( var key in $scope.inputModel[ i ]  ) {
-                                if (
-                                  typeof $scope.inputModel[ i ][ key ] !== 'boolean'
-                                  && String( $scope.inputModel[ i ][ key ] ).toUpperCase().indexOf( $scope.inputLabel.labelFilter.toUpperCase() ) >= 0
-                                ) {
-                                    gotData = true;
-                                    break;
+                            // if there's no search-key attribute, we use this one. Much better on performance.
+                            else {
+                                for (var key in $scope.inputModel[ i ]) {
+                                    if (
+                                        typeof $scope.inputModel[ i ][ key ] !== 'boolean'
+                                        && String($scope.inputModel[ i ][ key ]).toUpperCase().indexOf($scope.inputLabel.labelFilter.toUpperCase()) >= 0
+                                        ) {
+                                        gotData = true;
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
-                        if ( gotData === true ) {
-                            // push
-                            $scope.filteredModel.push( $scope.inputModel[ i ] );
+                            if (gotData === true) {
+                                // push
+                                $scope.filteredModel.push($scope.inputModel[ i ]);
+                            }
                         }
                     }
 
@@ -787,6 +800,12 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                 }
             }
 
+            $scope.onSelectedOnlyChange = function(selectedOnly) {
+                // Set flag as the model may not have updated yet
+                $scope.selectedOnly = selectedOnly;
+                $scope.updateFilter();
+            };
+
             // Show more elements as we scroll, used when allow-infinite-scroll attribute set to true.
             $scope.onInfiniteScroll = function() {
                 $scope.currentLimit += infiniteScrollAmount;
@@ -988,6 +1007,7 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                 $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;' + $scope.translation.reset );
                 $scope.lang.search          = $scope.translation.search;
                 $scope.lang.nothingSelected = $sce.trustAsHtml( $scope.translation.nothingSelected );
+                $scope.lang.selectedOnly    = $sce.trustAsHtml( '&nbsp;' + $scope.translation.selectedOnly );
             }
             else {
                 $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;Select All' );
@@ -995,6 +1015,7 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                 $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;Reset' );
                 $scope.lang.search          = 'Search...';
                 $scope.lang.nothingSelected = 'None Selected';
+                $scope.lang.selectedOnly    = ' Show Selected Only';
             }
             $scope.icon.tickMark = $sce.trustAsHtml( $scope.icon.tickMark );
 
@@ -1073,7 +1094,7 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
           // overlay layer
       '<div class="checkboxLayer" ng-if="showCheckboxLayer">' +
           // container of the helper elements
-      '<div class="helperContainer" ng-if="helperStatus.filter || helperStatus.all || helperStatus.none || helperStatus.reset ">' +
+      '<div class="helperContainer" ng-if="helperStatus.filter || helperStatus.all || helperStatus.none || helperStatus.reset || helperStatus.selectedOnly">' +
           // container of the first 3 buttons, select all, none and reset
       '<div class="line" ng-if="helperStatus.all || helperStatus.none || helperStatus.reset ">' +
           // select all
@@ -1099,7 +1120,7 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
       '</button>' +
       '</div>' +
           // the search box
-      '<div class="line" style="position:relative" ng-if="helperStatus.filter">'+
+      '<div class="line" style="position:relative" ng-if="helperStatus.filter" class="search-box">'+
           // textfield
       '<input placeholder="{{lang.search}}" type="text"' +
       'ng-click="select( \'filter\', $event )" '+
@@ -1109,6 +1130,16 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
           // clear button
       '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
       '</div> '+
+          // selectOnly checkbox
+      '<div ng-if="helperStatus.selectedOnly" class="selected-only">' +
+      '<div class=“checkbox-native”>' +
+      '<label>' +
+      '<input type="checkbox" ng-model="selectedOnly" ng-change="onSelectedOnlyChange(selectedOnly)" ng-disabled="isDisabled" />' +
+      '<span ng-bind-html="lang.selectedOnly"></span>' +
+      '</label>' +
+      '</div>' +
+      '</div>' +
+          // end helperContainer
       '</div> '+
           // selection items
       '<div class="checkBoxContainer">'+
