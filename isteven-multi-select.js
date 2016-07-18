@@ -36,6 +36,7 @@
 /**
  * Applause changes include:
  *   - Infinite scroll capabilities to avoid the loading delay and page height resize (https://github.com/sroze/ngInfiniteScroll)
+ *   - Customized translations (including allLabel, noOptionsAvailable)
  *   - Support for "selectedOnly" checkbox filter (also works with text in search box filter)
  *   - Uses ng-if instead of ng-show in default template
  */
@@ -533,7 +534,11 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                 var ctr                 = 0;
 
                 // refresh button label...
-                if ( $scope.outputModel.length === 0 ) {
+                if ($scope.lang.noOptionsAvailable && (!$scope.inputModel || !$scope.inputModel.length)) {
+                  // Only show if manually configured
+                  $scope.varButtonLabel = $scope.lang.noOptionsAvailable;
+                }
+                else if ( $scope.outputModel.length === 0 ) {
                     // https://github.com/isteven/angular-multi-select/pull/19
                     $scope.varButtonLabel = $scope.lang.nothingSelected;
                 }
@@ -569,7 +574,7 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
 
                         // Collapse to 'All' when everything is selected and more than maxLabels values are shown
                         if ($scope.outputModel.length === $scope.inputModel.length) {
-                            $scope.varButtonLabel = 'All ';
+                            $scope.varButtonLabel = $scope.lang.allSelected + ' ';
                         }
 
                         $scope.varButtonLabel += '(' + $scope.outputModel.length + ')';
@@ -1002,18 +1007,22 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
 
             // configurable button labels                       
             if ( typeof attrs.translation !== 'undefined' ) {
+                $scope.lang.allSelected     = ($scope.translation.allSelected) ? $scope.translation.allSelected : 'All';
                 $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;' + $scope.translation.selectAll );
                 $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;' + $scope.translation.selectNone );
                 $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;' + $scope.translation.reset );
                 $scope.lang.search          = $scope.translation.search;
+                $scope.lang.noOptionsAvailable = ($scope.translation.noOptionsAvailable) ? $scope.translation.noOptionsAvailable : undefined;
                 $scope.lang.nothingSelected = $sce.trustAsHtml( $scope.translation.nothingSelected );
                 $scope.lang.selectedOnly    = $sce.trustAsHtml( '&nbsp;' + $scope.translation.selectedOnly );
             }
             else {
+                $scope.lang.allSelected     = 'All';
                 $scope.lang.selectAll       = $sce.trustAsHtml( $scope.icon.selectAll  + '&nbsp;&nbsp;Select All' );
                 $scope.lang.selectNone      = $sce.trustAsHtml( $scope.icon.selectNone + '&nbsp;&nbsp;Select None' );
                 $scope.lang.reset           = $sce.trustAsHtml( $scope.icon.reset      + '&nbsp;&nbsp;Reset' );
                 $scope.lang.search          = 'Search...';
+                // noOptionsAvailable has no default, only shows if has a customized translation
                 $scope.lang.nothingSelected = 'None Selected';
                 $scope.lang.selectedOnly    = ' Show Selected Only';
             }
