@@ -239,7 +239,7 @@
 .multiSelect .multiSelectItem:hover, 
 .multiSelect .multiSelectGroup:hover {
     background-image: linear-gradient( #c1c1c1, #999 ) !important;    
-    color: #fff !important;    
+    /*color: #fff !important;    */
     cursor: pointer;        
     border: 1px solid #ccc !important;
 }
