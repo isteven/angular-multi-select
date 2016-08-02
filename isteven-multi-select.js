@@ -39,6 +39,7 @@
  *   - Customized translations (including allLabel, noOptionsAvailable)
  *   - Support for "selectedOnly" checkbox filter (also works with text in search box filter)
  *   - Uses ng-if instead of ng-show in default template
+ *   - $scope.itemIsDisabledIgnoreGlobal function
  */
 
 angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( 'istevenMultiSelect' , [ '$sce', '$timeout', '$templateCache', function ( $sce, $timeout, $templateCache ) {
@@ -600,6 +601,11 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                     }
                 }
 
+            }
+
+            // Returns true if the given item is disabled.  Ignores the global isDisabled flag, only cares about item-level disable.
+            $scope.itemIsDisabledIgnoreGlobal = function(item) {
+                return typeof attrs.disableProperty !== 'undefined' && item[ attrs.disableProperty ] === true;
             }
 
             // A simple function to parse the item label settings. Used on the buttons and checkbox labels.
