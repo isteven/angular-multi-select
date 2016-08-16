@@ -159,16 +159,43 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         }
                         // if there's no search-key attribute, we use this one. Much better on performance.
                         else {
+
+                            //check if we have multiple words into the search field
+                            var searchTerm = $scope.inputLabel.labelFilter.toUpperCase();
+                            var searchTerms = [];
+                            if (searchTerm.indexOf(' ')>0){
+                                searchTerms = searchTerm.split(' ');
+                            }
+
                             for ( var key in $scope.inputModel[ i ]  ) {
-                                if ( 
-                                    typeof $scope.inputModel[ i ][ key ] !== 'boolean'
-                                    && String( $scope.inputModel[ i ][ key ] ).toUpperCase().indexOf( $scope.inputLabel.labelFilter.toUpperCase() ) >= 0                                     
-                                ) {
-                                    gotData = true;
-                                    break;
+
+                                //check multiple words search
+                                if (searchTerms.length > 0) {
+                                    for (var sKey in searchTerms) {
+                                        if (String($scope.inputModel[i][key]).toUpperCase().indexOf(searchTerms[sKey]) >= 0) {
+                                            gotData = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (
+                                        typeof $scope.inputModel[i][key] !== 'boolean'
+                                        && String($scope.inputModel[i][key]).toUpperCase().indexOf(searchTerm) >= 0
+                                    ) {
+                                        gotData = true;
+                                        break;
+                                    }
                                 }
                             }                        
                         }
+
+
+                        if ( gotData === true ) {    
+                            // push
+                            $scope.filteredModel.push( $scope.inputModel[ i ] );
+                        }
+                    }
 
                         if ( gotData === true ) {    
                             // push
