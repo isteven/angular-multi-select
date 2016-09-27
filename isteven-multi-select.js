@@ -196,7 +196,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     $scope.getFormElements();               
                     
                     // Callback: on filter change                      
-                    if ( $scope.inputLabel.labelFilter.length > vMinSearchLength ) {
+                    if ( $scope.inputLabel.labelFilter.length >= vMinSearchLength ) {
 
                         var filterObj = [];
 
