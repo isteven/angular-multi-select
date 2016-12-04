@@ -695,7 +695,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     }
                 }
 
-                angular.element( checkBoxLayer.previousSibling ).removeClass( 'buttonClicked' );                    
+                angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                 angular.element( checkBoxLayer ).removeClass( 'show' );
                 angular.element( document ).off( 'click', $scope.externalClickListener ); 
                 angular.element( document ).off( 'keydown', $scope.keyboardListener );                
