@@ -1,4 +1,4 @@
-### v4.0.0
+### v4.0.1
 ##### Added / Updated
 - You can now customize output-model properties that you need, instead of having all data.
 - <a href="https://github.com/isteven/angular-multi-select/issues/201">#201</a> (and other related issues) DOM bug is now fixed.
