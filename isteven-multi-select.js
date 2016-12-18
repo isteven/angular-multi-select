@@ -3,7 +3,7 @@
  * Creates a dropdown-like button with checkboxes. 
  *
  * Project started on: Tue, 14 Jan 2014 - 5:18:02 PM
- * Current version: 4.0.0
+ * Current version: 4.0.1
  * 
  * Released under the MIT License
  * --------------------------------------------------------------------------------
@@ -474,7 +474,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     outputProps     = [],
                     tempObj         = {};
 
-                // v4.0.0
+                // v4.0.1
                 if ( typeof attrs.outputProperties !== 'undefined' ) {                    
                     outputProps = attrs.outputProperties.split(' ');                
                     angular.forEach( $scope.inputModel, function( value, key ) {                    
