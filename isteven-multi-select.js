@@ -42,7 +42,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
         {   
             // models
             inputModel      : '=',
-            outputModel     : '=',
+            outputModel     : '=?',
 
             // settings based on attribute
             isDisabled      : '=',
