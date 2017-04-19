@@ -514,7 +514,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     // when you get into a group (start group marker), nestLevel++
                     // when you exit a group (end group marker), nextLevel--
                     var nestLevel = 0;
-                    console.log($scope.filteredModel);
                     // we loop throughout the filtered model (not whole model)
                     for( i = index ; i < $scope.filteredModel.length ; i++) {
 
