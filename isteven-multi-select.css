@@ -297,3 +297,51 @@
     max-height: 22px;
     max-width:22px;
 }
+
+
+/*label*/
+.multiSelect .multi_tree,
+.multiSelect .multi_tree * {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.multiSelect .multi_tree label.retract_button{
+    padding-right:0;
+}
+
+.multiSelect .multi_tree label.retract_button::before{
+    content: "\25b6";
+    font-size: 16px;
+    width:16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color:#333;
+}
+
+.multiSelect .multi_tree * {
+    vertical-align: middle;
+}
+
+.multiSelect .multi_tree input[type="checkbox"] {
+    display: none;
+}
+
+.multiSelect .multi_tree label {
+    cursor: pointer;
+}
+
+.multiSelect .multi_tree label.retract_button::before {
+    -webkit-transform: translatex(-24px);
+    -moz-transform: translatex(-24px);
+    -ms-transform: translatex(-24px);
+    -o-transform: translatex(-24px);
+    transform: translatex(-24px);
+}
+
+.multiSelect .multi_tree label.retract_hidden_button::before{
+    content: "\25bc";
+    font-size: 12px;
+}
+
