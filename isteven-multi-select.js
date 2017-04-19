@@ -38,39 +38,40 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
         restrict: 
             'AE',
 
-        scope: 
-        {   
-            // models
-            inputModel      : '=',
-            outputModel     : '=',
+        scope:
+            {
+                // models
+                inputModel      : '=',
+                outputModel     : '=',
 
-            // settings based on attribute
-            isDisabled      : '=',
-            isSubmit        : '=',
+                // settings based on attribute
+                isDisabled      : '=',
+                isSubmit        : '=',
+                isRetract        : '=',
 
-            // callbacks
-            onClear         : '&',  
-            onClose         : '&',
-            onSubmit        : '&',
-            onSearchChange  : '&',  
-            onItemClick     : '&',            
-            onOpen          : '&', 
-            onReset         : '&',  
-            onSelectAll     : '&',  
-            onSelectNone    : '&',  
+                // callbacks
+                onClear         : '&',
+                onClose         : '&',
+                onSubmit        : '&',
+                onSearchChange  : '&',
+                onItemClick     : '&',
+                onOpen          : '&',
+                onReset         : '&',
+                onSelectAll     : '&',
+                onSelectNone    : '&',
 
-            // i18n
-            translation     : '=',
-            defaultLabel : '='
-        },
-        
-        /* 
+                // i18n
+                translation     : '=',
+                defaultLabel : '='
+            },
+
+        /*
          * The rest are attributes. They don't need to be parsed / binded, so we can safely access them by value.
          * - buttonLabel, directiveId, helperElements, itemLabel, maxLabels, orientation, selectionMode, minSearchLength,
          *   tickProperty, disableProperty, groupProperty, searchProperty, maxHeight, outputProperties
          */
 
-         templateUrl:
+        templateUrl:
             'isteven-multi-select.htm',
 
         link: function ( $scope, element, attrs ) {
@@ -184,7 +185,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     if ( typeof $scope.inputModel[ i ][ attrs.groupProperty ] !== 'undefined' && $scope.inputModel[ i ][ attrs.groupProperty ] === true ) {
 
                         if ( typeof $scope.filteredModel[ $scope.filteredModel.length - 1 ][ attrs.groupProperty ] !== 'undefined'
-                                && $scope.filteredModel[ $scope.filteredModel.length - 1 ][ attrs.groupProperty ] === false ) {
+                            && $scope.filteredModel[ $scope.filteredModel.length - 1 ][ attrs.groupProperty ] === false ) {
                             $scope.filteredModel.pop();
                         }
                         else {
@@ -217,10 +218,10 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                         $scope.onSearchChange({
                             data:
-                            {
-                                keyword: $scope.inputLabel.labelFilter,
-                                result: filterObj
-                            }
+                                {
+                                    keyword: $scope.inputLabel.labelFilter,
+                                    result: filterObj
+                                }
                         });
                     }
                 },0);
@@ -445,6 +446,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     $timeout( function() {
                         delete clickedItem[ $scope.indexProperty ];
                         delete clickedItem[ $scope.spacingProperty ];
+                        delete clickedItem[ $scope.retractProperty];
                         $scope.onItemClick( { data: clickedItem } );
                         clickedItem = null;
                     }, 0 );
@@ -469,6 +471,148 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     $scope.toggleCheckboxes( e );
                 }
             }
+
+            // call this function when an item is clicked
+            $scope.hideSubItems = function( item, e, ng_repeat_index ) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // if the directive is globaly disabled, do nothing
+                if ( typeof attrs.disableProperty !== 'undefined' && item[ attrs.disableProperty ] === true ) {
+                    return false;
+                }
+
+                // if item is disabled, do nothing
+                if ( typeof attrs.isDisabled !== 'undefined' && $scope.isDisabled === true ) {
+                    return false;
+                }
+
+                // if end group marker is clicked, do nothing
+                if ( typeof item[ attrs.groupProperty ] !== 'undefined' && item[ attrs.groupProperty ] === false ) {
+                    return false;
+                }
+
+                var index = $scope.filteredModel.indexOf( item );
+                // if the start of group marker is clicked ( only for multiple selection! )
+                // how it works:
+                // - if, in a group, there are items which are not selected, then they all will be selected
+                // - if, in a group, all items are selected, then they all will be de-selected
+                if ( typeof item[ attrs.groupProperty ] !== 'undefined' && item[ attrs.groupProperty ] === true ) {
+
+                    item[attrs.retractProperty] = !item[attrs.retractProperty];
+                    // this is only for multiple selection, so if selection mode is single, do nothing
+                    if ( typeof attrs.selectionMode !== 'undefined' && attrs.selectionMode.toUpperCase() === 'SINGLE' ) {
+                        return false;
+                    }
+
+                    var i,j,k;
+                    var startIndex = 0;
+                    var endIndex = $scope.filteredModel.length - 1;
+                    var tempArr = [];
+
+                    // nest level is to mark the depth of the group.
+                    // when you get into a group (start group marker), nestLevel++
+                    // when you exit a group (end group marker), nextLevel--
+                    var nestLevel = 0;
+                    console.log($scope.filteredModel);
+                    // we loop throughout the filtered model (not whole model)
+                    for( i = index ; i < $scope.filteredModel.length ; i++) {
+
+                        // this break will be executed when we're done processing each group
+                        if ( nestLevel === 0 && i > index )
+                        {
+                            break;
+                        }
+
+                        if ( typeof $scope.filteredModel[ i ][ attrs.groupProperty ] !== 'undefined' && $scope.filteredModel[ i ][ attrs.groupProperty ] === true ) {
+
+                            // To cater multi level grouping
+                            if ( tempArr.length === 0 ) {
+                                startIndex = i + 1;
+                            }
+                            nestLevel = nestLevel + 1;
+                        }
+
+                        // if group end
+                        else if ( typeof $scope.filteredModel[ i ][ attrs.groupProperty ] !== 'undefined' && $scope.filteredModel[ i ][ attrs.groupProperty ] === false ) {
+
+                            nestLevel = nestLevel - 1;
+
+                            // cek if all are ticked or not
+                            if ( tempArr.length > 0 && nestLevel === 0 ) {
+                                endIndex = i;
+                                for ( j = startIndex; j <= endIndex ; j++ ) {
+                                    $scope.filteredModel[ j ][ $scope.retractProperty ] = item[attrs.retractProperty];
+                                    // var inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
+                                    // $scope.inputModel[ inputModelIndex ][ $scope.retractProperty ] = !$scope.inputModel[ inputModelIndex ][ $scope.retractProperty ];
+                                }
+                            }
+                        }
+                        // if data
+                        else {
+                            tempArr.push( $scope.filteredModel[ i ] );
+                        }
+                    }
+                    //--change all input model
+                    nestLevel = 0;
+                    startIndex = 0;
+                    endIndex = $scope.inputModel.length - 1;
+                    tempArr = [];
+                    index = item[$scope.indexProperty];
+                    for( i = index ; i < $scope.inputModel.length ; i++) {
+
+                        // this break will be executed when we're done processing each group
+                        if ( nestLevel === 0 && i > index )
+                        {
+                            break;
+                        }
+
+                        if ( typeof $scope.inputModel[ i ][ attrs.groupProperty ] !== 'undefined' && $scope.inputModel[ i ][ attrs.groupProperty ] === true ) {
+
+                            // To cater multi level grouping
+                            if ( tempArr.length === 0 ) {
+                                startIndex = i + 1;
+                            }
+                            nestLevel = nestLevel + 1;
+                        }
+
+                        // if group end
+                        else if ( typeof $scope.inputModel[ i ][ attrs.groupProperty ] !== 'undefined' && $scope.inputModel[ i ][ attrs.groupProperty ] === false ) {
+
+                            nestLevel = nestLevel - 1;
+
+                            // cek if all are ticked or not
+                            if ( tempArr.length > 0 && nestLevel === 0 ) {
+                                endIndex = i;
+                                for ( j = startIndex; j <= endIndex ; j++ ) {
+                                    $scope.inputModel[ j ][ $scope.retractProperty ] = item[attrs.retractProperty];
+                                    // var inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
+                                    // $scope.inputModel[ inputModelIndex ][ $scope.retractProperty ] = !$scope.inputModel[ inputModelIndex ][ $scope.retractProperty ];
+                                }
+                            }
+                        }
+                        // if data
+                        else {
+                            tempArr.push( $scope.inputModel[ i ] );
+                        }
+                    }
+                }
+            }
+
+
+
+            $scope.checkDisplayItem = function (item) {
+                if(!$scope.isRetract){
+                    return true;
+                }
+                if ( typeof attrs.selectionMode !== 'undefined' && attrs.selectionMode.toUpperCase() === 'SINGLE' ) {
+                    return true;
+                }
+                if (typeof attrs.retractProperty !== 'undefined' && typeof attrs.groupProperty !== 'undefined' && !item.hasOwnProperty(attrs.groupProperty)){
+                    return !!item[attrs.retractProperty]
+                }
+                return true;
+            };
 
             // update $scope.outputModel
             $scope.refreshOutputModel = function() {
@@ -496,6 +640,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                             var index = $scope.outputModel.push( tempObj );
                             delete $scope.outputModel[ index - 1 ][ $scope.indexProperty ];
                             delete $scope.outputModel[ index - 1 ][ $scope.spacingProperty ];
+                            delete $scope.outputModel[ index - 1 ][ $scope.retractProperty ];
                         }
                     });
                 }
@@ -510,6 +655,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                             var index = $scope.outputModel.push( temp );
                             delete $scope.outputModel[ index - 1 ][ $scope.indexProperty ];
                             delete $scope.outputModel[ index - 1 ][ $scope.spacingProperty ];
+                            delete $scope.outputModel[ index - 1 ][ $scope.retractProperty ];
                         }
                     });
                 }
@@ -589,8 +735,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                 angular.forEach( temp, function( value, key ) {
                     item[ value ] && ( label += '&nbsp;' + value.split( '.' ).reduce( function( prev, current ) {
-                        return prev[ current ];
-                    }, item ));
+                            return prev[ current ];
+                        }, item ));
                 });
 
                 if ( type.toUpperCase() === 'BUTTONLABEL' ) {
@@ -792,7 +938,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 var possible    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
                 var temp        = '';
                 for( var i=0; i < length; i++ ) {
-                     temp += possible.charAt( Math.floor( Math.random() * possible.length ));
+                    temp += possible.charAt( Math.floor( Math.random() * possible.length ));
                 }
                 return temp;
             }
@@ -921,6 +1067,14 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.tickProperty     = attrs.tickProperty;
             $scope.directiveId      = attrs.directiveId;
 
+            if(typeof attrs.retractProperty === 'undefined' ){
+                attrs.retractProperty = 'retraceFlag'
+            }
+            $scope.retractProperty = attrs.retractProperty;
+
+
+
+
             // Unfortunately I need to add these grouping properties into the input model
             var tempStr = genRandomString( 5 );
             $scope.indexProperty = 'idx_' + tempStr;
@@ -1033,104 +1187,104 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // this is for touch enabled devices. We don't want to hide checkboxes on scroll.
             var onTouchStart = function( e ) {
-            	$scope.$apply( function() {
-            		$scope.scrolled = false;
-            	});
+                $scope.$apply( function() {
+                    $scope.scrolled = false;
+                });
             };
             angular.element( document ).bind( 'touchstart', onTouchStart);
             var onTouchMove = function( e ) {
-            	$scope.$apply( function() {
-            		$scope.scrolled = true;
-            	});
+                $scope.$apply( function() {
+                    $scope.scrolled = true;
+                });
             };
             angular.element( document ).bind( 'touchmove', onTouchMove);
 
             // unbind document events to prevent memory leaks
             $scope.$on( '$destroy', function () {
-			    angular.element( document ).unbind( 'touchstart', onTouchStart);
-            	angular.element( document ).unbind( 'touchmove', onTouchMove);
+                angular.element( document ).unbind( 'touchstart', onTouchStart);
+                angular.element( document ).unbind( 'touchmove', onTouchMove);
             });
         }
     }
 }]).run( [ '$templateCache' , function( $templateCache ) {
     var template =
         '<span class="multiSelect inlineBlock">' +
-            // main button
-            '<button id="{{directiveId}}" type="button"' +
-                'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
-                'ng-bind-html="varButtonLabel"' +
-                'ng-disabled="disable-button"' +
-            '>' +
-            '</button>' +
-            // overlay layer
-            '<div class="checkboxLayer">' +
-                // container of the helper elements
-                '<div class="helperContainer" ng-if="helperStatus.filter || helperStatus.all || helperStatus.none || helperStatus.reset ">' +
-                    // container of the first 3 buttons, select all, none and reset
-                    '<div class="line" ng-if="helperStatus.all || helperStatus.none || helperStatus.reset ">' +
-                        // select all
-                        '<button type="button" class="helperButton"' +
-                            'ng-disabled="isDisabled"' +
-                            'ng-if="helperStatus.all"' +
-                            'ng-click="select( \'all\', $event );"' +
-                            'ng-bind-html="lang.selectAll">' +
-                        '</button>'+
-                        // select none
-                        '<button type="button" class="helperButton"' +
-                            'ng-disabled="isDisabled"' +
-                            'ng-if="helperStatus.none"' +
-                            'ng-click="select( \'none\', $event );"' +
-                            'ng-bind-html="lang.selectNone">' +
-                        '</button>'+
-                        // reset
-                        '<button type="button" class="helperButton reset"' +
-                            'ng-disabled="isDisabled"' +
-                            'ng-if="helperStatus.reset"' +
-                            'ng-click="select( \'reset\', $event );"' +
-                            'ng-bind-html="lang.reset">'+
-                        '</button>' +
-                    '</div>' +
-                    // the search box
-                    '<div class="line" style="position:relative" ng-if="helperStatus.filter">'+
-                        // textfield
-                        '<input placeholder="{{lang.search}}" type="text"' +
-                            'ng-click="select( \'filter\', $event )" '+
-                            'ng-model="inputLabel.labelFilter" '+
-                            'ng-change="searchChanged()" class="inputFilter"'+
-                            '/>'+
-                        // clear button
-                        '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
-                    '</div> '+
-                '</div> '+
-                // selection items
-                '<div class="checkBoxContainer">'+
-                    '<div '+
-                        'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
-                        'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
-                        'ng-click="syncItems( item, $event, $index );" '+
-                        'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
-                        // this is the spacing for grouped items
-                        '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
-                    '</div>  '+
-                    '<div class="acol">'+
-                        '<label>'+
-                            // input, so that it can accept focus on keyboard click
-                            '<input class="checkbox focusable" type="checkbox" '+
-                                'ng-disabled="itemIsDisabled( item )" '+
-                                'ng-checked="item[ tickProperty ]" '+
-                                'ng-click="syncItems( item, $event, $index )" />'+
-                            // item label using ng-bind-hteml
-                            '<span '+
-                                'ng-class="{disabled:itemIsDisabled( item )}" '+
-                                'ng-bind-html="writeLabel( item, \'itemLabel\' )">'+
-                            '</span>'+
-                        '</label>'+
-                    '</div>'+
-                    // the tick/check mark
-                    '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
-                '</div>'+
-            '</div>'+
+        // main button
+        '<button id="{{directiveId}}" type="button"' +
+        'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
+        'ng-bind-html="varButtonLabel"' +
+        'ng-disabled="disable-button"' +
+        '>' +
+        '</button>' +
+        // overlay layer
+        '<div class="checkboxLayer">' +
+        // container of the helper elements
+        '<div class="helperContainer" ng-if="helperStatus.filter || helperStatus.all || helperStatus.none || helperStatus.reset ">' +
+        // container of the first 3 buttons, select all, none and reset
+        '<div class="line" ng-if="helperStatus.all || helperStatus.none || helperStatus.reset ">' +
+        // select all
+        '<button type="button" class="helperButton"' +
+        'ng-disabled="isDisabled"' +
+        'ng-if="helperStatus.all"' +
+        'ng-click="select( \'all\', $event );"' +
+        'ng-bind-html="lang.selectAll">' +
+        '</button>'+
+        // select none
+        '<button type="button" class="helperButton"' +
+        'ng-disabled="isDisabled"' +
+        'ng-if="helperStatus.none"' +
+        'ng-click="select( \'none\', $event );"' +
+        'ng-bind-html="lang.selectNone">' +
+        '</button>'+
+        // reset
+        '<button type="button" class="helperButton reset"' +
+        'ng-disabled="isDisabled"' +
+        'ng-if="helperStatus.reset"' +
+        'ng-click="select( \'reset\', $event );"' +
+        'ng-bind-html="lang.reset">'+
+        '</button>' +
+        '</div>' +
+        // the search box
+        '<div class="line" style="position:relative" ng-if="helperStatus.filter">'+
+        // textfield
+        '<input placeholder="{{lang.search}}" type="text"' +
+        'ng-click="select( \'filter\', $event )" '+
+        'ng-model="inputLabel.labelFilter" '+
+        'ng-change="searchChanged()" class="inputFilter"'+
+        '/>'+
+        // clear button
+        '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> '+
+        '</div> '+
+        '</div> '+
+        // selection items
+        '<div class="checkBoxContainer">'+
+        '<div '+
+        'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
+        'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
+        'ng-click="syncItems( item, $event, $index );" '+
+        'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
+        // this is the spacing for grouped items
+        '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
+        '</div>  '+
+        '<div class="acol">'+
+        '<label>'+
+        // input, so that it can accept focus on keyboard click
+        '<input class="checkbox focusable" type="checkbox" '+
+        'ng-disabled="itemIsDisabled( item )" '+
+        'ng-checked="item[ tickProperty ]" '+
+        'ng-click="syncItems( item, $event, $index )" />'+
+        // item label using ng-bind-hteml
+        '<span '+
+        'ng-class="{disabled:itemIsDisabled( item )}" '+
+        'ng-bind-html="writeLabel( item, \'itemLabel\' )">'+
+        '</span>'+
+        '</label>'+
         '</div>'+
-    '</span>';
-	$templateCache.put( 'isteven-multi-select.htm' , template );
+        // the tick/check mark
+        '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
+        '</div>'+
+        '</div>'+
+        '</div>'+
+        '</span>';
+    $templateCache.put( 'isteven-multi-select.htm' , template );
 }]);
