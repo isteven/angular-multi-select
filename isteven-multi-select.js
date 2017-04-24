@@ -33,7 +33,7 @@
 
 'use strict'
 
-angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect' , [ '$sce', '$timeout', '$templateCache', function ( $sce, $timeout, $templateCache ) {
+angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect' , [ '$sce', '$timeout', '$templateCache', '$q', function ( $sce, $timeout, $templateCache, $q ) {
     return {
         restrict: 
             'AE',
@@ -43,6 +43,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // models
             inputModel      : '=',
             outputModel     : '=',
+
+            // ajax modifiers
+            asyncSearch     : '=',
 
             // settings based on attribute
             isDisabled      : '=',
@@ -119,7 +122,33 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 if ( $scope.inputLabel.labelFilter.length < vMinSearchLength && $scope.inputLabel.labelFilter.length > 0 ) {
                     return false;
                 }                
-                $scope.updateFilter();
+                
+                // If  an async modifier is supplied, modify the inputModel 
+                // before calling the updateFilter
+                var hasAjaxModifier = $scope.asyncSearch
+                if( !hasAjaxModifier ) {
+                    $scope.updateFilter();
+                } else {
+                    // Display loading feedback while waiting for async results
+                    $scope.filteredModel = [ { name: attrs.asyncLoadingLabel || 'Loading ...' } ]
+                    
+                    $q.resolve(
+                        $scope.asyncSearch($scope.inputLabel.labelFilter)
+                    )
+                    .then(function(results){
+                        if(results){
+                             var isNotArray = !Array.isArray(results)
+                            if(isNotArray)
+                                results = [results]
+
+                            if(results.length) {
+                                $scope.inputModel = results
+                            }
+                        }
+                       
+                        $scope.updateFilter();
+                    })
+                }
             }
 
             $scope.updateFilter = function()
