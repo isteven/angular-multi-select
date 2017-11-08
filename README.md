@@ -15,6 +15,10 @@ See <a href="https://github.com/isteven/angular-multi-select/blob/master/CHANGEL
 For those who's upgrading from version 2.x.x, do note that this version is not backward-compatible. Please read the manual
 thoroughly and update your code accordingly. 
 
+### Test
+ - Install all the packages using `npm i` command
+ - Run `karma start` command to run test cases.
+
 ### Bug Reporting
 Please follow these steps:
 
