@@ -966,8 +966,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.icon.tickMark = $sce.trustAsHtml( $scope.icon.tickMark );
                 
             // min length of keyword to trigger the filter function
-            if ( typeof attrs.MinSearchLength !== 'undefined' && parseInt( attrs.MinSearchLength ) > 0 ) {
-                vMinSearchLength = Math.floor( parseInt( attrs.MinSearchLength ) );
+            if ( typeof attrs.minSearchLength !== 'undefined' && parseInt( attrs.minSearchLength ) > 0 ) {
+                vMinSearchLength = Math.floor( parseInt( attrs.minSearchLength ) );
             }
 
             /*******************************************************
