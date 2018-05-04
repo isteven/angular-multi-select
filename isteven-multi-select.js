@@ -1078,31 +1078,31 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     '</div> '+
                 '</div> '+
                 // selection items
-                '<div class="checkBoxContainer">'+
-                    '<div '+
+                '<div class="checkBoxContainer" data-prevent-scroll="true">'+
+                    '<div  data-prevent-scroll="true"'+
                         'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
                         'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
                         'ng-click="syncItems( item, $event, $index );" '+
                         'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
                         // this is the spacing for grouped items
-                        '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+                        
+                        '<div data-prevent-scroll="true" class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
                     '</div>  '+        
-                    '<div class="acol">'+
-                        '<label>'+                                
+                    '<div class="acol" data-prevent-scroll="true">'+
+                        '<label data-prevent-scroll="true">'+
                             // input, so that it can accept focus on keyboard click
-                            '<input class="checkbox focusable" type="checkbox" '+
+                            '<input data-prevent-scroll="true" class="checkbox focusable" type="checkbox" '+
                                 'ng-disabled="itemIsDisabled( item )" '+
                                 'ng-checked="item[ tickProperty ]" '+
                                 'ng-click="syncItems( item, $event, $index )" />'+
                             // item label using ng-bind-hteml
-                            '<span '+
+                            '<span data-prevent-scroll="true" '+
                                 'ng-class="{disabled:itemIsDisabled( item )}" '+
                                 'ng-bind-html="writeLabel( item, \'itemLabel\' )">'+
                             '</span>'+
                         '</label>'+
                     '</div>'+
                     // the tick/check mark
-                    '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
+                    '<span data-prevent-scroll="true" class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
                 '</div>'+
             '</div>'+
         '</div>'+
