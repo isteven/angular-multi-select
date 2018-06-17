@@ -11,12 +11,38 @@
         "url": "https://github.com/isteven/angular-multi-select.git"
     },
     "keywords": [
+        "angularjs",
         "angular"
     ],
+    "scripts": {
+        "start": "npm run http-server",
+        "http-server": "http-server",
+        "karma": "karma"
+    },
     "author": "Ignatius Steven <isteven.github@gmail.com> (https://github.com/isteven)",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/isteven/angular-multi-select/issues"
     },
-    "homepage": "https://github.com/isteven/angular-multi-select"
+    "homepage": "https://github.com/isteven/angular-multi-select",
+    "dependencies": {
+        "angular-mocks": "1.6.1",
+        "angular-sanitize": "1.6.1",
+        "http-server": "^0.10.0",
+        "jasmin": "0.0.2",
+        "jasmine-core": "^2.2.0",
+        "karma-chrome-launcher": "^0.2.0",
+        "karma-cli": "^1.0.1",
+        "karma-coverage": "^0.5.0",
+        "karma-firefox-launcher": "^0.1.4",
+        "karma-jasmine": "^0.3.5",
+        "marked": "^0.3.5",
+        "node-static": "^0.7.8",
+        "semver": "^5.0.1",
+        "shelljs": "^0.6.0"
+    },
+    "devDependencies": {
+        "jasmine": "^2.8.0",
+        "karma": "^0.13.22"
+    }
 }
