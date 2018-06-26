@@ -923,6 +923,12 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 var layer = element.children().children().children()[0];
                 angular.element( layer ).attr( "style", "height:" + attrs.maxHeight + "; overflow-y:scroll;" );                                
             }
+		
+	    // set max-width property if provided
+            if (typeof attrs.maxWidth !== 'undefined') {
+              var layer = element.children().children();
+              angular.element( layer ).attr( "style", "width:" + attrs.maxWidth + "; overflow-x:scroll;");
+            }
 
             // some flags for easier checking            
             for ( var property in $scope.helperStatus ) {
