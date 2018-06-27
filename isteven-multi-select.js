@@ -88,6 +88,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 reset   : true,
                 filter  : true
             };
+            $scope.maxRows = attrs.maxRows | 500;
 
             var 
                 prevTabIndex        = 0,
@@ -1080,7 +1081,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 // selection items
                 '<div class="checkBoxContainer">'+
                     '<div '+
-                        'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
+                        'ng-repeat="item in filteredModel | filter:removeGroupEndMarker | limitTo: maxRows" class="multiSelectItem"'+
                         'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
                         'ng-click="syncItems( item, $event, $index );" '+
                         'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
@@ -1105,6 +1106,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
                 '</div>'+
             '</div>'+
+            '<div class="maxRowsContainer" ng-if="filteredModel.length > maxRows">' +
+            'Displaying first {{maxRows}} results' +
+            '</div> ' +
         '</div>'+
     '</span>';
 	$templateCache.put( 'isteven-multi-select.htm' , template );

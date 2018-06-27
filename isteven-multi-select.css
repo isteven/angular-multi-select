@@ -297,3 +297,9 @@
     max-height: 22px;
     max-width:22px;
 }
+
+.multiSelect .maxRowsContainer {
+    text-align: center;
+    padding: 1px;
+    border-top: 1px solid #ddd;
+}
