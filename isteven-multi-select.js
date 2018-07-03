@@ -726,7 +726,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         });                            
                         $scope.refreshOutputModel();                                    
                         $scope.refreshButton();                                                  
-                        $scope.onSelectAll();                                                
+                        $timeout( function() { $scope.onSelectAll(); }, 0 );
                         break;
                     case 'NONE':
                         angular.forEach( $scope.filteredModel, function( value, key ) {
@@ -738,7 +738,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         });               
                         $scope.refreshOutputModel();                                    
                         $scope.refreshButton();                                                                          
-                        $scope.onSelectNone();                        
+                        $timeout( function() { $scope.onSelectNone(); }, 0 );                        
                         break;
                     case 'RESET':            
                         angular.forEach( $scope.filteredModel, function( value, key ) {                            
@@ -749,7 +749,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         });               
                         $scope.refreshOutputModel();                                    
                         $scope.refreshButton();                                                                          
-                        $scope.onReset();                        
+                        $timeout( function() { $scope.onReset(); }, 0 );                        
                         break;
                     case 'CLEAR':
                         $scope.tabIndex = $scope.tabIndex + 1;
