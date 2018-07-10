@@ -122,7 +122,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 $scope.updateFilter();
             }
 
-            $scope.updateFilter = function()
+            $scope.updateFilter = function(inputModelChanged)
             {      
                 // we check by looping from end of input-model
                 $scope.filteredModel = [];
@@ -211,13 +211,15 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                             }
                         });
 
-                        $scope.onSearchChange({ 
-                            data: 
-                            {
-                                keyword: $scope.inputLabel.labelFilter, 
-                                result: filterObj 
-                            } 
-                        });
+			if (!inputModelChanged) {
+	                        $scope.onSearchChange({ 
+	                            data: 
+	                            {
+	                                keyword: $scope.inputLabel.labelFilter, 
+	                                result: filterObj 
+	                            } 
+	                        });
+			}
                     }
                 },0);
             };
@@ -895,6 +897,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.groupProperty    = attrs.groupProperty;   
             $scope.tickProperty     = attrs.tickProperty;
             $scope.directiveId      = attrs.directiveId;
+            $scope.hiddenProperty   = attrs.hiddenProperty;
             
             // Unfortunately I need to add these grouping properties into the input model
             var tempStr = genRandomString( 5 );
@@ -993,7 +996,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.$watch( 'inputModel' , function( newVal ) {  
                 if ( newVal ) {
                     $scope.backUp = angular.copy( $scope.inputModel );    
-                    $scope.updateFilter();
+                    $scope.updateFilter(true);
                     $scope.prepareGrouping();
                     $scope.prepareIndex();                                                              
                     $scope.refreshOutputModel();                
@@ -1005,26 +1008,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.$watch( 'isDisabled' , function( newVal ) {         
                 $scope.isDisabled = newVal;                               
             });            
-            
-            // this is for touch enabled devices. We don't want to hide checkboxes on scroll. 
-            var onTouchStart = function( e ) { 
-            	$scope.$apply( function() {
-            		$scope.scrolled = false;
-            	}); 
-            };
-            angular.element( document ).bind( 'touchstart', onTouchStart);
-            var onTouchMove = function( e ) { 
-            	$scope.$apply( function() {
-            		$scope.scrolled = true;                
-            	});
-            };
-            angular.element( document ).bind( 'touchmove', onTouchMove);            
-
-            // unbind document events to prevent memory leaks
-            $scope.$on( '$destroy', function () {
-			    angular.element( document ).unbind( 'touchstart', onTouchStart);
-            	angular.element( document ).unbind( 'touchmove', onTouchMove);
-            });
         }
     }
 }]).run( [ '$templateCache' , function( $templateCache ) {
@@ -1034,7 +1017,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             '<button id="{{directiveId}}" type="button"' +                
                 'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
                 'ng-bind-html="varButtonLabel"' +
-                'ng-disabled="disable-button"' +
+                'ng-disabled="isDisabled"' +
+                'ng-class="{\'disabled\' : isDisabled}"' +
             '>' +
             '</button>' +
             // overlay layer
@@ -1081,7 +1065,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 '<div class="checkBoxContainer">'+
                     '<div '+
                         'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"'+
-                        'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
+                        'ng-class="{hidden: item[hiddenProperty], selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"'+
                         'ng-click="syncItems( item, $event, $index );" '+
                         'ng-mouseleave="removeFocusStyle( tabIndex );"> '+
                         // this is the spacing for grouped items
