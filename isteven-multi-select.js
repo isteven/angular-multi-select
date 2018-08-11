@@ -43,6 +43,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             // models
             inputModel      : '=',
             outputModel     : '=',
+            prefillModel    : '=',
+            prefillMatchProperty    : '@',
 
             // settings based on attribute
             isDisabled      : '=',
@@ -999,12 +1001,42 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     $scope.refreshOutputModel();                
                     $scope.refreshButton();                                                                                                                 
                 }
-            });                        
+            });
+
+            // this watch is for pre-fill of the dropdown
+            // it can deal with either arrays or single values
+            $scope.$watch( 'prefillModel' , function( newVal ) {
+                if(angular.isArray($scope.prefillModel)) {
+                    angular.forEach( $scope.prefillModel, function(prefillValue) {
+                        angular.forEach( $scope.inputModel, function(inputModel) {
+                            if (prefillValue === inputModel[$scope.prefillMatchProperty]) {
+                                inputModel[$scope.tickProperty] = true;
+                            }
+                            else if (prefillValue[$scope.prefillMatchProperty] === inputModel[$scope.prefillMatchProperty]) {
+                                angular.forEach( $scope.inputModel, function(resetInputModel) {
+                                    resetInputModel[$scope.tickProperty] = false;
+                                });
+                                inputModel[$scope.tickProperty] = true;
+                            }
+                        });
+                    });
+                }
+                else if($scope.prefillModel) {
+                    angular.forEach( $scope.inputModel, function(inputModel) {
+                        if ($scope.prefillModel === inputModel[$scope.prefillMatchProperty]) {
+                            angular.forEach( $scope.inputModel, function(resetInputModel) {
+                                resetInputModel[$scope.tickProperty] = false;
+                            });
+                            inputModel[$scope.tickProperty] = true;
+                        }
+                    });
+                }
+            });
 
             // watch for changes in directive state (disabled or enabled)
             $scope.$watch( 'isDisabled' , function( newVal ) {         
                 $scope.isDisabled = newVal;                               
-            });            
+            });
             
             // this is for touch enabled devices. We don't want to hide checkboxes on scroll. 
             var onTouchStart = function( e ) { 
