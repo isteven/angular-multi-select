@@ -68,7 +68,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
          */
                                                          
          templateUrl: 
-            'isteven-multi-select.htm',                            
+            'isteven-multi-select.html'                            
 
         link: function ( $scope, element, attrs ) {                       
 
@@ -1107,5 +1107,5 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             '</div>'+
         '</div>'+
     '</span>';
-	$templateCache.put( 'isteven-multi-select.htm' , template );
+	$templateCache.put( 'isteven-multi-select.html' , template );
 }]); 
