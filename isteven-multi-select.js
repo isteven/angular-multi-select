@@ -80,7 +80,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.orientationV     = true;
             $scope.filteredModel    = [];
             $scope.inputLabel       = { labelFilter: '' };                        
-            $scope.tabIndex         = 0;            
+            $scope.tabIndex         = 0;     
+            $scope.elementTabIndex = 0; // Added elementTabIndex
+            $scope.numericNavigation = false;       
             $scope.lang             = {};
             $scope.helperStatus     = {
                 all     : true,
@@ -882,6 +884,45 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 angular.element( formElements[ tabIndex ] ).parent().parent().parent().removeClass( 'multiSelectFocus' );
             }
 
+            $scope.keyPressedOnButton = function($event) {
+                //console.log($event);
+                var keyCode = $event.keyCode;
+                if (keyCode == 40) { //Arrow down, open the dropdown
+                    $event.preventDefault();
+                    $timeout(function(){
+                        $event.target.click();
+                    }, 10);
+                } else if (keyCode == 13) { // Enter
+                    $event.preventDefault();
+                } else if (keyCode >= 48 && keyCode <= 57) { // Numbers, select value
+                    if ($scope.numericNavigation) {
+                        $event.preventDefault();
+
+                        // Elements loookup
+                        for (var i in $scope.filteredModel) {
+
+                            $scope.filteredModel[i][$scope.tickProperty] = false;
+
+                            var item = $scope.filteredModel[i];
+                            var temp = attrs['itemLabel'].split(' ');
+                            var label = '';
+
+                            // Find label
+                            angular.forEach(temp, function (value, key) {
+                                item[value] && ( label += '&nbsp;' + value.split('.').reduce(function (prev, current) {
+                                        return prev[current];
+                                    }, item));
+                            });
+                            // Check if label matches selected number
+                            if (label.indexOf(String(keyCode - 48)) > -1) {
+                                $scope.filteredModel[i][$scope.tickProperty] = true;
+                                $scope.onItemClick({data: $scope.filteredModel[i]});
+                            }
+                        }
+
+                    }
+                }
+            }
             /*********************
              *********************             
              *
@@ -970,6 +1011,15 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 vMinSearchLength = Math.floor( parseInt( attrs.minSearchLength ) );
             }
 
+            // Added elementTabIndex
+            if (typeof attrs.elementTabIndex !== 'undefined') {
+                $scope.elementTabIndex = attrs.elementTabIndex;
+            }
+            // Added numericNavigation
+            if (typeof attrs.numericNavigation !== 'undefined') {
+                $scope.numericNavigation = true;
+            }
+
             /*******************************************************
              *******************************************************
              *
@@ -1035,6 +1085,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
                 'ng-bind-html="varButtonLabel"' +
                 'ng-disabled="disable-button"' +
+                'ng-keydown="keyPressedOnButton($event)"' +
+                'tabindex="{{elementTabIndex}}"' +
             '>' +
             '</button>' +
             // overlay layer
