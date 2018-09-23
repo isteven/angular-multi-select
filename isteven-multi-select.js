@@ -196,28 +196,33 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     $scope.getFormElements();               
                     
                     // Callback: on filter change                      
-                    if ( $scope.inputLabel.labelFilter.length > vMinSearchLength ) {
+                    var filterValue = $scope.inputLabel.labelFilter;
+                    var prevFilterValue = $scope.prevInputLabelValue;
+                    if ( filterValue.length >= vMinSearchLength ) {
+                        if (typeof prevFilterValue !== 'undefined' && filterValue !== prevFilterValue) {
+                            var filterObj = [];
 
-                        var filterObj = [];
-
-                        angular.forEach( $scope.filteredModel, function( value, key ) {
-                            if ( typeof value !== 'undefined' ) {                   
-                                if ( typeof value[ attrs.groupProperty ] === 'undefined' ) {                                                                    
-                                    var tempObj = angular.copy( value );
-                                    var index = filterObj.push( tempObj );                                
-                                    delete filterObj[ index - 1 ][ $scope.indexProperty ];
-                                    delete filterObj[ index - 1 ][ $scope.spacingProperty ];      
+                            angular.forEach( $scope.filteredModel, function( value, key ) {
+                                if ( typeof value !== 'undefined' ) {
+                                    if ( typeof value[ attrs.groupProperty ] === 'undefined' ) {
+                                        var tempObj = angular.copy( value );
+                                        var index = filterObj.push( tempObj );
+                                        delete filterObj[ index - 1 ][ $scope.indexProperty ];
+                                        delete filterObj[ index - 1 ][ $scope.spacingProperty ];
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                        $scope.onSearchChange({ 
-                            data: 
-                            {
-                                keyword: $scope.inputLabel.labelFilter, 
-                                result: filterObj 
-                            } 
-                        });
+                            $scope.onSearchChange({
+                                data:
+                                    {
+                                        keyword: filterValue,
+                                        result: filterObj
+                                    }
+                            });
+                        }
+
+                        $scope.prevInputLabelValue = filterValue;
                     }
                 },0);
             };
