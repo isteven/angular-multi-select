@@ -156,18 +156,15 @@ angular
                   typeof attrs.searchProperty !== 'undefined' &&
                   attrs.searchProperty !== ''
                 ) {
-                  for (var key in $scope.inputModel[i]) {
-                    if (
-                      typeof $scope.inputModel[i][key] !== 'boolean' &&
-                      String($scope.inputModel[i][key])
-                        .toUpperCase()
-                        .indexOf($scope.inputLabel.labelFilter.toUpperCase()) >=
-                        0 &&
-                      attrs.searchProperty.indexOf(key) > -1
-                    ) {
-                      gotData = true;
-                      break;
-                    }
+                  if (
+                    typeof $scope.inputModel[i][attrs.searchProperty] !==
+                      'boolean' &&
+                    String($scope.inputModel[i][attrs.searchProperty])
+                      .toUpperCase()
+                      .indexOf($scope.inputLabel.labelFilter.toUpperCase()) >= 0
+                  ) {
+                    gotData = true;
+                    break;
                   }
                 }
                 // if there's no search-key attribute, we use this one. Much better on performance.
