@@ -164,7 +164,6 @@ angular
                       .indexOf($scope.inputLabel.labelFilter.toUpperCase()) >= 0
                   ) {
                     gotData = true;
-                    break;
                   }
                 }
                 // if there's no search-key attribute, we use this one. Much better on performance.
@@ -178,7 +177,6 @@ angular
                         0
                     ) {
                       gotData = true;
-                      break;
                     }
                   }
                 }
