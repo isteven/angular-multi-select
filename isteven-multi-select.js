@@ -1,3 +1,4 @@
+import 'angular-vs-repeat';
 /*
  * Angular JS Multi Select
  * Creates a dropdown-like button with checkboxes.
@@ -31,10 +32,10 @@
  * --------------------------------------------------------------------------------
  */
 
-'use strict';
+('use strict');
 
 angular
-  .module('isteven-multi-select', ['ng'])
+  .module('isteven-multi-select', ['ng', 'vs-repeat'])
   .directive('istevenMultiSelect', [
     '$sce',
     '$timeout',
@@ -1338,8 +1339,10 @@ angular
         '</div> ' +
         // selection items
         '<div class="checkBoxContainer">' +
+        '<div vs-repeat>' +
+        '<div ng-repeat="item in filteredModel | filter:removeGroupEndMarker">' +
         '<div ' +
-        'ng-repeat="item in filteredModel | filter:removeGroupEndMarker" class="multiSelectItem"' +
+        'class="multiSelectItem"' +
         'ng-class="{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"' +
         'ng-click="syncItems( item, $event, $index );" ' +
         'ng-mouseleave="removeFocusStyle( tabIndex );"> ' +
@@ -1362,6 +1365,9 @@ angular
         '</div>' +
         // the tick/check mark
         '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
         '</div>' +
         '</div>' +
         '</div>' +

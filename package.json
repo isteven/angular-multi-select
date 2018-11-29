@@ -18,5 +18,8 @@
     "bugs": {
         "url": "https://github.com/isteven/angular-multi-select/issues"
     },
-    "homepage": "https://github.com/isteven/angular-multi-select"
+    "homepage": "https://github.com/isteven/angular-multi-select",
+    "dependencies": {
+        "angular-vs-repeat": "2.0.9"
+    }
 }
