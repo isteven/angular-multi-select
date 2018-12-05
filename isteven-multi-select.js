@@ -422,17 +422,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         }        
                         
                         // then set the clicked item to true
-                        $scope.filteredModel[ index ][ $scope.tickProperty ] = true;                                                                 
+                        $scope.filteredModel[ index ][ $scope.tickProperty ] = true;
+                        
+                        // we refresh input model as well 
+                        var inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ]; 
+                        $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];                                                            
                     }   
 
                     // Multiple
                     else {
                         $scope.filteredModel[ index ][ $scope.tickProperty ]   = !$scope.filteredModel[ index ][ $scope.tickProperty ];
                     }
-
-                    // we refresh input model as well
-                    var inputModelIndex = $scope.filteredModel[ index ][ $scope.indexProperty ];                                        
-                    $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = $scope.filteredModel[ index ][ $scope.tickProperty ];                    
                 }                                  
 
                 // we execute the callback function here
