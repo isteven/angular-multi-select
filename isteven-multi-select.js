@@ -578,13 +578,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.writeLabel = function( item, type ) {
                 
                 // type is either 'itemLabel' or 'buttonLabel'
-                var temp    = attrs[ type ].split( ' ' );                    
-                var label   = '';                
+                var temp    = attrs[ type].match( /\w+|[^\w]/g );
+                var label   = '';
 
-                angular.forEach( temp, function( value, key ) {                    
-                    item[ value ] && ( label += '&nbsp;' + value.split( '.' ).reduce( function( prev, current ) {
-                        return prev[ current ]; 
-                    }, item ));        
+                angular.forEach( temp, function( value, key ) {
+                    if (item[ value ]) {
+                        label += value.split( '.' ).reduce( function( prev, current ) {
+                                    return prev[ current ];
+                                }, item )
+                    } else {
+                        label += value;
+                    }
                 });
                 
                 if ( type.toUpperCase() === 'BUTTONLABEL' ) {                    
