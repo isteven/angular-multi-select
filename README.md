@@ -4,6 +4,9 @@ Doesn't require jQuery and works well with other Javascript libraries.
 
 ![Screenshot](https://raw.githubusercontent.com/isteven/angular-multi-select/master/screenshot.png)
 
+### Bower install
+bower install isteven-angular-multiselect --save 
+
 ### Demo & How To 
 Go to http://isteven.github.io/angular-multi-select
 
