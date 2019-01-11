@@ -99,7 +99,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 selectedItems       = [],
                 formElements        = [],
                 vMinSearchLength    = 0,
-                clickedItem         = null
+                clickedItem         = null;
 
             // v3.0.0
             // clear button clicked
@@ -228,60 +228,6 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     }
                 },0);
             };
-
-
-
-
-            $scope.EVENTS_AMOUNT_TO_LOAD = 50;
-            $scope.EVENTS_DEFAULT_AMOUNT = $scope.EVENTS_AMOUNT_TO_LOAD;
-            $scope.EVENTS_CURRENT_OFFSET = 0;
-            $scope._isLoadingEventsPortion = false;
-
-            $scope.updateRenderItems = function() {
-                $scope.renderItems = $scope.getListPortion(
-                    $scope.filteredModel,
-                    $scope.EVENTS_CURRENT_OFFSET,
-                    $scope.EVENTS_AMOUNT_TO_LOAD
-                );
-            };
-
-            $scope.getListPortion = function(dataset, offset, limit) {
-                return dataset.slice(offset, (offset+limit));
-            };
-
-            $scope.initializeEventsLazyLoad = function() {
-                const $eventsContainer = $document.find('.checkBoxContainer');
-                $eventsContainer.append('<div class="load-more-events">Loading...</div>');
-                const $loadMoreBtn = $document.find('.load-more-events');
-
-                $scope._isLoadingEventsPortion = false;
-
-                const isScrolledToBottom = () => {
-                    const eventsContainerBottom = $eventsContainer.offset().top + $eventsContainer.outerHeight();
-                    return (($loadMoreBtn.offset().top - 150) < eventsContainerBottom);
-                }
-                const isEndOfListReached = () => ($scope.filteredModel.length < $scope.EVENTS_AMOUNT_TO_LOAD);
-
-                // When scrolled to the bottom, load another portion of events
-                $eventsContainer.scroll(() => {
-                    if ($scope._isLoadingEventsPortion || !isScrolledToBottom() || isEndOfListReached()) {
-                        return;
-                    }
-
-                    $scope._isLoadingEventsPortion = true;
-                    $loadMoreBtn.addClass('in-progress');
-
-                    $timeout(() => {
-                        $scope.EVENTS_AMOUNT_TO_LOAD += $scope.EVENTS_DEFAULT_AMOUNT;
-                        $scope.renderItems = $scope.getListPortion($scope.filteredModel, $scope.EVENTS_CURRENT_OFFSET, scope.EVENTS_AMOUNT_TO_LOAD);
-                        $scope._isLoadingEventsPortion = false;
-                        $loadMoreBtn.removeClass('in-progress');
-                    }, 10);
-                });
-            };
-
-
-
 
             // List all the input elements. We need this for our keyboard navigation.
             // This function will be called everytime the filter is updated.
@@ -942,6 +888,56 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.removeFocusStyle = function( tabIndex ) {
                 angular.element( formElements[ tabIndex ] ).parent().parent().parent().removeClass( 'multiSelectFocus' );
             }
+
+
+            /**
+             * * * * * * Lazy-load related functionality * * * * * * *
+             */
+
+            $scope.EVENTS_AMOUNT_TO_LOAD = 50;
+            $scope.EVENTS_DEFAULT_AMOUNT = $scope.EVENTS_AMOUNT_TO_LOAD;
+            $scope.EVENTS_CURRENT_OFFSET = 0;
+            $scope._isLoadingEventsPortion = false;
+
+            $scope.updateRenderItems = function() {
+                $scope.renderItems = $scope.getListPortion($scope.filteredModel, $scope.EVENTS_CURRENT_OFFSET, $scope.EVENTS_AMOUNT_TO_LOAD);
+            };
+
+            $scope.getListPortion = function(dataset, offset, limit) {
+                return dataset.slice(offset, (offset+limit));
+            };
+
+            $scope.initializeEventsLazyLoad = function() {
+                var $eventsContainer = $document.find('.checkBoxContainer');
+                $eventsContainer.append('<div class="load-more-events">Loading...</div>');
+                var $loadMoreBtn = $document.find('.load-more-events');
+
+                var isScrolledToBottom = function() {
+                    var eventsContainerBottom = $eventsContainer.offset().top + $eventsContainer.outerHeight();
+                    return (($loadMoreBtn.offset().top - 150) < eventsContainerBottom);
+                }
+                var isEndOfListReached = function() {
+                    return ($scope.filteredModel.length < $scope.EVENTS_AMOUNT_TO_LOAD);
+                }
+
+                // When scrolled to the bottom, load another portion of events
+                $eventsContainer.scroll(function () {
+                    if ($scope._isLoadingEventsPortion || !isScrolledToBottom() || isEndOfListReached()) {
+                        return;
+                    }
+
+                    $scope._isLoadingEventsPortion = true;
+                    $loadMoreBtn.addClass('in-progress');
+
+                    $timeout(function() {
+                        $scope.EVENTS_AMOUNT_TO_LOAD += $scope.EVENTS_DEFAULT_AMOUNT;
+                        $scope.renderItems = $scope.getListPortion($scope.filteredModel, $scope.EVENTS_CURRENT_OFFSET, $scope.EVENTS_AMOUNT_TO_LOAD);
+                        $scope._isLoadingEventsPortion = false;
+                        $loadMoreBtn.removeClass('in-progress');
+                    }, 10);
+                });
+            };
+
 
             /*********************
              *********************
