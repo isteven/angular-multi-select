@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <h3 class="pageHeading">Demo > tabindex</h3>
+
+        <p>
+            Permit to use the tabindex attribute on the isteven-multi-select.
+        </p>
+
+        <br />
+
+        <input type="text" tabindex="1"></input>
+        <br />
+        <br />
+
+        <div
+                isteven-multi-select
+                input-model="modernBrowsers"
+                output-model="outputBrowsers"
+                button-label="icon name"
+                item-label="icon name maker"
+                tick-property="ticked"
+                tabIndexGlob="2"
+        >
+        </div>
+        <br />
+
+        <input type="text" tabindex="3"></div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>

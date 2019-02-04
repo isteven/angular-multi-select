@@ -22,7 +22,12 @@ var myApp = angular.module( 'myApp' , [
     $routeProvider.when( '/demo-minimum' , {
         templateUrl: 'views/demo-minimum.htm', 
         controller: 'demoMinimum'
-    });        
+    });
+
+    $routeProvider.when( '/tab-index' , {
+        templateUrl: 'views/demo-tabindex.htm',
+        controller: 'demoTabindex'
+    });
 
     $routeProvider.when( '/demo-horizontal-layout' , {
         templateUrl: 'views/demo-horizontal-layout.htm', 
@@ -92,6 +97,8 @@ var myApp = angular.module( 'myApp' , [
     $routeProvider.when( '/other-cool-stuffs' , {
         templateUrl: 'views/other-cool-stuffs.htm'
     });
+
+
     
 
     $routeProvider.otherwise( {

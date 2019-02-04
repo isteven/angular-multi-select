@@ -46,6 +46,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // settings based on attribute
             isDisabled      : '=',
+            tabindexglob    : '=',
 
             // callbacks
             onClear         : '&',  
@@ -895,6 +896,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.groupProperty    = attrs.groupProperty;   
             $scope.tickProperty     = attrs.tickProperty;
             $scope.directiveId      = attrs.directiveId;
+            $scope.tabIndexGlob         = attrs.tabindexglob;
             
             // Unfortunately I need to add these grouping properties into the input model
             var tempStr = genRandomString( 5 );
@@ -1035,6 +1037,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
                 'ng-bind-html="varButtonLabel"' +
                 'ng-disabled="disable-button"' +
+                'tabindex="{{tabIndexGlob}}"' +
             '>' +
             '</button>' +
             // overlay layer
