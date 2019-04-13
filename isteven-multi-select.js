@@ -61,12 +61,13 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             translation     : '='   
         },
         
-        /* 
+        /*
          * The rest are attributes. They don't need to be parsed / binded, so we can safely access them by value.
          * - buttonLabel, directiveId, helperElements, itemLabel, maxLabels, orientation, selectionMode, minSearchLength,
-         *   tickProperty, disableProperty, groupProperty, searchProperty, maxHeight, outputProperties
+         *   tickProperty, disableProperty, groupProperty, searchProperty, maxHeight, outputProperties, showCounter,
+         *   moreText
          */
-                                                         
+
          templateUrl: 
             'isteven-multi-select.htm',                            
 
@@ -548,9 +549,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                     if ( $scope.more === true ) {
                         // https://github.com/isteven/angular-multi-select/pull/16
                         if (tempMaxLabels > 0) {
-                            $scope.varButtonLabel += ', ... ';
+                            if ( typeof attrs.moreText !== 'undefined' ) {
+                                $scope.varButtonLabel += attrs.moreText;
+                            } else {
+                                $scope.varButtonLabel += ', ...';
+                            }
                         }
-                        $scope.varButtonLabel += '(' + $scope.outputModel.length + ')';                        
+
+                        // Default showCounter to true
+                        if ( typeof attrs.showCounter === 'undefined' || attrs.showCounter === 'true' ) {
+                            $scope.varButtonLabel += '(' + $scope.outputModel.length + ')';
+                        }
                     }
                 }
                 $scope.varButtonLabel = $sce.trustAsHtml( $scope.varButtonLabel + '<span class="caret"></span>' );                
