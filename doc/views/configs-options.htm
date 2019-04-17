@@ -273,6 +273,27 @@
     search          : "Type here to search...",
     nothingSelected : "Nothing is selected"         //default-label is deprecated and replaced with this.
 }</code></pre>
+        </p>    
+
+        <h5>custom-icon</h5> <span class="label label-warning">New! v4.0.0</span>
+        <p>
+            Customize the "icons" for various parts of the UI. Replace the default html entities with your choice
+            of other entities or characters, image tags, html tags with icon font functionality, or no icons at all
+            by explicitly setting them empty. If you use it, you need to define ALL four icons.
+        </p>
+        <p>        
+            <span class="inlineTitle">Type</span>: $scope object<br />
+            <span class="inlineTitle">Default value</span>: N/A<br />            
+            <span class="inlineTitle">Example</span>: <code>&lt;div isteven-multi-select ... custom-icon="myIconData"&gt;&lt;/div&gt;</code>.  
+        </p>            
+        <p>
+            In your controller:
+            <pre ><code>$scope.myIconData = {
+    selectAll       : "", // Don't use an icon, just text
+    selectNone      : "&lt;strong&gt;X&lt;/strong&gt;", // Default html entity is replaced with bold capital 'X'
+    reset           : "", // Don't use an icon, just text
+    tickMark        : "&amp;#xE5CA"  // Default tick mark is replaced with slightly different one
+}</code></pre>
         </p>
             
         <h5>on-open</h5>
