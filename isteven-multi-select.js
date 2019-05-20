@@ -773,9 +773,13 @@ angular.module( 'isteven-multi-select', ['ng', 'infinite-scroll'] ).directive( '
                                 }
                             }
                         });
-                        $scope.refreshOutputModel();
-                        $scope.refreshButton();
                         $scope.onSelectAll();
+                        // Need to refresh AFTER running the select all callback in case there's changes in the model
+                        // May be worth doing this for other actions but the use case isn't there at the moment.
+                        // This is a long standing issue with the isteven multi select that doesn't look like will be
+                        // fixed: https://github.com/isteven/angular-multi-select/issues/293
+                        $scope.refreshButton();
+                        $scope.refreshOutputModel();
                         break;
                     case 'NONE':
                         angular.forEach( $scope.filteredModel, function( value, key ) {
