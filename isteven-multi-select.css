@@ -123,11 +123,15 @@
     margin: 0px 0px 8px 0px;
 }
 
-.multiSelect .helperButton.reset{
+.multiSelect .helperButton.reset,
+.multiSelect .helperButton.closeButton
+{
     float: right;
+    margin-left: 4px;
+    margin-right: 0;
 }
 
-.multiSelect .helperButton:not( .reset ) {
+.multiSelect .helperButton {
     margin-right: 4px;    
 }
 
