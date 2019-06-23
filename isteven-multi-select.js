@@ -582,10 +582,8 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 var label   = '';                
 
                 angular.forEach( temp, function( value, key ) {                    
-                    item[ value ] && ( label += '&nbsp;' + value.split( '.' ).reduce( function( prev, current ) {
-                        return prev[ current ]; 
-                    }, item ));        
-                });
+                    item[ value ] && ( label += '&nbsp;' + item[value]);
+				});
                 
                 if ( type.toUpperCase() === 'BUTTONLABEL' ) {                    
                     return label;
